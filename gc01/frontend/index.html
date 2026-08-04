@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品调研智能体 · 竞品多维分析</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js">
+  </script>
+  <style>
+    /* ===== Reset & Base ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #f5f6fa;
+      --card: #ffffff;
+      --primary: #7c5cfc;
+      --primary-light: #e8e0ff;
+      --primary-dark: #5a3fd9;
+      --accent: #ff6b8a;
+      --text: #1a1a2e;
+      --text-secondary: #6b7280;
+      --border: #e5e7eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    /* ===== Header ===== */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, #8b6cf7 100%);
+      color: #fff;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(124,92,252,0.3);
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .header-logo .icon {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .header-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    /* ===== Search Section ===== */
+    .search-section {
+      max-width: 1400px;
+      margin: 32px auto 0;
+      padding: 0 32px;
+    }
+    .search-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px 40px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .search-card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .search-card .sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+    .search-input-group {
+      flex: 1;
+      display: flex;
+      gap: 12px;
+      min-width: 260px;
+    }
+    .search-input-group input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input-group input:focus {
+      border-color: var(--primary);
+    }
+    .search-input-group input::placeholder { color: #9ca3af; }
+    .btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(124,92,252,0.4);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    /* ===== Loading ===== */
+    .loading-overlay {
+      display: none;
+      max-width: 1400px;
+      margin: 24px auto 0;
+      padding: 0 32px;
+    }
+    .loading-overlay.active { display: block; }
+    .loading-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 48px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-card p { color: var(--text-secondary); font-size: 15px; }
+    .loading-progress {
+      margin-top: 20px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .loading-progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+      transition: width 0.5s;
+    }
+    /* ===== Main Content ===== */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 32px 64px;
+    }
+    .content-placeholder {
+      text-align: center;
+      padding: 120px 40px;
+      color: var(--text-secondary);
+    }
+    .content-placeholder .icon-big {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    .content-placeholder h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .dashboard { display: none; }
+    .dashboard.active { display: block; }
+    /* ===== Stats Row ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card .label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .stat-card .value .unit {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+    .stat-card .value .small-num {
+      font-size: 18px;
+    }
+    /* ===== Section Title ===== */
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .tag {
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: -10px 0 20px;
+    }
+    /* ===== Chart Row ===== */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .chart-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .chart-card .chart-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .chart-card .chart-box { width: 100%; height: 320px; }
+    /* ===== Design Direction ===== */
+    .direction-card {
+      background: linear-gradient(135deg, var(--card) 0%, #f8f5ff 100%);
+      border-radius: var(--radius);
+      padding: 32px 40px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 32px;
+      border: 1px solid var(--primary-light);
+    }
+    .direction-card .dir-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .direction-card .dir-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+    }
+    .direction-card .dir-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .direction-card .dir-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .direction-card .dir-tags span {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .direction-card .dir-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .direction-card .dir-meta-item .label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .direction-card .dir-meta-item .value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    /* ===== Design Param Cards ===== */
+    .param-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .param-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .param-card .param-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .param-card .param-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .param-card .param-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .param-card .param-values {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .param-card .param-values .common {
+      color: var(--success);
+      font-weight: 600;
+    }
+    .param-card .param-values .rare {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .param-card .param-dist-chart {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    .param-card .param-implication {
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--bg);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+    }
+    /* ===== Gap Analysis ===== */
+    .gap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .gap-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary);
+    }
+    .gap-card .gap-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .gap-card .gap-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .gap-card .gap-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .gap-card .gap-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .gap-card .gap-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--warning), var(--accent));
+    }
+    .gap-card .gap-bar-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      min-width: 50px;
+      text-align: right;
+    }
+    .gap-card .gap-type-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .gap-card .gap-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .gap-card .gap-meta span {
+      background: var(--bg);
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+    .gap-card .gap-opportunity {
+      font-size: 13px;
+      color: var(--primary-dark);
+      background: var(--primary-light);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+    }
+    /* Segments */
+    .segment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .segment-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+    }
+    .segment-card.segment-under {
+      border-left: 4px solid var(--success);
+    }
+    .segment-card.segment-over {
+      border-left: 4px solid var(--danger);
+    }
+    .segment-card .seg-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .segment-card .seg-detail {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .segment-card .seg-tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 12px;
+      margin-top: 6px;
+    }
+    .seg-under-tag { background: #d1fae5; color: #065f46; }
+    .seg-over-tag { background: #fee2e2; color: #991b1b; }
+    /* ===== Category Trends ===== */
+    .trend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .trend-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .trend-card .trend-indicator {
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 40px 40px 0;
+    }
+    .trend-card .trend-indicator.up {
+      border-color: transparent var(--success) transparent transparent;
+    }
+    .trend-card .trend-indicator.down {
+      border-color: transparent var(--danger) transparent transparent;
+    }
+    .trend-card .trend-indicator.stable {
+      border-color: transparent var(--warning) transparent transparent;
+    }
+    .trend-card .trend-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .trend-card .trend-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .trend-card .trend-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+    .trend-card .trend-meta span {
+      background: var(--bg);
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+    .trend-card .trend-arrow {
+      font-size: 18px;
+      margin-top: 4px;
+    }
+    /* ===== Needs ===== */
+    .needs-container {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+    }
+    .need-item {
+      display: grid;
+      grid-template-columns: 32px 1fr 140px;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .need-item:last-child { border-bottom: none; }
+    .need-rank {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .need-rank.r1 { background: #fef3c7; color: #92400e; }
+    .need-rank.r2 { background: #e0e7ff; color: #3730a3; }
+    .need-rank.r3 { background: #d1fae5; color: #065f46; }
+    .need-rank.rn { background: var(--bg); color: var(--text-secondary); }
+    .need-info .desc {
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .need-info .need-type-tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 1px 8px;
+      border-radius: 4px;
+      margin-top: 2px;
+    }
+    .need-info .need-frustration {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      padding: 6px 10px;
+      background: #fef2f2;
+      border-radius: 6px;
+    }
+    .need-info .need-suggestion {
+      font-size: 13px;
+      color: var(--primary-dark);
+      margin-top: 4px;
+      padding: 6px 10px;
+      background: var(--primary-light);
+      border-radius: 6px;
+    }
+    .need-weight-col {
+      text-align: right;
+    }
+    .need-weight-col .bar-bg {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .need-weight-col .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.6s;
+    }
+    .need-weight-col .weight-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .need-weight-col .priority-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 1px 8px;
+      border-radius: 10px;
+      margin-top: 2px;
+    }
+    /* ===== CMF Section ===== */
+    .cmf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .cmf-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+    }
+    .cmf-card .cmf-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .cmf-card .cmf-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .cmf-card .cmf-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    /* ===== Positioning ===== */
+    .positioning-card {
+      background: linear-gradient(135deg, #f8f5ff 0%, #fff5f7 100%);
+      border-radius: var(--radius);
+      padding: 28px 36px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 32px;
+      border: 1px solid var(--primary-light);
+      position: relative;
+    }
+    .positioning-card::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      left: 16px;
+      font-size: 48px;
+      color: var(--primary);
+      opacity: 0.2;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    .positioning-card .pos-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .positioning-card .pos-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text);
+      font-style: italic;
+    }
+    /* ===== Review Analysis ===== */
+    .review-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+    }
+    .review-product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .review-product-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .review-product-item:hover {
+      border-color: var(--primary-light);
+      background: var(--primary-light);
+    }
+    .review-product-item.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .review-product-item .rpi-img {
+      width: 48px; height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--border);
+    }
+    .review-product-item .rpi-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .review-product-item .rpi-title {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .review-product-item .rpi-meta {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .review-product-item .rpi-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .review-product-item .rpi-check {
+      width: 18px; height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .compare-btn {
+      padding: 6px 16px;
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #fff;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .compare-btn:hover { opacity: 0.85; }
+    .compare-panel {
+      display: none;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+    .compare-panel.active { display: block; }
+    .review-detail-panel {
+      display: none;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+    .review-detail-panel.active { display: block; }
+    .review-detail-panel .rdp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .rdp-header .rdp-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .rdp-header .rdp-link {
+      font-size: 13px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .rdp-header .rdp-link:hover { text-decoration: underline; }
+    .rdp-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .rdp-stat {
+      background: var(--bg);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .rdp-stat .rdp-stat-val {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .rdp-stat .rdp-stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .rdp-points-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .rdp-points-card {
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+    }
+    .rdp-points-card.liked { background: #f0fdf4; border-left: 4px solid var(--success); }
+    .rdp-points-card.disliked { background: #fef2f2; border-left: 4px solid var(--danger); }
+    .rdp-points-card .rdp-points-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .rdp-point-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .rdp-point-item:last-child { border-bottom: none; }
+    .rdp-point-item .ppi-bar {
+      width: 60px;
+      height: 6px;
+      background: rgba(0,0,0,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .rdp-point-item .ppi-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+    .rdp-point-item .ppi-pct {
+      font-size: 11px;
+      color: var(--text-secondary);
+      min-width: 36px;
+      text-align: right;
+    }
+    .rdp-dim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .rdp-dim-card {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+    }
+    .rdp-dim-card .rdp-dim-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .rdp-dim-card .rdp-dim-score {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .rdp-dim-card .rdp-dim-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .rdp-dim-card .rdp-dim-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+    .rdp-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .rdp-comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .rdp-comp-col {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+    }
+    .rdp-comp-item {
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      background: var(--card);
+      border-radius: 6px;
+    }
+    .rdp-comp-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 14px;
+      position: relative;
+    }
+    .rdp-comp-bar-fill {
+      height: 8px;
+      border-radius: 4px;
+      transition: width 0.3s;
+      min-width: 4px;
+    }
+    .rdp-comp-val {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .rdp-comp-dim {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--card);
+      border-radius: 6px;
+    }
+    .rdp-highlight-col .rdp-hl-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      padding: 4px 0;
+    }
+    .rdp-highlight-col .rdp-hl-title.positive { color: var(--success); border-bottom: 2px solid var(--success); }
+    .rdp-highlight-col .rdp-hl-title.negative { color: var(--danger); border-bottom: 2px solid var(--danger); }
+    .rdp-hl-item {
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .rdp-hl-item .hl-stars {
+      color: #f59e0b;
+      font-size: 12px;
+    }
+    .rdp-hl-item .hl-content {
+      margin-top: 4px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .rdp-hl-item .hl-meta {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .review-loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+    .review-loading .spinner-sm {
+      width: 24px; height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @media (max-width: 768px) {
+      .rdp-points-grid { grid-template-columns: 1fr; }
+      .rdp-highlights { grid-template-columns: 1fr; }
+      .review-product-list { grid-template-columns: 1fr; }
+    }
+    /* ===== Price Tiers ===== */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .tier-card {
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .tier-card .tier-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .tier-card .tier-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .tier-card .tier-meta {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    /* ===== Price-Performance Table ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+    }
+    .data-table th {
+      background: var(--bg);
+      font-weight: 600;
+      padding: 12px 14px;
+      text-align: left;
+      white-space: nowrap;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .data-table tr:hover { background: var(--bg); }
+    /* ===== Error ===== */
+    .error-card {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      color: #991b1b;
+      margin-top: 24px;
+    }
+    /* ===== Animations ===== */
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .header-inner { padding: 12px 16px; }
+      .search-section { padding: 0 16px; margin-top: 16px; }
+      .search-card { padding: 20px; flex-direction: column; align-items: stretch; }
+      .search-card h2 { white-space: normal; }
+      .search-input-group { min-width: unset; flex-direction: column; }
+      .main-content { padding: 0 16px 40px; }
+      .chart-row { grid-template-columns: 1fr; }
+      .segment-grid { grid-template-columns: 1fr; }
+      .needs-container { padding: 16px; }
+      .need-item { grid-template-columns: 1fr; gap: 8px; }
+      .need-weight-col { text-align: left; }
+      .direction-card { padding: 20px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .param-grid { grid-template-columns: 1fr; }
+      .gap-grid { grid-template-columns: 1fr; }
+      .trend-grid { grid-template-columns: 1fr; }
+      .cmf-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="icon">&#9670;</div>
+        <span>产品调研智能体</span>
+      </div>
+      <span class="header-badge">全品类通用 · Amazon 深度竞品分析</span>
+    </div>
+  </header>
+
+  <!-- ===== SEARCH SECTION ===== -->
+  <section class="search-section">
+    <div class="search-card">
+      <div>
+        <h2>开始分析 <span class="sub">一键获取深度竞品报告</span></h2>
+      </div>
+      <div class="search-input-group">
+        <input type="text" id="keywordInput"
+          placeholder="输入任意亚马逊品类关键词，如 wooden cane、yoga mat..."
+          value="wooden cane"
+          onkeydown="if(event.key==='Enter') startAnalysis()">
+        <button class="btn btn-primary" id="searchBtn" onclick="startAnalysis()">
+          &#8981; 开始分析
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOADING ===== -->
+  <section class="loading-overlay" id="loadingSection">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <p id="loadingText">正在搜索竞品数据...</p>
+      <div class="loading-progress">
+        <div class="loading-progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- Placeholder -->
+    <div class="content-placeholder" id="placeholder">
+      <div class="icon-big">&#9670;</div>
+      <h3>点击"开始分析"，获取深度竞品报告</h3>
+      <p style="color:var(--text-secondary);">系统将自动分析亚马逊竞品数据，从6个核心维度输出完整的设计需求报告</p>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+
+      <!-- Stats -->
+      <div class="stats-row" id="statsRow"></div>
+
+      <!-- Core Design Direction -->
+      <div id="directionSection"></div>
+
+      <!-- 六维深度评分 -->
+      <div class="section-title">六维深度评分 <span class="tag">雷达图 + 子维度对比</span></div>
+      <div class="chart-row">
+        <div class="chart-card">
+          <div class="chart-title">六大维度综合评分</div>
+          <div class="chart-box" id="dimRadarChart"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">子维度得分对比</div>
+          <div class="chart-box" id="subDimBarChart"></div>
+        </div>
+      </div>
+
+      <!-- 竞争格局 -->
+      <div class="section-title">竞争格局 <span class="tag">价格 · 性能 · 品牌</span></div>
+      <div class="chart-row">
+        <div class="chart-card">
+          <div class="chart-title">价格-性能矩阵 (气泡大小=评论数)</div>
+          <div class="chart-box" id="scatterChart"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">品牌定位 (均价 + 评分)</div>
+          <div class="chart-box" id="brandPosChart"></div>
+        </div>
+      </div>
+
+      <!-- 价格分层 -->
+      <div class="section-title">价格分层 <span class="tag">segment</span></div>
+      <div class="tier-grid" id="tierGrid"></div>
+
+      <!-- 品类分布 -->
+      <div class="section-title">品类分布 <span class="tag">category</span></div>
+      <div class="table-wrap" id="categoryTableWrap"></div>
+
+      <!-- 设计参数对比分析 -->
+      <div class="section-title">设计参数对比分析 <span class="tag">常见值 vs 稀缺值</span></div>
+      <div class="section-desc">分析各设计参数的分布情况，识别市场主流配置与差异化机会</div>
+      <div class="param-grid" id="paramGrid"></div>
+
+      <!-- 缺口分析 -->
+      <div class="section-title">缺口分析 <span class="tag">机会识别</span></div>
+      <div id="gapAnalysisSection"></div>
+
+      <!-- 品类趋势 -->
+      <div class="section-title">品类趋势 <span class="tag">趋势方向</span></div>
+      <div class="trend-grid" id="trendGrid"></div>
+
+      <!-- 用户需求权重排行 -->
+      <div class="section-title">用户需求权重排行 <span class="tag">Top 6</span></div>
+      <div class="section-desc">基于用户评论分析提取的核心需求，按权重排序</div>
+      <div class="needs-container" id="needsContainer"></div>
+
+      <!-- CMF与设计规范 -->
+      <div class="section-title">CMF与设计规范 <span class="tag">色彩 · 材质 · 表面处理</span></div>
+      <div class="cmf-grid" id="cmfGrid"></div>
+
+      <!-- 定位建议 -->
+      <div class="section-title">定位建议 <span class="tag">策略</span></div>
+      <div class="positioning-card" id="positioningCard"></div>
+
+      <!-- 用户评价深度分析 -->
+      <div class="section-title">用户评价深度分析 <span class="tag">产品级评论分析</span></div>
+      <div class="section-desc">点击产品卡片，查看该产品的用户评论多维分析，包括用户喜欢的/讨厌的点、各维度评价和代表性评论</div>
+      <div class="review-section" id="reviewSection">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;">📊 用户评价深度分析</h3>
+          <button class="compare-btn" id="compareBtn" onclick="compareSelected()" style="display:none;">
+            🔄 环比分析已选产品 (<span id="compareCount">0</span>)
+          </button>
+        </div>
+        <div class="review-product-list" id="reviewProductList"></div>
+        <div class="review-detail-panel" id="reviewDetailPanel">
+          <div class="rdp-header" id="rdpHeader"></div>
+          <div class="rdp-stats" id="rdpStats"></div>
+          <div class="rdp-points-grid" id="rdpPointsGrid"></div>
+          <div id="rdpDimSection"></div>
+          <div id="rdpHighlightsSection"></div>
+        </div>
+        <div class="compare-panel" id="comparePanel"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // ===== State =====
+    let reportData = null;
+    let charts = {};
+    // 同源部署自适应：支持 RA_CONFIG.apiBase 覆盖（跨域部署时配置）
+    const API_BASE = (window.RA_CONFIG && window.RA_CONFIG.apiBase)
+      || (window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'http://localhost:8000');
+
+    // ===== API =====
+    async function startAnalysis() {
+      const keyword = document.getElementById('keywordInput').value.trim();
+      if (!keyword) { document.getElementById('keywordInput').focus(); return; }
+
+      document.getElementById('loadingSection').classList.add('active');
+      document.getElementById('dashboard').classList.remove('active');
+      document.getElementById('placeholder').style.display = 'none';
+      document.getElementById('searchBtn').disabled = true;
+      document.getElementById('loadingText').textContent = '正在搜索竞品数据...';
+      document.getElementById('progressBar').style.width = '10%';
+
+      let progress = 10;
+      const progressTimer = setInterval(() => {
+        progress = Math.min(progress + Math.random() * 12, 85);
+        document.getElementById('progressBar').style.width = progress + '%';
+        if (progress < 30) {
+          document.getElementById('loadingText').textContent = '正在搜索竞品数据...';
+        } else if (progress < 55) {
+          document.getElementById('loadingText').textContent = '正在分析评论，提取用户需求...';
+        } else if (progress < 75) {
+          document.getElementById('loadingText').textContent = '正在计算多维评分...';
+        } else {
+          document.getElementById('loadingText').textContent = '正在生成设计建议与报告...';
+        }
+      }, 600);
+
+      try {
+        const response = await fetch(`${API_BASE}/api/analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keyword, max_products: 28, max_reviews_per_product: 50, use_demo_data: true })
+        });
+        clearInterval(progressTimer);
+        document.getElementById('progressBar').style.width = '100%';
+        document.getElementById('loadingText').textContent = '分析完成！正在渲染报告...';
+
+        if (!response.ok) throw new Error('API错误: ' + response.status);
+        const data = await response.json();
+        if (data.status === 'success' && data.report) {
+          setTimeout(() => {
+            document.getElementById('loadingSection').classList.remove('active');
+            renderDashboard(data.report);
+          }, 500);
+        } else {
+          throw new Error(data.message || '分析失败');
+        }
+      } catch (err) {
+        clearInterval(progressTimer);
+        document.getElementById('loadingSection').classList.remove('active');
+        document.getElementById('placeholder').style.display = 'block';
+        document.getElementById('placeholder').innerHTML = `
+          <div class="error-card">
+            <strong>分析出错</strong><br>
+            ${err.message}<br><br>
+            <small>请确认后端服务已启动 (python backend/main.py)</small>
+          </div>`;
+      } finally {
+        document.getElementById('searchBtn').disabled = false;
+      }
+    }
+
+    // ===== Render Dashboard =====
+    function renderDashboard(report) {
+      reportData = report;
+      document.getElementById('dashboard').classList.add('active');
+      document.getElementById('placeholder').style.display = 'none';
+
+      renderStats(report);
+      renderDirection(report);
+      setTimeout(() => {
+        renderDimRadar(report);
+        renderSubDimBar(report);
+        renderScatter(report);
+        renderBrandPos(report);
+        renderTiers(report);
+        renderCategoryTable(report);
+        renderDesignParams(report);
+        renderGapAnalysis(report);
+        renderTrends(report);
+        renderNeeds(report);
+        renderCMF(report);
+        renderPositioning(report);
+        renderReviewSection(report);
+      }, 150);
+    }
+
+    // Cleanup old charts
+    function disposeChart(key) {
+      if (charts[key]) { charts[key].dispose(); delete charts[key]; }
+    }
+
+    // ===== 1. Stats =====
+    function renderStats(report) {
+      const total = report.total_products_analyzed || (report.products ? report.products.length : 0);
+      const prods = report.products || [];
+      const dims = report.dimension_scores || [];
+      const needs = report.top_needs || [];
+      const gaps = (report.gap_analysis && report.gap_analysis.feature_gaps) || [];
+      const cats = (report.competitive_landscape && report.competitive_landscape.category_distribution) || [];
+
+      const avgScore = dims.length
+        ? (dims.reduce((s, d) => s + (d.overall_score || 0), 0) / dims.length)
+        : 0;
+
+      let minPrice = Infinity, maxPrice = 0;
+      prods.forEach(p => {
+        if (p.price && p.price < minPrice) minPrice = p.price;
+        if (p.price && p.price > maxPrice) maxPrice = p.price;
+      });
+      if (minPrice === Infinity) { minPrice = 0; maxPrice = 0; }
+
+      document.getElementById('statsRow').innerHTML = `
+        <div class="stat-card fade-in">
+          <div class="label">分析产品数</div>
+          <div class="value">${total}<span class="unit"> 款</span></div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="label">覆盖子品类</div>
+          <div class="value">${cats.length}<span class="unit"> 个</span></div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="label">品类平均分</div>
+          <div class="value">${avgScore.toFixed(1)}<span class="unit"> /10</span></div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="label">识别需求数</div>
+          <div class="value">${needs.length}<span class="unit"> 项</span></div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="label">机会点数</div>
+          <div class="value">${gaps.length}<span class="unit"> 个</span></div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="label">价格区间</div>
+          <div class="value"><span class="small-num">$${minPrice.toFixed(0)}</span><span class="unit"> ~ </span><span class="small-num">$${maxPrice.toFixed(0)}</span></div>
+        </div>`;
+    }
+
+    // ===== 2. Design Direction =====
+    function renderDirection(report) {
+      const rec = report.design_recommendations || {};
+      const core = rec.core_direction || '';
+      const diffs = rec.key_differentiators || [];
+      const specs = rec.target_specs || {};
+
+      const specsHtml = Object.keys(specs).length
+        ? Object.entries(specs).map(([k, v]) =>
+            `<div class="dir-meta-item"><div class="label">${k}</div><div class="value">${v}</div></div>`
+          ).join('')
+        : '';
+
+      document.getElementById('directionSection').innerHTML = `
+        <div class="direction-card fade-in">
+          <div class="dir-badge">&#9733; 核心设计方向</div>
+          <div class="dir-title">${core}</div>
+          ${diffs.length ? `
+          <div style="margin-top:12px;"><strong style="font-size:14px;color:var(--text-secondary);">关键差异化</strong></div>
+          <div class="dir-tags">
+            ${diffs.map(d => `<span>${d}</span>`).join('')}
+          </div>` : ''}
+          ${specsHtml ? `
+          <div style="margin-top:16px;"><strong style="font-size:14px;color:var(--text-secondary);">目标规格</strong></div>
+          <div class="dir-meta">${specsHtml}</div>` : ''}
+        </div>`;
+    }
+
+    // ===== 3. Dimension Radar =====
+    function renderDimRadar(report) {
+      const dims = report.dimension_scores || [];
+      disposeChart('dimRadar');
+      const container = document.getElementById('dimRadarChart');
+      const chart = echarts.init(container);
+      charts.dimRadar = chart;
+
+      const indicator = dims.map(d => ({ name: d.dimension_label, max: 10 }));
+      const values = dims.map(d => d.overall_score || 0);
+
+      chart.setOption({
+        tooltip: { trigger: 'item' },
+        radar: {
+          indicator,
+          shape: 'circle',
+          center: ['50%', '50%'],
+          radius: '65%',
+          name: { textStyle: { fontSize: 12, color: '#1a1a2e' } },
+          splitArea: { areaStyle: { color: ['rgba(124,92,252,0.02)', 'rgba(124,92,252,0.04)'] } }
+        },
+        series: [{
+          type: 'radar',
+          data: [{
+            value: values,
+            name: '综合评分',
+            areaStyle: { color: 'rgba(124,92,252,0.2)' },
+            lineStyle: { color: '#7c5cfc', width: 2 },
+            itemStyle: { color: '#7c5cfc' }
+          }]
+        }]
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    // ===== 4. Sub-dimension Bar Chart =====
+    function renderSubDimBar(report) {
+      const dims = report.dimension_scores || [];
+      disposeChart('subDimBar');
+      const container = document.getElementById('subDimBarChart');
+      const chart = echarts.init(container);
+      charts.subDimBar = chart;
+
+      const categories = dims.map(d => d.dimension_label);
+      // Collect all sub-dimension names
+      const allSubs = [];
+      const subMap = {};
+      dims.forEach(d => {
+        (d.sub_dimensions || []).forEach(sd => {
+          if (!subMap[sd.label]) {
+            subMap[sd.label] = true;
+            allSubs.push(sd.label);
+          }
+        });
+      });
+
+      // Limit to first 6 sub-dimensions to avoid overcrowding
+      const topSubs = allSubs.slice(0, 6);
+
+      const series = topSubs.map((sub, idx) => {
+        const colors = ['#7c5cfc','#ff6b8a','#10b981','#f59e0b','#3b82f6','#ec4899'];
+        return {
+          name: sub,
+          type: 'bar',
+          barWidth: 8,
+          barGap: '30%',
+          data: dims.map(d => {
+            const found = (d.sub_dimensions || []).find(s => s.label === sub);
+            return found ? found.score : 0;
+          }),
+          itemStyle: { color: colors[idx % colors.length], borderRadius: [2,2,0,0] }
+        };
+      });
+
+      chart.setOption({
+        tooltip: { trigger: 'axis' },
+        legend: {
+          type: 'scroll',
+          orient: 'horizontal',
+          bottom: 0,
+          textStyle: { fontSize: 11 }
+        },
+        grid: { left: 40, right: 20, top: 20, bottom: 60 },
+        xAxis: {
+          type: 'category',
+          data: categories,
+          axisLabel: { fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          max: 10,
+          axisLabel: { fontSize: 11 }
+        },
+        series
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    // ===== 5. Scatter Chart (Price vs Performance) =====
+    function renderScatter(report) {
+      const scatterData = report.scatter_data || [];
+      disposeChart('scatter');
+      const container = document.getElementById('scatterChart');
+      const chart = echarts.init(container);
+      charts.scatter = chart;
+
+      const categoryColors = {
+        'Clitoral Vibrator': '#7c5cfc','G-Spot Vibrator': '#ff6b8a','Rabbit Vibrator': '#10b981',
+        'Wand Massager': '#f59e0b','Bullet Vibrator': '#3b82f6','Wearable Vibrator': '#ec4899',
+        'Couples Vibrator': '#14b8a6','Other': '#9ca3af'
+      };
+      const categories = [...new Set(scatterData.map(d => d.category || 'Other'))];
+      const series = categories.map(cat => {
+        const items = scatterData.filter(d => (d.category || 'Other') === cat);
+        return {
+          name: cat,
+          type: 'scatter',
+          data: items.map(d => [d.price || 0, d.rating || 0, d.review_count || 1, d.title || '']),
+          symbolSize: val => Math.max(8, Math.min(40, Math.sqrt(val[2]) * 2.5)),
+          itemStyle: { color: categoryColors[cat] || '#9ca3af' }
+        };
+      });
+
+      chart.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: p => {
+            const d = p.data;
+            return `<strong>${d[3]}</strong><br/>价格: $${d[0]}<br/>评分: ${d[1]}<br/>评论: ${d[2]}`;
+          }
+        },
+        legend: {
+          type: 'scroll',
+          orient: 'vertical',
+          right: 0,
+          top: 'center',
+          textStyle: { fontSize: 11 }
+        },
+        grid: { left: 50, right: 120, top: 10, bottom: 40 },
+        xAxis: {
+          type: 'value',
+          name: '价格 (USD)',
+          nameLocation: 'center',
+          nameGap: 25,
+          axisLabel: { fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          name: '评分',
+          max: 5,
+          axisLabel: { fontSize: 11 }
+        },
+        series
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    // ===== 6. Brand Positioning Chart =====
+    function renderBrandPos(report) {
+      const landscape = report.competitive_landscape || {};
+      const brands = landscape.brand_positioning || [];
+      disposeChart('brandPos');
+      const container = document.getElementById('brandPosChart');
+      const chart = echarts.init(container);
+      charts.brandPos = chart;
+
+      const sorted = [...brands].sort((a, b) => (b.avg_price || 0) - (a.avg_price || 0));
+      const names = sorted.map(b => b.brand);
+      const prices = sorted.map(b => b.avg_price || 0);
+      const ratings = sorted.map(b => b.avg_rating || 0);
+
+      chart.setOption({
+        tooltip: { trigger: 'axis' },
+        legend: {
+          data: ['平均价格 (USD)', '平均评分'],
+          bottom: 0,
+          textStyle: { fontSize: 11 }
+        },
+        grid: { left: 60, right: 50, top: 20, bottom: 50 },
+        xAxis: {
+          type: 'category',
+          data: names,
+          axisLabel: { fontSize: 10, rotate: 30 }
+        },
+        yAxis: [
+          { type: 'value', name: '价格 (USD)', axisLabel: { fontSize: 11 } },
+          { type: 'value', name: '评分', max: 5, axisLabel: { fontSize: 11 } }
+        ],
+        series: [
+          {
+            name: '平均价格 (USD)',
+            type: 'bar',
+            data: prices,
+            itemStyle: { color: '#7c5cfc', borderRadius: [2,2,0,0] }
+          },
+          {
+            name: '平均评分',
+            type: 'line',
+            yAxisIndex: 1,
+            data: ratings,
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: { color: '#ff6b8a', width: 2 },
+            itemStyle: { color: '#ff6b8a' }
+          }
+        ]
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    // ===== 7. Price Tiers =====
+    function renderTiers(report) {
+      const landscape = report.competitive_landscape || {};
+      const tiers = landscape.price_tiers || [];
+      const grid = document.getElementById('tierGrid');
+      if (!tiers.length) { grid.innerHTML = '<p style="color:var(--text-secondary)">暂无价格分层数据</p>'; return; }
+      grid.innerHTML = tiers.map(t => `
+        <div class="tier-card fade-in">
+          <div class="tier-name">${t.segment_name}</div>
+          <div class="tier-price">$${(t.avg_price || 0).toFixed(0)}</div>
+          <div class="tier-meta">均分 ${(t.avg_score || 0).toFixed(1)} · ${t.product_count || 0}款</div>
+        </div>
+      `).join('');
+    }
+
+    // ===== 8. Category Table =====
+    function renderCategoryTable(report) {
+      const landscape = report.competitive_landscape || {};
+      const cats = landscape.category_distribution || [];
+      const wrap = document.getElementById('categoryTableWrap');
+      if (!cats.length) { wrap.innerHTML = ''; return; }
+      wrap.innerHTML = `
+        <table class="data-table">
+          <thead><tr>
+            <th>子品类</th>
+            <th>产品数</th>
+            <th>平均价格</th>
+            <th>平均评分</th>
+          </tr></thead>
+          <tbody>
+            ${cats.map(c => `
+              <tr>
+                <td><strong>${c.category}</strong></td>
+                <td>${c.count}</td>
+                <td>$${(c.avg_price || 0).toFixed(0)}</td>
+                <td>${(c.avg_rating || 0).toFixed(1)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    // ===== 9. Design Params =====
+    function renderDesignParams(report) {
+      const params = report.design_params || [];
+      const grid = document.getElementById('paramGrid');
+      if (!params.length) { grid.innerHTML = '<p style="color:var(--text-secondary)">暂无设计参数数据</p>'; return; }
+
+      grid.innerHTML = params.map((p, idx) => {
+        const dist = p.distribution || {};
+        const entries = Object.entries(dist);
+        const maxVal = Math.max(...entries.map(([,v]) => v), 1);
+
+        // Build a simple horizontal bar representation using divs
+        const barsHtml = entries.map(([k, v]) => {
+          const pct = (v / maxVal) * 100;
+          return `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;font-size:12px;">
+              <span style="min-width:60px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${k}</span>
+              <div style="flex:1;height:14px;background:var(--border);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:${pct}%;background:${p.common_value === k ? 'var(--success)' : p.rare_value === k ? 'var(--accent)' : 'var(--primary)'};border-radius:3px;opacity:0.7;"></div>
+              </div>
+              <span style="min-width:30px;text-align:right;color:var(--text-secondary);">${v}</span>
+            </div>`;
+        }).join('');
+
+        return `
+          <div class="param-card fade-in">
+            <div class="param-header">
+              <div>
+                <div class="param-name">${p.param_label || p.param_name}</div>
+                <div class="param-label">${p.param_name}</div>
+              </div>
+            </div>
+            <div class="param-values">
+              <span class="common">&#9679; 常见: ${p.common_value || '-'}</span>
+              <span class="rare">&#9679; 稀缺: ${p.rare_value || '-'}</span>
+            </div>
+            <div style="margin-bottom:10px;">${barsHtml}</div>
+            <div class="param-implication">&#9432; ${p.design_implication || ''}</div>
+          </div>`;
+      }).join('');
+    }
+
+    // ===== 10. Gap Analysis =====
+    function renderGapAnalysis(report) {
+      const gap = report.gap_analysis || {};
+      const section = document.getElementById('gapAnalysisSection');
+
+      // Feature Gaps
+      const featureGaps = gap.feature_gaps || [];
+      let featureHtml = '';
+      if (featureGaps.length) {
+        featureHtml = `
+          <div style="margin-bottom:12px;"><strong style="font-size:15px;">功能缺口</strong></div>
+          <div class="gap-grid">
+            ${featureGaps.map((g, idx) => {
+              // cobertura: backend returns 0-1, display as 0-100%
+              const coverage = g.current_coverage || 0;
+              const pct = Math.min(parseFloat(coverage) * 100, 100);
+              const diffLabels = { '高': '高', '中': '中', '低': '低' };
+              const diffColor = g.difficulty === '高' ? 'var(--danger)' : g.difficulty === '低' ? 'var(--success)' : 'var(--warning)';
+              const gapTypeBg = g.gap_type === '设计缺口' ? '#fef3c7' : g.gap_type === '体验缺口' ? '#fce7f3' : '#dbeafe';
+              const gapTypeColor = g.gap_type === '设计缺口' ? '#92400e' : g.gap_type === '体验缺口' ? '#9d174d' : '#1e40af';
+              return `
+                <div class="gap-card fade-in">
+                  <span class="gap-type-badge" style="background:${gapTypeBg};color:${gapTypeColor}">${g.gap_type}</span>
+                  <div class="gap-title">${g.gap_description}</div>
+                  <div class="gap-bar-wrap">
+                    <span style="font-size:12px;color:var(--text-secondary);min-width:60px;">市场覆盖</span>
+                    <div class="gap-bar-bg">
+                      <div class="gap-bar-fill" style="width:${pct}%"></div>
+                    </div>
+                    <span class="gap-bar-label">${pct.toFixed(0)}%</span>
+                  </div>
+                  <div class="gap-opportunity">${g.design_opportunity || ''}</div>
+                  <div class="gap-meta">
+                    <span style="border-left:3px solid ${diffColor};">难度: ${diffLabels[g.difficulty] || g.difficulty}</span>
+                    ${g.potential_revenue ? `<span style="border-left:3px solid var(--success);">预估收益: ${g.potential_revenue}</span>` : ''}
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>`;
+      }
+
+      // Underserved Segments
+      const under = gap.underserved_segments || [];
+      const over = gap.oversaturated_segments || [];
+      let segHtml = '';
+      if (under.length || over.length) {
+        segHtml = `
+          <div style="margin-bottom:12px;"><strong style="font-size:15px;">细分市场分析</strong></div>
+          <div class="segment-grid">
+            <div>
+              <h4 style="font-size:14px;color:var(--success);margin-bottom:8px;">&#9650; 低竞争品类 (机会)</h4>
+              ${under.map(s => `
+                <div class="segment-card segment-under fade-in">
+                  <div class="seg-title">${s.category}</div>
+                  <div class="seg-detail">${s.product_count || 0}款产品 · 均价 $${(s.avg_price || 0).toFixed(0)}</div>
+                  ${s.note ? `<div class="seg-tag seg-under-tag">${s.note}</div>` : ''}
+                </div>
+              `).join('') || '<p style="color:var(--text-secondary);font-size:13px;">暂无数据</p>'}
+            </div>
+            <div>
+              <h4 style="font-size:14px;color:var(--danger);margin-bottom:8px;">&#9660; 高竞争品类 (红海)</h4>
+              ${over.map(s => `
+                <div class="segment-card segment-over fade-in">
+                  <div class="seg-title">${s.category}</div>
+                  <div class="seg-detail">${s.product_count || 0}款产品</div>
+                  ${s.note ? `<div class="seg-tag seg-over-tag">${s.note}</div>` : ''}
+                </div>
+              `).join('') || '<p style="color:var(--text-secondary);font-size:13px;">暂无数据</p>'}
+            </div>
+          </div>`;
+      }
+
+      // Price Gaps
+      const priceGaps = gap.price_gaps || [];
+      let priceGapHtml = '';
+      if (priceGaps.length) {
+        priceGapHtml = `
+          <div style="margin-bottom:12px;"><strong style="font-size:15px;">价格缺口</strong></div>
+          <div class="gap-grid">
+            ${priceGaps.map(pg => `
+              <div class="gap-card fade-in" style="border-left-color:var(--warning);">
+                <div class="gap-title">${pg.tier_name}</div>
+                <div class="gap-desc">${pg.product_count || 0}款产品</div>
+                <div class="gap-opportunity">${pg.opportunity || ''}</div>
+              </div>
+            `).join('')}
+          </div>`;
+      }
+
+      section.innerHTML = featureHtml + segHtml + priceGapHtml;
+      if (!featureHtml && !segHtml && !priceGapHtml) {
+        section.innerHTML = '<p style="color:var(--text-secondary);">暂无缺口分析数据</p>';
+      }
+    }
+
+    // ===== 11. Category Trends =====
+    function renderTrends(report) {
+      const trends = report.category_trends || [];
+      const grid = document.getElementById('trendGrid');
+      if (!trends.length) { grid.innerHTML = '<p style="color:var(--text-secondary);">暂无趋势数据</p>'; return; }
+
+      const arrowMap = { up: '&#9650; 上升', down: '&#9660; 下降', stable: '&#9679; 平稳' };
+      const indicatorMap = { up: 'up', down: 'down', stable: 'stable' };
+
+      grid.innerHTML = trends.map(t => `
+        <div class="trend-card fade-in">
+          <div class="trend-indicator ${indicatorMap[t.growth_direction] || 'stable'}"></div>
+          <div class="trend-name">${t.trend_name}</div>
+          <div class="trend-desc">${t.trend_description || ''}</div>
+          <div class="trend-arrow">${arrowMap[t.growth_direction] || ''}</div>
+          <div class="trend-meta">
+            <span>采用率: ${t.adoption_rate || '-'}</span>
+            ${t.design_relevance ? `<span>设计关联: ${t.design_relevance}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ===== 12. Top Needs =====
+    function renderNeeds(report) {
+      const needs = report.top_needs || [];
+      const container = document.getElementById('needsContainer');
+      if (!needs.length) { container.innerHTML = '<p style="color:var(--text-secondary);">暂无需求数据</p>'; return; }
+
+      const typeColors = {
+        '功能需求': ['#e0e7ff','#3730a3'], '体验需求': ['#fce7f3','#9d174d'],
+        '审美需求': ['#d1fae5','#065f46'], '品质需求': ['#fef3c7','#92400e'],
+        '价格需求': ['#dbeafe','#1e40af']
+      };
+      const priorityColors = { high: '#ef4444', medium: '#f59e0b', low: '#6b7280' };
+
+      container.innerHTML = needs.map((n, idx) => {
+        const rank = idx + 1;
+        const rankClass = rank <= 3 ? 'r' + rank : 'rn';
+        const colors = typeColors[n.need_type] || ['#f3f4f6','#6b7280'];
+        const weight = n.weight_score || 0;
+        const pct = Math.min(weight / 10 * 100, 100);
+        const priority = n.priority || 'medium';
+        const priorityLabel = { high: '高优先级', medium: '中优先级', low: '低优先级' };
+
+        return `
+          <div class="need-item fade-in">
+            <div class="need-rank ${rankClass}">${rank}</div>
+            <div class="need-info">
+              <div class="desc">${n.need_description}</div>
+              <span class="need-type-tag" style="background:${colors[0]};color:${colors[1]}">${n.need_type}</span>
+              ${n.user_frustration ? `<div class="need-frustration">&#9888; 用户痛点: ${n.user_frustration}</div>` : ''}
+              ${n.design_suggestion ? `<div class="need-suggestion">&#128161; 设计建议: ${n.design_suggestion}</div>` : ''}
+            </div>
+            <div class="need-weight-col">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width:${pct}%"></div>
+              </div>
+              <div class="weight-label">权重 ${weight.toFixed(1)}</div>
+              <div class="priority-tag" style="background:${priorityColors[priority]}22;color:${priorityColors[priority]}">${priorityLabel[priority]}</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // ===== 13. CMF =====
+    function renderCMF(report) {
+      const rec = report.design_recommendations || {};
+      const cmf = rec.cmf_recommendations || {};
+      const specs = rec.target_specs || {};
+      const grid = document.getElementById('cmfGrid');
+
+      let items = [];
+      if (typeof cmf === 'object' && !Array.isArray(cmf)) {
+        Object.entries(cmf).forEach(([k, v]) => {
+          const val = typeof v === 'object' ? (v.value || v.recommendation || JSON.stringify(v)) : v;
+          const desc = typeof v === 'object' ? (v.description || v.rationale || '') : '';
+          items.push({ label: k, value: val, desc });
+        });
+      }
+      // Also add target_specs as additional cards if present
+      if (typeof specs === 'object' && !Array.isArray(specs)) {
+        Object.entries(specs).forEach(([k, v]) => {
+          items.push({ label: k, value: v, desc: '目标规格' });
+        });
+      }
+
+      if (!items.length) {
+        grid.innerHTML = '<p style="color:var(--text-secondary);">暂无CMF数据</p>';
+        return;
+      }
+
+      grid.innerHTML = items.map(item => `
+        <div class="cmf-card fade-in">
+          <div class="cmf-label">${item.label}</div>
+          <div class="cmf-value">${item.value}</div>
+          ${item.desc ? `<div class="cmf-desc">${item.desc}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // ===== 14. Positioning =====
+    function renderPositioning(report) {
+      const rec = report.design_recommendations || {};
+      const advice = rec.positioning_advice || '';
+      const card = document.getElementById('positioningCard');
+      if (!advice) { card.innerHTML = '<p style="color:var(--text-secondary);">暂无定位建议</p>'; return; }
+      card.innerHTML = `
+        <div class="pos-label">定位策略建议</div>
+        <div class="pos-text">${advice}</div>`;
+    }
+
+    // ===== 15. Review Analysis =====
+    let currentReviewAsin = null;
+
+    function renderReviewSection(report) {
+      const products = report.products || [];
+      const list = document.getElementById('reviewProductList');
+
+      if (!products.length) {
+        list.innerHTML = '<p style="color:var(--text-secondary);">暂无产品数据</p>';
+        return;
+      }
+
+      list.innerHTML = products.map(p => `
+        <div class="review-product-item" data-asin="${p.asin}" onclick="loadReview('${p.asin}')">
+          <input type="checkbox" class="rpi-check" data-asin="${p.asin}" onclick="event.stopPropagation();updateCompareCount()" title="勾选进行环比对比">
+          <img class="rpi-img" src="${p.main_image || 'https://via.placeholder.com/48'}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/48'">
+          <div class="rpi-info">
+            <div class="rpi-title">${p.title}</div>
+            <div class="rpi-meta">${p.brand || ''} · $${p.price || 0} · ${p.rating || 0}星</div>
+          </div>
+          <span class="rpi-badge">${(p.review_count || 0) > 0 ? '有评论' : '查看'}</span>
+        </div>
+      `).join('');
+    }
+
+    function updateCompareCount() {
+      const checked = document.querySelectorAll('.rpi-check:checked');
+      const count = checked.length;
+      document.getElementById('compareCount').textContent = count;
+      document.getElementById('compareBtn').style.display = count >= 2 ? 'inline-block' : 'none';
+    }
+
+    async function compareSelected() {
+      const checked = document.querySelectorAll('.rpi-check:checked');
+      const asins = Array.from(checked).map(cb => cb.dataset.asin);
+      if (asins.length < 2) return;
+
+      const panel = document.getElementById('comparePanel');
+      panel.classList.add('active');
+      panel.innerHTML = `<div class="review-loading"><div class="spinner-sm"></div><p>正在生成环比分析...</p></div>`;
+
+      try {
+        const r = await fetch(`${API_BASE}/api/compare-reviews`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({asins})
+        });
+        const data = await r.json();
+        if (data.status === 'error') {
+          panel.innerHTML = `<div class="error-card">${data.message}</div>`;
+          return;
+        }
+        renderCompareResult(data, panel);
+      } catch (err) {
+        panel.innerHTML = `<div class="error-card">环比分析失败: ${err.message}</div>`;
+      }
+    }
+
+    function renderCompareResult(data, panel) {
+      const ratingComp = data.rating_comparison || [];
+      const dimComp = data.dimension_comparison || [];
+
+      panel.innerHTML = `
+        <h4 style="margin:0 0 16px;">🔄 多产品环比分析 (${data.product_count}个产品)</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+          <div class="rdp-comp-col"><div style="font-weight:600;font-size:14px;margin-bottom:8px;">📊 总体评分对比</div><div id="compRating" style="height:${Math.max(150, ratingComp.length * 40)}px;"></div></div>
+          <div class="rdp-comp-col"><div style="font-weight:600;font-size:14px;margin-bottom:8px;">📈 好评率对比</div><div id="compPosRatio" style="height:${Math.max(150, ratingComp.length * 40)}px;"></div></div>
+        </div>
+        ${dimComp.length ? '<div style="font-weight:600;font-size:14px;margin-bottom:8px;">各维度评价对比</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">' +
+          dimComp.map((dim, idx) => `<div class="rdp-comp-dim"><div style="font-size:13px;font-weight:600;margin-bottom:6px;">${dim.dimension} <span style="font-weight:400;color:var(--text-secondary);">均分${dim.average_score}</span></div><div id="compDim${idx}" style="height:${Math.max(100, dim.products.length * 35)}px;"></div></div>`).join('') +
+        '</div>' : ''}`;
+
+      setTimeout(() => {
+        // Rating comparison bar chart (horizontal)
+        if (ratingComp.length) {
+          const c = echarts.init(document.getElementById('compRating'));
+          c.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 10, right: 60, top: 10, bottom: 10 },
+            xAxis: { type: 'value', max: 5, axisLabel: { fontSize: 10 } },
+            yAxis: { type: 'category', data: ratingComp.map(p => p.product_title.substring(0, 25)).reverse(), axisLabel: { fontSize: 10 } },
+            series: [{
+              type: 'bar', data: ratingComp.map(p => ({
+                value: p.average_rating,
+                itemStyle: { color: '#7c5cfc', borderRadius: [0,4,4,0] }
+              })).reverse(), barWidth: 18,
+              label: { show: true, position: 'right', formatter: '{c}星', fontSize: 10 }
+            }]
+          });
+          charts.compRating = c;
+        }
+        // Positive ratio comparison
+        if (ratingComp.length) {
+          const c = echarts.init(document.getElementById('compPosRatio'));
+          c.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 10, right: 60, top: 10, bottom: 10 },
+            xAxis: { type: 'value', max: 100, axisLabel: { fontSize: 10, formatter: '{value}%' } },
+            yAxis: { type: 'category', data: ratingComp.map(p => p.product_title.substring(0, 25)).reverse(), axisLabel: { fontSize: 10 } },
+            series: [{
+              type: 'bar', data: ratingComp.map(p => ({
+                value: p.positive_ratio,
+                itemStyle: { color: '#10b981', borderRadius: [0,4,4,0] }
+              })).reverse(), barWidth: 18,
+              label: { show: true, position: 'right', formatter: '{c}%', fontSize: 10 }
+            }]
+          });
+          charts.compPosRatio = c;
+        }
+        // Dimension comparison (grouped bar per dimension)
+        dimComp.forEach((dim, idx) => {
+          const c = echarts.init(document.getElementById('compDim' + idx));
+          c.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 10, right: 50, top: 10, bottom: 10 },
+            xAxis: { type: 'value', max: 10, axisLabel: { fontSize: 9 } },
+            yAxis: { type: 'category', data: dim.products.map(p => p.product_title).reverse(), axisLabel: { fontSize: 9 } },
+            series: [{
+              type: 'bar', data: dim.products.map(p => ({
+                value: p.sentiment_score,
+                itemStyle: { color: p.sentiment_score >= 7 ? '#10b981' : p.sentiment_score >= 5 ? '#f59e0b' : '#ef4444', borderRadius: [0,4,4,0] }
+              })).reverse(), barWidth: 14,
+              label: { show: true, position: 'right', formatter: '{c}', fontSize: 9 }
+            }]
+          });
+          charts['compDim' + idx] = c;
+        });
+      }, 50);
+    }
+
+    async function loadReview(asin) {
+      // Update active state
+      document.querySelectorAll('.review-product-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.asin === asin);
+      });
+
+      currentReviewAsin = asin;
+      const panel = document.getElementById('reviewDetailPanel');
+      panel.classList.add('active');
+
+      // Show loading
+      panel.innerHTML = `
+        <div class="review-loading">
+          <div class="spinner-sm"></div>
+          <p>正在加载评论分析数据...</p>
+        </div>`;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/review-analysis/${asin}`);
+        if (!response.ok) throw new Error('获取评论分析失败: ' + response.status);
+        const data = await response.json();
+
+        if (data.status === 'error') {
+          panel.innerHTML = `<div class="error-card">${data.message || '暂无评论数据'}</div>`;
+          return;
+        }
+
+        renderReviewDetail(data, panel);
+      } catch (err) {
+        panel.innerHTML = `<div class="error-card">加载评论分析出错: ${err.message}</div>`;
+      }
+    }
+
+    function renderReviewDetail(data, panel) {
+      const hasReviews = data.review_stats && data.review_stats.total_reviews > 0;
+
+      // Header
+      const headerHtml = `
+        <div class="rdp-header">
+          <div>
+            <div class="rdp-title">${data.product_title || '未知产品'}</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">
+              ${data.brand || ''} · $${data.price || 0} · ${data.rating || 0}星 · ${data.review_stats ? data.review_stats.total_reviews + '条评论' : '暂无评论'}
+            </div>
+          </div>
+          ${data.product_url ? `<a class="rdp-link" href="${data.product_url}" target="_blank">&#128279; 查看亚马逊链接</a>` : ''}
+        </div>`;
+
+      if (!hasReviews) {
+        panel.innerHTML = headerHtml + `
+          <div style="text-align:center;padding:40px;color:var(--text-secondary);">
+            <p>该产品暂无详细评论数据</p>
+          </div>`;
+        return;
+      }
+
+      const rs = data.review_stats;
+      const dims = data.dimension_analysis || [];
+      const liked = data.liked_points || [];
+      const disliked = data.disliked_points || [];
+      const highlights = data.review_highlights || {};
+      const pos = highlights.most_helpful_positive || [];
+      const neg = highlights.most_helpful_negative || [];
+
+      // Build the HTML with chart containers
+      panel.innerHTML = headerHtml + `
+        <div class="rdp-stats">
+          <div class="rdp-stat"><div class="rdp-stat-val">${rs.average_rating || 0}</div><div class="rdp-stat-label">平均评分</div></div>
+          <div class="rdp-stat"><div class="rdp-stat-val">${rs.total_reviews || 0}</div><div class="rdp-stat-label">评论总数</div></div>
+          <div class="rdp-stat"><div class="rdp-stat-val" style="color:var(--success)">${rs.positive_ratio || 0}%</div><div class="rdp-stat-label">好评率</div></div>
+          <div class="rdp-stat"><div class="rdp-stat-val" style="color:var(--danger)">${rs.negative_count || 0}</div><div class="rdp-stat-label">差评数</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+          <div class="rdp-points-card liked"><div class="rdp-points-title">&#128077; 用户喜欢的点</div><div id="chartLiked" style="height:200px;"></div></div>
+          <div class="rdp-points-card disliked"><div class="rdp-points-title">&#128078; 用户讨厌的点</div><div id="chartDisliked" style="height:200px;"></div></div>
+        </div>
+        ${dims.length ? '<div style="margin-bottom:16px;"><div style="font-size:15px;font-weight:600;margin-bottom:8px;">&#128202; 评论多维评价分析</div><div id="chartDimRadar" style="height:280px;"></div></div>' : ''}
+        ${dims.length ? '<div id="chartDimBar" style="height:220px;margin-bottom:16px;"></div>' : ''}
+        ${(pos.length || neg.length) ? '<div style="font-size:15px;font-weight:600;margin-bottom:10px;">&#128172; 代表性评论</div><div class="rdp-highlights">' +
+          (pos.length ? '<div class="rdp-highlight-col"><div class="rdp-hl-title positive">&#128077; 最有帮助的好评</div>' + pos.map(r => '<div class="rdp-hl-item"><div class="hl-stars">' + '★'.repeat(Math.round(r.rating||0)) + '☆'.repeat(5-Math.round(r.rating||0)) + '</div><div style="font-weight:600;margin-top:2px;">' + (r.title||'') + '</div><div class="hl-content">' + (r.content||'') + '</div></div>').join('') + '</div>' : '') +
+          (neg.length ? '<div class="rdp-highlight-col"><div class="rdp-hl-title negative">&#128078; 最有帮助的差评</div>' + neg.map(r => '<div class="rdp-hl-item"><div class="hl-stars">' + '★'.repeat(Math.round(r.rating||0)) + '☆'.repeat(5-Math.round(r.rating||0)) + '</div><div style="font-weight:600;margin-top:2px;">' + (r.title||'') + '</div><div class="hl-content">' + (r.content||'') + '</div></div>').join('') + '</div>' : '') +
+        '</div>' : ''}`;
+
+      // === Init Charts ===
+      setTimeout(() => {
+        // Liked bar chart
+        if (liked.length) {
+          const c1 = echarts.init(document.getElementById('chartLiked'));
+          c1.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 80, right: 20, top: 10, bottom: 10 },
+            xAxis: { type: 'value', max: 100, axisLabel: { fontSize: 10 } },
+            yAxis: { type: 'category', data: liked.map(p => p.point).reverse(), axisLabel: { fontSize: 10 } },
+            series: [{ type: 'bar', data: liked.map(p => p.ratio).reverse(), itemStyle: { color: '#10b981', borderRadius: [0,4,4,0] }, barWidth: 14, label: { show: true, position: 'right', formatter: '{c}%', fontSize: 10 } }]
+          });
+          charts.chartLiked = c1;
+        }
+        // Disliked bar chart
+        if (disliked.length) {
+          const c2 = echarts.init(document.getElementById('chartDisliked'));
+          c2.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 80, right: 20, top: 10, bottom: 10 },
+            xAxis: { type: 'value', max: 100, axisLabel: { fontSize: 10 } },
+            yAxis: { type: 'category', data: disliked.map(p => p.point).reverse(), axisLabel: { fontSize: 10 } },
+            series: [{ type: 'bar', data: disliked.map(p => p.ratio).reverse(), itemStyle: { color: '#ef4444', borderRadius: [0,4,4,0] }, barWidth: 14, label: { show: true, position: 'right', formatter: '{c}%', fontSize: 10 } }]
+          });
+          charts.chartDisliked = c2;
+        }
+        // Dimension radar
+        if (dims.length) {
+          const c3 = echarts.init(document.getElementById('chartDimRadar'));
+          c3.setOption({
+            tooltip: { trigger: 'item' },
+            radar: { indicator: dims.map(d => ({ name: d.dimension, max: 10 })), shape: 'circle', center: ['50%', '50%'], radius: '60%', name: { textStyle: { fontSize: 11, color: '#1a1a2e' } } },
+            series: [{ type: 'radar', data: [{ value: dims.map(d => d.sentiment_score), name: '评分', areaStyle: { color: 'rgba(124,92,252,0.2)' }, lineStyle: { color: '#7c5cfc', width: 2 }, itemStyle: { color: '#7c5cfc' } }] }]
+          });
+          charts.chartDimRadar = c3;
+          // Dimension bar
+          const c4 = echarts.init(document.getElementById('chartDimBar'));
+          c4.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: 40, right: 20, top: 10, bottom: 20 },
+            xAxis: { type: 'category', data: dims.map(d => d.dimension), axisLabel: { fontSize: 10, rotate: 15 } },
+            yAxis: { type: 'value', max: 10, axisLabel: { fontSize: 10 } },
+            series: [{
+              type: 'bar', data: dims.map(d => ({
+                value: d.sentiment_score,
+                itemStyle: { color: d.sentiment_score >= 8 ? '#10b981' : d.sentiment_score >= 6 ? '#f59e0b' : '#ef4444', borderRadius: [3,3,0,0] }
+              })), barWidth: 20, label: { show: true, position: 'top', formatter: '{c}', fontSize: 10 }
+            }]
+          });
+          charts.chartDimBar = c4;
+        }
+      }, 50);
+    }
+
+    // ===== Auto-trigger on page load =====
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('[PRA] 页面加载，自动触发分析...');
+      setTimeout(startAnalysis, 300);
+    });
+
+    // ===== Window Resize Handler =====
+    window.addEventListener('resize', () => {
+      Object.values(charts).forEach(c => { try { c.resize(); } catch(e) {} });
+    });
+  </script>
+
+</body>
+</html>
