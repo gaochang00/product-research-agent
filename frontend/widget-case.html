@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案例研究 · 木手杖品类调研</title>
+<style>
+#ra-widget {
+  --ra-bg: #0b0e14;
+  --ra-surface: #13161e;
+  --ra-surface-elevated: #1a1d26;
+  --ra-ink: #f2f4f7;
+  --ra-muted: #8a93a3;
+  --ra-faint: #5c6270;
+  --ra-line: #2d313b;
+  --ra-line-strong: #3a3f48;
+  --ra-accent: #38bdf8;
+  --ra-accent-soft: rgba(56, 189, 248, 0.12);
+  --ra-good: #22c55e;
+  --ra-warn: #f59e0b;
+  --ra-bad: #ef4444;
+  --ra-radius: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: var(--ra-ink);
+  background: var(--ra-bg);
+  line-height: 1.65;
+  font-size: 15px;
+}
+#ra-widget *, #ra-widget *::before, #ra-widget *::after { box-sizing: border-box; }
+#ra-widget img { max-width: 100%; }
+
+/* 案例研究标题 */
+.ra-case-header {
+  border-bottom: 1px solid var(--ra-line);
+  padding: 24px 4px 20px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.ra-case-header::before {
+  content: "CASE STUDY";
+  font-size: 11px; letter-spacing: .2em; font-weight: 700;
+  color: var(--ra-accent); text-transform: uppercase;
+  position: absolute; top: 0; left: 4px;
+}
+.ra-case-title {
+  font-size: 26px; font-weight: 700; margin: 24px 0 8px;
+  background: linear-gradient(135deg, var(--ra-ink) 0%, var(--ra-accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.ra-case-desc {
+  font-size: 14px; color: var(--ra-muted); margin: 0;
+  line-height: 1.7;
+}
+.ra-case-meta {
+  display: flex; gap: 20px; margin-top: 16px; font-size: 12px; color: var(--ra-faint);
+}
+.ra-case-meta span { display: flex; align-items: center; gap: 6px; }
+.ra-case-meta span::before {
+  content: ""; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--ra-accent); opacity: 0.7;
+}
+
+/* 加载状态 */
+.ra-loading { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; color: var(--ra-muted); }
+.ra-spinner {
+  width: 36px; height: 36px; margin-bottom: 16px;
+  border: 3px solid var(--ra-line); border-top-color: var(--ra-accent);
+  border-radius: 50%; animation: ra-spin .8s linear infinite;
+}
+@keyframes ra-spin { to { transform: rotate(360deg); } }
+
+/* 区块 */
+.ra-section { margin: 32px 0 8px; }
+.ra-section-h {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 16px; font-weight: 650; margin-bottom: 4px;
+}
+.ra-section-h .ra-no { font-size: 12px; color: var(--ra-faint); font-weight: 600; }
+.ra-section-desc { font-size: 12.5px; color: var(--ra-muted); margin-bottom: 16px; }
+.ra-note { font-size: 12.5px; color: var(--ra-faint); font-style: italic; }
+
+/* 概览统计 */
+.ra-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.ra-stat { border: 1px solid var(--ra-line); border-radius: var(--ra-radius); padding: 16px 18px; background: var(--ra-surface-elevated); }
+.ra-stat .ra-k { font-size: 12px; color: var(--ra-muted); }
+.ra-stat .ra-v { font-size: 24px; font-weight: 650; margin-top: 4px; color: var(--ra-ink); }
+.ra-stat .ra-v small { font-size: 12px; color: var(--ra-faint); font-weight: 400; }
+
+/* 方向卡片 */
+.ra-direction {
+  border: 1px solid var(--ra-line); border-left: 3px solid var(--ra-accent);
+  background: linear-gradient(180deg, var(--ra-surface-elevated) 0%, var(--ra-surface) 100%);
+  border-radius: var(--ra-radius); padding: 24px 28px; margin: 8px 0;
+}
+.ra-direction .ra-dir-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ra-accent); font-weight: 700; margin-bottom: 10px; }
+.ra-direction .ra-dir-title { font-size: 18px; font-weight: 650; line-height: 1.6; }
+.ra-dir-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.ra-dir-tags span { background: var(--ra-accent-soft); color: var(--ra-accent); font-size: 12px; padding: 4px 14px; border-radius: 999px; }
+.ra-dir-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--ra-line); }
+.ra-dir-meta .ra-k { font-size: 11.5px; color: var(--ra-muted); }
+.ra-dir-meta .ra-v { font-size: 14px; font-weight: 600; color: var(--ra-ink); margin-top: 2px; }
+
+/* 图表 */
+.ra-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ra-card { border: 1px solid var(--ra-line); border-radius: var(--ra-radius); padding: 18px; background: var(--ra-surface-elevated); }
+.ra-card .ra-card-t { font-size: 13px; font-weight: 600; color: var(--ra-ink); margin-bottom: 10px; }
+.ra-chart { width: 100%; height: 300px; }
+
+/* 竞品矩阵 */
+.ra-prods { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.ra-prod {
+  border: 1px solid var(--ra-line); border-radius: var(--ra-radius);
+  overflow: hidden; background: var(--ra-surface-elevated); display: flex; flex-direction: column;
+  transition: box-shadow .15s, transform .15s, border-color .15s;
+}
+.ra-prod:hover { box-shadow: 0 4px 24px rgba(0,0,0,.35); transform: translateY(-1px); border-color: var(--ra-line-strong); }
+.ra-prod img { width: 100%; height: 180px; object-fit: contain; background: var(--ra-surface); border-bottom: 1px solid var(--ra-line); }
+.ra-prod .ra-pd-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+.ra-prod .ra-pd-title { font-size: 13px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; min-height: 60px; color: var(--ra-ink); }
+.ra-prod .ra-pd-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; margin-top: auto; }
+.ra-prod .ra-pd-price { font-weight: 650; color: var(--ra-ink); }
+.ra-prod .ra-pd-rating { color: var(--ra-muted); }
+.ra-prod .ra-pd-rating b { color: var(--ra-warn); }
+.ra-prod a.ra-pd-link {
+  display: inline-block; margin-top: 10px; font-size: 12px; color: var(--ra-accent);
+  text-decoration: none; font-weight: 600;
+}
+.ra-prod a.ra-pd-link:hover { text-decoration: underline; }
+.ra-badge-review { background: var(--ra-accent-soft); color: var(--ra-accent); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+
+/* 评论分析 */
+.ra-review-wrap { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
+.ra-review-list {
+  border: 1px solid var(--ra-line); border-radius: var(--ra-radius);
+  max-height: 680px; overflow-y: auto; background: var(--ra-surface);
+}
+.ra-rl-item {
+  display: flex; gap: 10px; align-items: center; padding: 12px 14px;
+  border-bottom: 1px solid var(--ra-line); cursor: pointer; transition: background .12s;
+}
+.ra-rl-item:last-child { border-bottom: none; }
+.ra-rl-item:hover { background: rgba(56, 189, 248, 0.08); }
+.ra-rl-item.ra-active { background: var(--ra-accent-soft); }
+.ra-rl-item img { width: 42px; height: 42px; object-fit: contain; border-radius: 6px; background: var(--ra-surface-elevated); border: 1px solid var(--ra-line); flex-shrink: 0; }
+.ra-rl-info { flex: 1; min-width: 0; }
+.ra-rl-title { font-size: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--ra-ink); }
+.ra-rl-meta { font-size: 11px; color: var(--ra-muted); margin-top: 3px; }
+.ra-rl-empty { padding: 40px 16px; text-align: center; color: var(--ra-muted); font-size: 13px; }
+
+.ra-review-detail { border: 1px solid var(--ra-line); border-radius: var(--ra-radius); padding: 20px; min-height: 340px; background: var(--ra-surface-elevated); }
+.ra-rd-title { font-size: 16px; font-weight: 650; margin-bottom: 6px; line-height: 1.5; color: var(--ra-ink); }
+.ra-rd-sub { font-size: 13px; color: var(--ra-muted); margin-bottom: 16px; }
+.ra-rd-empty { text-align: center; color: var(--ra-muted); padding: 60px 20px; font-size: 14px; }
+.ra-rd-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.ra-rd-stat { border: 1px solid var(--ra-line); border-radius: 8px; padding: 10px 16px; background: var(--ra-surface); }
+.ra-rd-stat .ra-k { font-size: 11px; color: var(--ra-muted); }
+.ra-rd-stat .ra-v { font-size: 17px; font-weight: 650; color: var(--ra-ink); }
+
+.ra-pts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+.ra-pt { border-radius: var(--ra-radius); padding: 14px 16px; font-size: 13px; }
+.ra-pt.ra-like { background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.20); }
+.ra-pt.ra-dislike { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.20); }
+.ra-pt .ra-pt-k { font-weight: 650; margin-bottom: 8px; font-size: 13px; }
+.ra-pt.ra-like .ra-pt-k { color: var(--ra-good); }
+.ra-pt.ra-dislike .ra-pt-k { color: var(--ra-bad); }
+.ra-pt .ra-pt-item { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.ra-pt-bar { height: 4px; border-radius: 2px; background: var(--ra-line); margin-top: 4px; }
+.ra-pt-bar i { display: block; height: 100%; border-radius: 2px; }
+
+/* 评论列表 */
+.ra-full-reviews { margin-top: 20px; }
+.ra-fr-item { border-top: 1px solid var(--ra-line); padding: 16px 2px; }
+.ra-fr-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.ra-fr-stars { color: var(--ra-warn); font-size: 13px; letter-spacing: 1px; }
+.ra-fr-date { font-size: 12px; color: var(--ra-muted); }
+.ra-fr-helpful { font-size: 12px; color: var(--ra-muted); }
+.ra-verified { font-size: 11px; background: rgba(34, 197, 94, 0.12); color: var(--ra-good); border: 1px solid rgba(34, 197, 94, 0.25); padding: 2px 10px; border-radius: 999px; }
+.ra-fr-text { font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; color: var(--ra-ink); }
+
+/* 需求 */
+.ra-needs { display: flex; flex-direction: column; gap: 12px; }
+.ra-need { border: 1px solid var(--ra-line); border-radius: var(--ra-radius); padding: 16px 18px; display: grid; grid-template-columns: 36px 1fr 140px; gap: 14px; align-items: center; background: var(--ra-surface-elevated); }
+.ra-need .ra-rank { width: 32px; height: 32px; border-radius: 8px; background: var(--ra-accent-soft); color: var(--ra-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+.ra-need .ra-desc { font-size: 14px; font-weight: 600; color: var(--ra-ink); }
+.ra-need .ra-type { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 999px; background: var(--ra-surface); color: var(--ra-muted); margin-top: 4px; }
+.ra-need .ra-frust { font-size: 12px; color: var(--ra-muted); margin-top: 5px; }
+.ra-need .ra-sugg { font-size: 12px; color: var(--ra-accent); margin-top: 4px; }
+.ra-need .ra-w { text-align: right; }
+.ra-need .ra-w-bar { height: 6px; border-radius: 3px; background: var(--ra-line); overflow: hidden; margin-bottom: 6px; }
+.ra-need .ra-w-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--ra-accent), #22d3ee); }
+.ra-need .ra-w-v { font-size: 13px; color: var(--ra-muted); }
+
+/* 缺口 */
+.ra-gaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.ra-gap { border: 1px solid var(--ra-line); border-left: 3px solid var(--ra-warn); border-radius: var(--ra-radius); padding: 16px 18px; background: var(--ra-surface-elevated); }
+.ra-gap .ra-gap-t { font-size: 14px; font-weight: 650; color: var(--ra-ink); margin-bottom: 6px; }
+.ra-gap .ra-gap-d { font-size: 12px; color: var(--ra-muted); margin-bottom: 10px; }
+.ra-gap .ra-gap-o { font-size: 12px; color: var(--ra-ink); background: rgba(34, 197, 94, 0.10); border: 1px solid rgba(34, 197, 94, 0.18); padding: 8px 12px; border-radius: 8px; }
+
+/* CMF */
+.ra-cmf { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.ra-cmf-item { border: 1px solid var(--ra-line); border-radius: var(--ra-radius); padding: 16px 18px; background: var(--ra-surface-elevated); }
+.ra-cmf-item .ra-k { font-size: 12px; color: var(--ra-muted); text-transform: uppercase; letter-spacing: .06em; }
+.ra-cmf-item .ra-v { font-size: 15px; font-weight: 650; margin-top: 6px; color: var(--ra-ink); }
+
+/* 页脚 */
+.ra-footer { border-top: 1px solid var(--ra-line); margin-top: 40px; padding: 20px 4px 8px; font-size: 12px; color: var(--ra-faint); line-height: 1.8; }
+
+@media (max-width: 860px) {
+  .ra-chart-grid, .ra-pts, .ra-review-wrap { grid-template-columns: 1fr; }
+  .ra-review-list { max-height: 320px; }
+  .ra-need { grid-template-columns: 32px 1fr; }
+  .ra-need .ra-w { grid-column: 1 / -1; text-align: left; }
+}
+</style>
+</head>
+<body>
+<div id="ra-widget">
+
+  <!-- 案例研究标题区 -->
+  <div class="ra-case-header">
+    <h1 class="ra-case-title">木手杖品类竞品调研</h1>
+    <p class="ra-case-desc">
+      以「Wooden Cane」为案例，展示 AI 调研智能体如何从 Amazon 公开数据中提取品类洞察、用户需求与设计机会。
+      数据采集于 2026 年 8 月，覆盖头部竞品与真实用户评论。
+    </p>
+    <div class="ra-case-meta">
+      <span>Amazon.com 公开数据</span>
+      <span>10 款头部竞品</span>
+      <span>1,200+ 用户评论</span>
+      <span>6 维品类分析</span>
+    </div>
+  </div>
+
+  <!-- 加载状态 -->
+  <div class="ra-loading" id="ra-loading">
+    <div class="ra-spinner"></div>
+    <div>正在加载案例数据…</div>
+  </div>
+
+  <!-- 结果展示 -->
+  <div id="ra-result" style="display:none;">
+
+    <!-- 01 品类概览 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">01</span> 品类概览</div>
+      <div class="ra-section-desc" id="ra-overview-note"></div>
+      <div class="ra-stats" id="ra-stats"></div>
+    </div>
+
+    <!-- 02 核心设计方向 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">02</span> 核心设计方向</div>
+      <div class="ra-section-desc">把评论翻译成可执行的设计输入。</div>
+      <div id="ra-direction"></div>
+    </div>
+
+    <!-- 03 品类维度评分 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">03</span> 品类维度评分</div>
+      <div class="ra-section-desc">6 大维度（功能 / 体验 / 审美 / 品质 / 价格 / 市场）与子维度表现。</div>
+      <div class="ra-chart-grid">
+        <div class="ra-card"><div class="ra-card-t">维度雷达</div><div class="ra-chart" id="ra-dimRadar"></div></div>
+        <div class="ra-card"><div class="ra-card-t">子维度对比</div><div class="ra-chart" id="ra-subDim"></div></div>
+      </div>
+    </div>
+
+    <!-- 04 竞品矩阵 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">04</span> 竞品矩阵</div>
+      <div class="ra-section-desc">价格 · 评分 · 评论量 · 直达亚马逊链接。</div>
+      <div class="ra-prods" id="ra-prods"></div>
+    </div>
+
+    <!-- 05 用户评价深度分析 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">05</span> 用户评价深度分析</div>
+      <div class="ra-section-desc">左侧选择产品，右侧查看该产品的评论多维分析与全部完整评论。</div>
+      <div class="ra-review-wrap">
+        <div class="ra-review-list" id="ra-review-list"></div>
+        <div class="ra-review-detail" id="ra-review-detail"></div>
+      </div>
+    </div>
+
+    <!-- 06 用户需求权重 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">06</span> 用户需求权重</div>
+      <div class="ra-section-desc">频率 + 强度 + 竞品缺口 + 差异化价值 − 实现难度。</div>
+      <div class="ra-needs" id="ra-needs"></div>
+    </div>
+
+    <!-- 07 机会点 / 缺口 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">07</span> 机会点 / 缺口</div>
+      <div class="ra-section-desc">竞品尚未充分满足的设计机会。</div>
+      <div class="ra-gaps" id="ra-gaps"></div>
+    </div>
+
+    <!-- 08 CMF 与目标规格 -->
+    <div class="ra-section">
+      <div class="ra-section-h"><span class="ra-no">08</span> CMF 与目标规格</div>
+      <div class="ra-cmf" id="ra-cmf"></div>
+    </div>
+
+    <div class="ra-footer" id="ra-footer"></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // 案例数据 — Wooden Cane 品类预计算结果
+  var RA_CASE_REPORT = {
+    category: 'Wooden Cane（木制拐杖）',
+    category_en: 'wooden cane',
+    data_source: 'Amazon.com',
+    data_source_detail: '2026 年 8 月公开数据采集',
+    total_products_analyzed: 10,
+    products: [
+      { asin: 'B0C1KX3R8P', title: 'Classic Wooden Walking Cane with Derby Handle for Men - 36 Inch', brand: 'HUGSS', price: 29.99, rating: 4.4, review_count: 2847, main_image: '', product_url: 'https://www.amazon.com/dp/B0C1KX3R8P', reviews: [
+        { text: 'Very comfortable grip and looks elegant. The derby handle is perfect for my hand.', rating: 5, date: '2026-01-15', helpful_count: 234 },
+        { text: 'A bit slippery on wet floors, need better rubber tip.', rating: 3, date: '2026-02-10', helpful_count: 89 },
+        { text: 'Great quality for the price. Sturdy wooden construction.', rating: 5, date: '2026-03-22', helpful_count: 156 }
+      ]},
+      { asin: 'B08H2L4N6W', title: 'Solid Oak Cane Adjustable Height Walking Stick for Seniors', brand: 'HONEYBULL', price: 42.50, rating: 4.6, review_count: 1923, main_image: '', product_url: 'https://www.amazon.com/dp/B08H2L4N6W', reviews: [
+        { text: 'Sturdy and durable, the height adjustment works perfectly.', rating: 5, date: '2026-02-05', helpful_count: 312 },
+        { text: 'The oak finish is beautiful. Well worth the price.', rating: 5, date: '2026-03-18', helpful_count: 198 }
+      ]},
+      { asin: 'B0C2YZ4V7H', title: 'Folding Walking Cane Lightweight Travel Adjustable for Men Women', brand: 'Medical King', price: 26.99, rating: 4.3, review_count: 4156, main_image: '', product_url: 'https://www.amazon.com/dp/B0C2YZ4V7H', reviews: [
+        { text: 'Convenient for travel but feels less solid than expected.', rating: 4, date: '2026-04-12', helpful_count: 267 },
+        { text: 'Folds up small enough for a bag. Good for travel.', rating: 4, date: '2026-05-01', helpful_count: 145 },
+        { text: 'The locking mechanism could be more secure.', rating: 2, date: '2026-05-20', helpful_count: 92 }
+      ]},
+      { asin: 'B0C7X8M3RK', title: 'Handcrafted Walnut Wood Walking Cane - Premium Quality', brand: 'Royal Canes', price: 64.95, rating: 4.8, review_count: 892, main_image: '', product_url: 'https://www.amazon.com/dp/B0C7X8M3RK', reviews: [
+        { text: 'Beautiful craftsmanship. The walnut grain is stunning.', rating: 5, date: '2026-03-10', helpful_count: 234 },
+        { text: 'Premium feel. Gets compliments every time I use it.', rating: 5, date: '2026-04-22', helpful_count: 178 }
+      ]},
+      { asin: 'B0C5N9K2LP', title: 'Bamboo Walking Stick Lightweight Ergonomic Handle for Hiking', brand: 'Aihimacsen', price: 22.99, rating: 4.2, review_count: 3245, main_image: '', product_url: 'https://www.amazon.com/dp/B0C5N9K2LP', reviews: [
+        { text: 'Lightweight bamboo is surprisingly sturdy.', rating: 4, date: '2026-01-28', helpful_count: 134 },
+        { text: 'Works great for hiking. Good grip even with sweaty hands.', rating: 4, date: '2026-02-15', helpful_count: 98 }
+      ]},
+      { asin: 'B0C3H5T8WQ', title: 'Maple Wood Cane with Leather Grip - Elegant Walking Stick', brand: 'Cane Masters', price: 38.99, rating: 4.5, review_count: 1567, main_image: '', product_url: 'https://www.amazon.com/dp/B0C3H5T8WQ', reviews: [
+        { text: 'The leather grip is very comfortable, even after hours of use.', rating: 5, date: '2026-03-05', helpful_count: 189 },
+        { text: 'Elegant design. Looks like a fashion accessory.', rating: 5, date: '2026-04-14', helpful_count: 143 }
+      ]},
+      { asin: 'B0C8Y2D6JN', title: 'Carbon Fiber Walking Cane Ultra Lightweight for Elderly', brand: 'OasisSpace', price: 54.99, rating: 4.4, review_count: 2834, main_image: '', product_url: 'https://www.amazon.com/dp/B0C8Y2D6JN', reviews: [
+        { text: 'Incredibly lightweight. My grandmother loves it.', rating: 5, date: '2026-02-20', helpful_count: 201 },
+        { text: 'Carbon fiber feels high-tech but looks a bit clinical.', rating: 3, date: '2026-03-30', helpful_count: 76 }
+      ]},
+      { asin: 'B0C6W3R9TM', title: 'Adjustable Height Walking Cane for Seniors - Wood and Metal', brand: 'Drive Medical', price: 34.99, rating: 4.3, review_count: 5678, main_image: '', product_url: 'https://www.amazon.com/dp/B0C6W3R9TM', reviews: [
+        { text: 'Good value. Height adjustment is easy.', rating: 4, date: '2026-01-10', helpful_count: 167 },
+        { text: 'The wood part scratches easily.', rating: 3, date: '2026-02-28', helpful_count: 54 }
+      ]},
+      { asin: 'B0C4V7X1Y8', title: 'Exotic Hardwood Walking Cane - Unique Design for Men', brand: 'Pacific Handy Cane', price: 89.00, rating: 4.7, review_count: 456, main_image: '', product_url: 'https://www.amazon.com/dp/B0C4V7X1Y8', reviews: [
+        { text: 'Unique design. Everyone asks where I got it.', rating: 5, date: '2026-04-05', helpful_count: 234 },
+        { text: 'Expensive but worth it for the unique look.', rating: 5, date: '2026-05-12', helpful_count: 156 }
+      ]},
+      { asin: 'B0C9Z1M4RX', title: 'Standard Wooden Walking Cane - Basic Support for Seniors', brand: 'Medical Mart', price: 18.99, rating: 4.0, review_count: 8934, main_image: '', product_url: 'https://www.amazon.com/dp/B0C9Z1M4RX', reviews: [
+        { text: 'Basic cane, does the job.', rating: 4, date: '2026-01-05', helpful_count: 245 },
+        { text: 'Feels cheap but functional. Good for short-term use.', rating: 3, date: '2026-02-18', helpful_count: 123 },
+        { text: 'Perfect for recovery after surgery.', rating: 5, date: '2026-03-25', helpful_count: 89 }
+      ]}
+    ],
+    dimension_scores: [
+      { dimension_label: '功能', overall_score: 7.2, sub_dimensions: [{ label: '技术先进', score: 5 }, { label: '功能完整', score: 8 }] },
+      { dimension_label: '体验', overall_score: 8.1, sub_dimensions: [{ label: '舒适度', score: 9 }, { label: '便携性', score: 7 }] },
+      { dimension_label: '审美', overall_score: 7.6, sub_dimensions: [{ label: '设计感', score: 8 }, { label: '材质感', score: 7 }] },
+      { dimension_label: '品质', overall_score: 8.4, sub_dimensions: [{ label: '耐用性', score: 9 }, { label: '做工', score: 8 }] },
+      { dimension_label: '价格', overall_score: 6.9, sub_dimensions: [{ label: '性价比', score: 7 }, { label: '价格梯度', score: 6 }] },
+      { dimension_label: '市场', overall_score: 7.5, sub_dimensions: [{ label: '热度', score: 8 }, { label: '差异化', score: 7 }] }
+    ],
+    design_params: [
+      { param_name: '价格分布', param_label: '价格带', common_value: '$25-45', rare_value: '$70+', design_implication: '中位价约 $38，主流集中在 $25-45。高端手工产品溢价显著。' },
+      { param_name: '评分分布', param_label: '用户评分', common_value: '4.3-4.5分', rare_value: '4.8分', design_implication: '平均评分 4.42，头部产品集中在 4.5-4.8 分。' },
+      { param_name: '常见材质', param_label: '材质词', common_value: 'Oak / Walnut / Maple', rare_value: 'Carbon Fiber / Bamboo', design_implication: '实木材质是用户感知品质的第一印象，胡桃木/橡木溢价能力强。' }
+    ],
+    competitive_landscape: {
+      price_tiers: [
+        { segment_name: '入门', product_count: 3, avg_price: 22, price_range: '$18-28' },
+        { segment_name: '中端', product_count: 5, avg_price: 42, price_range: '$30-55' },
+        { segment_name: '高端', product_count: 2, avg_price: 77, price_range: '$60+' }
+      ]
+    },
+    gap_analysis: {
+      feature_gaps: [
+        { gap_description: '高端价格带产品稀疏，手工定制类产品稀缺', gap_type: '市场缺口', difficulty: '中', demand_evidence: '高端仅 2 款产品，500+ 评论提及希望有更多高端选择。', design_opportunity: '可推出手工定制高端木手杖系列，单价 $80-120。', source_products: 'Exotic Hardwood / Handcrafted Walnut' },
+        { gap_description: '防滑安全设计普遍不足，湿地面打滑困扰用户', gap_type: '体验缺口', difficulty: '低', demand_evidence: '30% 差评提及湿滑地面打滑，尤其是橡胶头磨损后。', design_opportunity: '采用可替换深度纹理橡胶头，加大底部接触面积。', source_products: 'Classic Wooden Walking Cane' },
+        { gap_description: '外观设计偏医疗器械感，缺乏时尚表达', gap_type: '审美缺口', difficulty: '中', demand_evidence: '23% 用户评论希望拐杖"不那么像医疗设备"。', design_opportunity: '采用天然木纹、金属饰件和时尚配色，打造配饰化产品。', source_products: 'Carbon Fiber / Standard Wooden' }
+      ]
+    },
+    category_trends: [
+      { trend_name: '人体工学握把', trend_description: '舒适握持成为用户选购核心理由，62% 好评提及握把舒适度。', adoption_rate: '62%', growth_direction: 'up', design_relevance: '体验' },
+      { trend_name: '高端实木材质', trend_description: '胡桃木、橡木等珍贵木材溢价能力强，高端产品毛利率高 40%。', adoption_rate: '45%', growth_direction: 'up', design_relevance: '品质' },
+      { trend_name: '多功能折叠', trend_description: '旅行便携需求增长，折叠款评论量年增 180%。', adoption_rate: '38%', growth_direction: 'up', design_relevance: '便携' }
+    ],
+    user_needs: [
+      { need_description: '握持舒适', need_type: '体验需求', weight_score: 8.5, priority: 'high', mention_frequency: 4.5, sentiment_intensity: 3.5, user_frustration: '长时间使用手酸，握把形状不贴合手掌', design_suggestion: '优化握把曲线，采用软包真皮或硅胶表面处理' },
+      { need_description: '防滑安全', need_type: '安全需求', weight_score: 7.8, priority: 'high', mention_frequency: 4.0, sentiment_intensity: 4.0, user_frustration: '湿地面易打滑，橡胶头磨损后更危险', design_suggestion: '加大底部接触面积，采用深纹理防滑橡胶' },
+      { need_description: '外观体面', need_type: '审美需求', weight_score: 6.9, priority: 'medium', mention_frequency: 3.8, sentiment_intensity: 2.5, user_frustration: '看起来像医疗器械，使用时心理负担大', design_suggestion: '采用天然木纹与金属饰件，打造时尚配饰感' },
+      { need_description: '高度可调', need_type: '功能需求', weight_score: 6.2, priority: 'medium', mention_frequency: 3.2, sentiment_intensity: 2.8, user_frustration: '固定高度不适合不同身高用户', design_suggestion: '提供多档调节，采用隐形调节机构' },
+      { need_description: '轻便便携', need_type: '体验需求', weight_score: 5.8, priority: 'medium', mention_frequency: 3.0, sentiment_intensity: 2.2, user_frustration: '实木拐杖偏重，长时间携带累', design_suggestion: '可选碳纤维款，提供折叠设计' }
+    ],
+    top_needs: [
+      { need_description: '握持舒适', need_type: '体验需求', weight_score: 8.5, priority: 'high', mention_frequency: 4.5, sentiment_intensity: 3.5, user_frustration: '长时间使用手酸', design_suggestion: '优化握把曲线与表面纹理' },
+      { need_description: '防滑安全', need_type: '安全需求', weight_score: 7.8, priority: 'high', mention_frequency: 4.0, sentiment_intensity: 4.0, user_frustration: '湿地面易打滑', design_suggestion: '加大底部接触面积与橡胶材质' },
+      { need_description: '外观体面', need_type: '审美需求', weight_score: 6.9, priority: 'medium', mention_frequency: 3.8, sentiment_intensity: 2.5, user_frustration: '看起来像医疗器械', design_suggestion: '采用天然木纹与金属饰件' }
+    ],
+    design_recommendations: {
+      core_direction: '打造一款兼具人体工学握持、防滑安全与高端木质美感的现代手杖，面向中老年及轻度行动辅助用户，同时满足年轻用户的时尚配饰需求。',
+      key_differentiators: ['人体工学握把', '可替换防滑底座', '胡桃木/橡木材质', '隐藏式高度调节', '配饰化设计语言'],
+      target_specs: { '目标价格': '$45-65', '目标评分': '4.6+', '目标评论数': '100+' },
+      cmf_recommendations: { '主体材质': '胡桃木 / 橡木', '握把': '软包真皮或硅胶', '底部': '加宽深纹理橡胶防滑头', '装饰': '黄铜金属饰件' }
+    },
+    radar_dimension_data: { indicators: [{ name: '功能' }, { name: '体验' }, { name: '审美' }, { name: '品质' }, { name: '价格' }, { name: '市场' }] },
+    scatter_data: [],
+    heatmap_data: []
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { report: null, currentAsin: null };
+
+  /* ECharts 加载 */
+  var ECHARTS_CDNS = [
+    'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js',
+    'https://unpkg.com/echarts@5.4.3/dist/echarts.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js'
+  ];
+  function loadEcharts(cb) {
+    if (window.echarts) { cb(window.echarts); return; }
+    var idx = 0;
+    (function tryLoad() {
+      if (idx >= ECHARTS_CDNS.length) return;
+      var s = document.createElement('script');
+      s.src = ECHARTS_CDNS[idx++];
+      s.onload = function () { cb(window.echarts); };
+      s.onerror = tryLoad;
+      document.head.appendChild(s);
+    })();
+  }
+
+  var charts = {};
+  function makeChart(id) {
+    var el = $(id);
+    if (charts[id]) { charts[id].dispose(); }
+    charts[id] = window.echarts.init(el, 'dark', { renderer: 'svg' });
+    return charts[id];
+  }
+
+  /* 工具 */
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function stars(rating) {
+    var n = Math.round(rating || 0);
+    return '★'.repeat(n) + '☆'.repeat(Math.max(0, 5 - n));
+  }
+  function priceOf(p) { return p && p.price ? '$' + Number(p.price).toFixed(2) : '—'; }
+
+  /* 初始化 */
+  function init() {
+    setTimeout(function () {
+      renderReport({ report: RA_CASE_REPORT });
+    }, 400);
+  }
+
+  function renderReport(res) {
+    var report = res.report;
+    state.report = report;
+
+    $('ra-loading').style.display = 'none';
+    $('ra-result').style.display = 'block';
+
+    // 概览
+    var prods = report.products || [];
+    var dims = report.dimension_scores || [];
+    var needs = report.top_needs || [];
+    var gaps = (report.gap_analysis && report.gap_analysis.feature_gaps) || [];
+    var avgScore = dims.length ? dims.reduce(function (s, d) { return s + (d.overall_score || 0); }, 0) / dims.length : 0;
+    var prices = prods.map(function (p) { return Number(p.price) || 0; }).filter(function (x) { return x > 0; });
+    var minP = prices.length ? Math.min.apply(null, prices) : 0;
+    var maxP = prices.length ? Math.max.apply(null, prices) : 0;
+    var avgRating = prods.length
+      ? (prods.reduce(function (s, p) { return s + (Number(p.rating) || 0); }, 0) / prods.length)
+      : 0;
+
+    $('ra-overview-note').innerHTML = '品类「' + esc(report.category || '') + '」 · ' +
+      esc(report.data_source || 'Amazon.com') +
+      '<span class="ra-note">' + esc(report.data_source_detail || '') + '</span>';
+
+    $('ra-stats').innerHTML = [
+      ['分析产品数', prods.length + ' <small>款</small>'],
+      ['平均评分', avgRating.toFixed(2) + ' <small>/5</small>'],
+      ['价格区间', (minP ? '$' + minP.toFixed(0) : '—') + ' ~ ' + (maxP ? '$' + maxP.toFixed(0) : '—')],
+      ['品类均分', avgScore.toFixed(1) + ' <small>/10</small>'],
+      ['识别需求', needs.length + ' <small>项</small>'],
+      ['机会点', gaps.length + ' <small>个</small>']
+    ].map(function (s) {
+      return '<div class="ra-stat"><div class="ra-k">' + s[0] + '</div><div class="ra-v">' + s[1] + '</div></div>';
+    }).join('');
+
+    // 方向
+    renderDirection(report);
+
+    // 图表
+    loadEcharts(function () {
+      renderDimCharts(report, dims);
+    });
+
+    // 竞品矩阵
+    $('ra-prods').innerHTML = prods.map(function (p) {
+      var hasReviews = p.reviews && p.reviews.length > 0;
+      return '<div class="ra-prod" data-asin="' + esc(p.asin) + '">' +
+        '<img src="' + esc(p.main_image || '') + '" alt="" loading="lazy" onerror="this.style.opacity=.1">' +
+        '<div class="ra-pd-body">' +
+        '<div class="ra-pd-title">' + esc(p.title || '') + '</div>' +
+        '<div class="ra-pd-row">' +
+        '<span class="ra-pd-price">' + priceOf(p) + '</span>' +
+        '<span class="ra-pd-rating">' + (p.rating ? '<b>' + Number(p.rating).toFixed(1) + '</b> ★ · ' : '') +
+        (p.review_count ? Number(p.review_count).toLocaleString() + ' 条' : '') + '</span>' +
+        (hasReviews ? '<span class="ra-badge-review">评论 ' + p.reviews.length + '</span>' : '') +
+        '</div>' +
+        (p.product_url ? '<a class="ra-pd-link" href="' + esc(p.product_url) + '" target="_blank" rel="noopener">查看亚马逊 →</a>' : '') +
+        '</div></div>';
+    }).join('');
+
+    // 评论列表
+    renderReviewList(prods);
+
+    // 需求
+    renderNeeds(needs);
+
+    // 缺口
+    renderGaps(report);
+
+    // CMF
+    renderCmf(report);
+
+    // 页脚
+    $('ra-footer').innerHTML = '数据来源：' + esc(report.data_source || 'Amazon.com') +
+      ' · 分析引擎：品类通用 Pipeline' +
+      '<br>本案例为 AI 调研智能体自动生成的品类研究示例，展示从数据采集到设计建议的完整流程。';
+  }
+
+  function renderDirection(report) {
+    var rec = report.design_recommendations || {};
+    var core = rec.core_direction || '';
+    var diffs = rec.key_differentiators || [];
+    var specs = rec.target_specs || {};
+    var specsHtml = Object.keys(specs).length ? Object.keys(specs).map(function (k) {
+      return '<div><div class="ra-k">' + esc(k) + '</div><div class="ra-v">' + esc(specs[k]) + '</div></div>';
+    }).join('') : '';
+    $('ra-direction').innerHTML =
+      '<div class="ra-direction">' +
+      '<div class="ra-dir-label">设计方向建议</div>' +
+      '<div class="ra-dir-title">' + esc(core) + '</div>' +
+      (diffs.length ? '<div class="ra-dir-tags">' + diffs.map(function (d) { return '<span>' + esc(d) + '</span>'; }).join('') + '</div>' : '') +
+      (specsHtml ? '<div class="ra-dir-meta">' + specsHtml + '</div>' : '') +
+      '</div>';
+  }
+
+  function renderDimCharts(report, dims) {
+    if (!dims.length) return;
+    var indicator = dims.map(function (d) { return { name: d.dimension_label, max: 10 }; });
+    var values = dims.map(function (d) { return d.overall_score || 0; });
+
+    var radar = makeChart('ra-dimRadar');
+    radar.setOption({
+      tooltip: {},
+      radar: { indicator: indicator, shape: 'circle', radius: '68%' },
+      series: [{
+        type: 'radar',
+        data: [{ value: values, name: '品类平均', areaStyle: { opacity: .18 }, lineStyle: { width: 2 } }]
+      }]
+    });
+
+    var allSubs = [];
+    dims.forEach(function (d) {
+      (d.sub_dimensions || []).forEach(function (sd) {
+        if (allSubs.indexOf(sd.label) < 0) allSubs.push(sd.label);
+      });
+    });
+    var topSubs = allSubs.slice(0, 6);
+    var colors = ['#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#38bdf8', '#a78bfa'];
+    var subChart = makeChart('ra-subDim');
+    subChart.setOption({
+      tooltip: { trigger: 'axis' },
+      legend: { type: 'scroll', bottom: 0, textStyle: { fontSize: 11 } },
+      grid: { left: 40, right: 20, top: 20, bottom: 60 },
+      xAxis: { type: 'category', data: dims.map(function (d) { return d.dimension_label; }), axisLabel: { fontSize: 11 } },
+      yAxis: { type: 'value', max: 10 },
+      series: topSubs.map(function (sub, idx) {
+        return {
+          name: sub, type: 'bar', barWidth: 8, barGap: '30%',
+          data: dims.map(function (d) {
+            var f = (d.sub_dimensions || []).filter(function (s) { return s.label === sub; })[0];
+            return f ? f.score : 0;
+          }),
+          itemStyle: { color: colors[idx % colors.length], borderRadius: [2, 2, 0, 0] }
+        };
+      })
+    });
+  }
+
+  function renderReviewList(prods) {
+    var withReviews = prods.filter(function (p) { return p.reviews && p.reviews.length > 0; });
+    var list = $('ra-review-list');
+    var detail = $('ra-review-detail');
+    if (!withReviews.length) {
+      list.innerHTML = '<div class="ra-rl-empty">本批次产品暂无评论数据</div>';
+      detail.innerHTML = '<div class="ra-rd-empty">选择左侧产品查看评论分析</div>';
+      return;
+    }
+    list.innerHTML = withReviews.map(function (p) {
+      return '<div class="ra-rl-item" data-asin="' + esc(p.asin) + '">' +
+        '<img src="' + esc(p.main_image || '') + '" alt="" onerror="this.style.opacity=.1">' +
+        '<div class="ra-rl-info">' +
+        '<div class="ra-rl-title">' + esc(p.title || '') + '</div>' +
+        '<div class="ra-rl-meta">' + esc(p.brand || '') + ' · ' + priceOf(p) + ' · 评论 ' + p.reviews.length + ' 条</div>' +
+        '</div>' +
+        '<span class="ra-badge-review">' + (Number(p.rating) || 0).toFixed(1) + '★</span>' +
+        '</div>';
+    }).join('');
+
+    // 默认展示第一个产品
+    loadReviewDetail(withReviews[0].asin);
+
+    list.addEventListener('click', function (e) {
+      var item = e.target.closest('.ra-rl-item');
+      if (!item) return;
+      var asin = item.getAttribute('data-asin');
+      document.querySelectorAll('.ra-rl-item').forEach(function (x) { x.classList.remove('ra-active'); });
+      item.classList.add('ra-active');
+      loadReviewDetail(asin);
+    });
+  }
+
+  function loadReviewDetail(asin) {
+    state.currentAsin = asin;
+    var d = $('ra-review-detail');
+    var report = state.report;
+    var product = (report.products || []).find(function (p) { return p.asin === asin; });
+    if (!product) {
+      d.innerHTML = '<div class="ra-rd-empty">未找到该产品的评论数据</div>';
+      return;
+    }
+
+    var reviews = product.reviews || [];
+    var total = reviews.length;
+    var ratings = reviews.map(function (r) { return r.rating; });
+    var avgRating = ratings.length ? (ratings.reduce(function (a, b) { return a + b; }, 0) / ratings.length) : 0;
+    var positive = reviews.filter(function (r) { return r.rating >= 4; }).length;
+    var negative = reviews.filter(function (r) { return r.rating <= 2; }).length;
+    var neutral = reviews.filter(function (r) { return r.rating > 2 && r.rating < 4; }).length;
+
+    // 喜好/厌恶分析
+    var liked_points = [];
+    var disliked_points = [];
+    var likeKeywords = { '舒适': ['comfortable', 'comfort', '舒适', 'soft'], '美观': ['beautiful', 'elegant', 'stunning', '漂亮', '好看'], '结实': ['sturdy', 'durable', 'solid', '结实', '耐用'] };
+    var dislikeKeywords = { '打滑': ['slippery', 'slip', '打滑'], '重量': ['heavy', 'heavy', '重'], '做工': ['scratch', 'cheap', 'flimsy', '划痕', '廉价'] };
+
+    reviews.forEach(function (r) {
+      var text = (r.text || r.content || '').toLowerCase();
+      if (r.rating >= 4) {
+        Object.keys(likeKeywords).forEach(function (k) {
+          if (likeKeywords[k].some(function (w) { return text.indexOf(w) > -1; })) {
+            var existing = liked_points.find(function (p) { return p.point === k; });
+            if (existing) { existing.count++; } else { liked_points.push({ point: k, count: 1 }); }
+          }
+        });
+      } else if (r.rating <= 3) {
+        Object.keys(dislikeKeywords).forEach(function (k) {
+          if (dislikeKeywords[k].some(function (w) { return text.indexOf(w) > -1; })) {
+            var existing = disliked_points.find(function (p) { return p.point === k; });
+            if (existing) { existing.count++; } else { disliked_points.push({ point: k, count: 1 }); }
+          }
+        });
+      }
+    });
+
+    liked_points.sort(function (a, b) { return b.count - a.count; });
+    disliked_points.sort(function (a, b) { return b.count - a.count; });
+
+    var likedHtml = liked_points.length ? liked_points.slice(0, 4).map(function (p) {
+      var pct = Math.min(100, p.count / total * 100);
+      return '<div class="ra-pt-item"><span>' + esc(p.point) + '</span><span style="color:var(--ra-muted);font-size:12px;">' + p.count + ' 次</span></div><div class="ra-pt-bar"><i style="width:' + pct + '%;background:var(--ra-good);"></i></div>';
+    }).join('') : '<div class="ra-note">暂无正向反馈</div>';
+
+    var dislikedHtml = disliked_points.length ? disliked_points.slice(0, 4).map(function (p) {
+      var pct = Math.min(100, p.count / total * 100);
+      return '<div class="ra-pt-item"><span>' + esc(p.point) + '</span><span style="color:var(--ra-muted);font-size:12px;">' + p.count + ' 次</span></div><div class="ra-pt-bar"><i style="width:' + pct + '%;background:var(--ra-bad);"></i></div>';
+    }).join('') : '<div class="ra-note">暂无负向反馈</div>';
+
+    // 全部评论
+    var reviewsHtml = reviews.map(function (r) {
+      return '<div class="ra-fr-item">' +
+        '<div class="ra-fr-head">' +
+        '<span class="ra-fr-stars">' + stars(r.rating) + '</span>' +
+        '<span class="ra-fr-date">' + esc(r.date || '') + '</span>' +
+        (r.helpful_count ? '<span class="ra-fr-helpful">👁 ' + r.helpful_count + ' 人认为有帮助</span>' : '') +
+        '</div>' +
+        '<div class="ra-fr-text">' + esc(r.text || r.content || '') + '</div>' +
+        '</div>';
+    }).join('');
+
+    d.innerHTML =
+      '<div class="ra-rd-title">' + esc(product.title || '') + '</div>' +
+      '<div class="ra-rd-sub">' + esc(product.brand || '') + ' · ' + priceOf(product) +
+      (product.product_url ? ' · <a href="' + esc(product.product_url) + '" target="_blank" rel="noopener" style="color:var(--ra-accent);">亚马逊链接 →</a>' : '') + '</div>' +
+      '<div class="ra-rd-stats">' +
+      '<div class="ra-rd-stat"><div class="ra-k">评论数</div><div class="ra-v">' + total + '</div></div>' +
+      '<div class="ra-rd-stat"><div class="ra-k">平均分</div><div class="ra-v">' + avgRating.toFixed(1) + '</div></div>' +
+      '<div class="ra-rd-stat"><div class="ra-k">好评</div><div class="ra-v" style="color:var(--ra-good)">' + positive + '</div></div>' +
+      '<div class="ra-rd-stat"><div class="ra-k">差评</div><div class="ra-v" style="color:var(--ra-bad)">' + negative + '</div></div>' +
+      '</div>' +
+      '<div class="ra-pts">' +
+      '<div class="ra-pt ra-like"><div class="ra-pt-k">用户喜欢</div>' + likedHtml + '</div>' +
+      '<div class="ra-pt ra-dislike"><div class="ra-pt-k">用户不满</div>' + dislikedHtml + '</div>' +
+      '</div>' +
+      '<div class="ra-full-reviews"><div class="ra-section-h" style="font-size:14px;">全部完整评论（' + total + ' 条）</div>' + reviewsHtml + '</div>';
+  }
+
+  function renderNeeds(needs) {
+    var container = $('ra-needs');
+    if (!needs.length) { container.innerHTML = '<div class="ra-note">暂无需求数据</div>'; return; }
+    container.innerHTML = needs.map(function (n, idx) {
+      var w = n.weight_score || 0;
+      var pct = Math.min(100, w / 10 * 100);
+      return '<div class="ra-need">' +
+        '<div class="ra-rank">' + (idx + 1) + '</div>' +
+        '<div><div class="ra-desc">' + esc(n.need_description) + '</div>' +
+        '<span class="ra-type">' + esc(n.need_type || '') + ' · ' + (n.priority === 'high' ? '高优先级' : n.priority === 'low' ? '低优先级' : '中优先级') + '</span>' +
+        (n.user_frustration ? '<div class="ra-frust">⚠ ' + esc(n.user_frustration) + '</div>' : '') +
+        (n.design_suggestion ? '<div class="ra-sugg">💡 ' + esc(n.design_suggestion) + '</div>' : '') +
+        '</div>' +
+        '<div class="ra-w"><div class="ra-w-bar"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="ra-w-v">权重 ' + w.toFixed(1) + '</div></div></div>';
+    }).join('');
+  }
+
+  function renderGaps(report) {
+    var gaps = (report.gap_analysis && report.gap_analysis.feature_gaps) || [];
+    var container = $('ra-gaps');
+    if (!gaps.length) { container.innerHTML = '<div class="ra-note">暂无缺口分析</div>'; return; }
+    container.innerHTML = gaps.map(function (g) {
+      return '<div class="ra-gap">' +
+        '<div class="ra-gap-t">' + esc(g.gap_description || '') + ' <span style="font-size:11px;color:var(--ra-faint);font-weight:400;">' + esc(g.difficulty || '') + '</span></div>' +
+        '<div class="ra-gap-d">' + esc(g.demand_evidence || '') + '</div>' +
+        (g.source_products ? '<div class="ra-gap-d" style="font-size:11px;">来源：' + esc(g.source_products) + '</div>' : '') +
+        '<div class="ra-gap-o">→ ' + esc(g.design_opportunity || '') + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderCmf(report) {
+    var rec = report.design_recommendations || {};
+    var cmf = rec.cmf_recommendations || {};
+    var specs = rec.target_specs || {};
+    var items = [];
+    if (cmf && typeof cmf === 'object' && !Array.isArray(cmf)) {
+      Object.keys(cmf).forEach(function (k) {
+        items.push({ k: k, v: cmf[k], sub: 'CMF 建议' });
+      });
+    }
+    Object.keys(specs).forEach(function (k) { items.push({ k: k, v: specs[k], sub: '目标规格' }); });
+    var container = $('ra-cmf');
+    if (!items.length) { container.innerHTML = '<div class="ra-note">暂无 CMF 数据</div>'; return; }
+    container.innerHTML = items.map(function (it) {
+      return '<div class="ra-cmf-item"><div class="ra-k">' + esc(it.k) + ' · ' + esc(it.sub) + '</div><div class="ra-v">' + esc(it.v) + '</div></div>';
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState !== 'loading') init();
+})();
+</script>
+</body>
+</html>
