@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杖景 · CMF 可视化色卡与执行指南</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans', sans-serif;
+    background: #0a0f1a;
+    color: #e0e6ed;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(139,129,195, 0.06) 0%, transparent 50%); }
+  .hero-badge { display: inline-block; padding: 6px 16px; border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 20px;
+    font-size: 12px; color: #00d4ff; letter-spacing: 2px; margin-bottom: 24px; text-transform: uppercase; }
+  .hero-title { font-size: clamp(28px, 5vw, 52px); font-weight: 700; line-height: 1.1; margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #8ab4d8 50%, #00d4ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-subtitle { font-size: 17px; color: #8a9ab5; max-width: 680px; }
+  .hero-colorstrip { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 36px; max-width: 680px; }
+
+  .section { padding: 70px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+  .section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 40px; }
+  .section-num { font-size: 44px; font-weight: 700; color: rgba(0, 212, 255, 0.15); line-height: 1; }
+  .section-title { font-size: 26px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .section-desc { font-size: 14px; color: #6b7a90; }
+
+  /* Color family */
+  .family-block { margin-bottom: 36px; }
+  .family-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+  .family-title .jp { color: #00d4ff; font-size: 14px; }
+  .family-desc { font-size: 13px; color: #6b7a90; margin-bottom: 16px; }
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .swatch {
+    border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.2); transition: transform 0.2s, border-color 0.2s;
+  }
+  .swatch:hover { transform: translateY(-3px); border-color: rgba(0,212,255,0.3); }
+  .swatch-color { height: 90px; position: relative; }
+  .swatch-color .pantone { position: absolute; bottom: 6px; right: 8px; font-size: 10px; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 4px; }
+  .swatch-info { padding: 12px 14px; }
+  .swatch-name { font-size: 15px; font-weight: 600; color: #fff; }
+  .swatch-jp { font-size: 12px; color: #00d4ff; margin-top: 2px; }
+  .swatch-rgb { font-size: 11px; color: #6b7a90; margin-top: 6px; font-family: 'SF Mono', Consolas, monospace; }
+  .swatch-cmyk { font-size: 11px; color: #4a5a70; margin-top: 2px; font-family: 'SF Mono', Consolas, monospace; }
+  .swatch-use { font-size: 11px; color: #8a9ab5; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+  /* Design color story */
+  .design-card { background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+  .design-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .design-name { font-size: 22px; font-weight: 700; color: #fff; }
+  .design-name .jp { font-size: 14px; color: #00d4ff; margin-left: 10px; font-weight: 400; }
+  .design-tag { padding: 4px 12px; border-radius: 14px; font-size: 12px; background: rgba(0,212,255,0.12); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
+  .design-story { font-size: 13px; color: #8a9ab5; margin-bottom: 18px; line-height: 1.7; }
+  .design-story b { color: #ffd54f; }
+
+  /* Simulated cane color stripe */
+  .cane-sim-label { font-size: 12px; color: #6b7a90; margin-bottom: 8px; letter-spacing: 1px; }
+  .cane-sim { height: 56px; border-radius: 28px; overflow: hidden; display: flex; border: 1px solid rgba(255,255,255,0.08); position: relative; margin-bottom: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .cane-sim .seg { height: 100%; position: relative; }
+  .cane-sim .seg::after { content: attr(data-pct); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+  .cane-sim-scale { display: flex; font-size: 10px; color: #4a5a70; margin-bottom: 18px; }
+
+  .palette-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .pal-chip { flex: 1; min-width: 110px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .pal-chip-color { height: 50px; }
+  .pal-chip-info { padding: 8px 10px; background: rgba(0,0,0,0.3); }
+  .pal-chip-name { font-size: 12px; font-weight: 600; color: #e0e6ed; }
+  .pal-chip-role { font-size: 10px; color: #6b7a90; margin-top: 2px; }
+
+  /* Proportion bar */
+  .prop-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin: 10px 0 24px; }
+  .prop-bar .pb { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(255,255,255,0.9); font-weight: 600; }
+
+  /* Material/finish reference */
+  .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .ref-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,212,255,0.1); border-radius: 12px; padding: 18px; }
+  .ref-card h4 { font-size: 14px; color: #00d4ff; margin-bottom: 10px; }
+  .ref-surface { height: 70px; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
+  .ref-spec { font-size: 12px; color: #8a9ab5; }
+  .ref-spec b { color: #e0e6ed; }
+
+  .note { font-size: 13px; color: #8a9ab5; background: rgba(0,212,255,0.04); border-left: 3px solid #00d4ff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-top: 16px; }
+  .note b { color: #ffd54f; }
+
+  .footer { padding: 50px 0 40px; text-align: center; color: #4a5a70; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-badge">CMF · COLOR MATERIAL FINISH</span>
+    <h1 class="hero-title">杖景 · CMF 可视化色卡<br>与执行指南</h1>
+    <p class="hero-subtitle">每个日本传统色以真实RGB渲染色块呈现。色卡 · 配色方案 · 材料工艺 · 首发4款执行卡，可直接对接供应商与设计稿。</p>
+    <div class="hero-colorstrip">
+      <div style="background:#1A4D8C;flex:2"></div>
+      <div style="background:#8B81C3;flex:1.5"></div>
+      <div style="background:#59B99E;flex:1.5"></div>
+      <div style="background:#B7282E;flex:1.5"></div>
+      <div style="background:#E6D5B8;flex:1"></div>
+      <div style="background:#ECA66B;flex:0.8"></div>
+      <div style="background:#FDF4F0;flex:1"></div>
+      <div style="background:#1B1B1B;flex:1.2"></div>
+    </div>
+  </section>
+
+  <!-- 01 日本传统色完整色板 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div>
+        <div class="section-title">日本传统色完整色板</div>
+        <div class="section-desc">6大色系 · 30个传统色名 · Pantone/RGB/CMYK 三套色卡对照 · 真实色块渲染</div>
+      </div>
+    </div>
+    <div id="paletteContainer"></div>
+    <div class="note">
+      <b>使用说明：</b>屏幕色仅供参考，量产须以实物色卡（Pantone Solid Coated / RAL Classic）比对为准。所有色值已给出 Pantone（供水转印油墨调色）、RGB（供数字稿）、CMYK（供印刷）、RAL（供金属喷涂/阳极氧化）四套对照。
+    </div>
+  </section>
+
+  <!-- 02 配色比例规范 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div>
+        <div class="section-title">配色比例规范</div>
+        <div class="section-desc">每款杖身的色彩构成比例 · 对应"克制装饰"差异化策略</div>
+      </div>
+    </div>
+    <div class="design-card">
+      <h4 style="color:#00d4ff;font-size:15px;margin-bottom:10px">杖身标准配色比例</h4>
+      <div class="prop-bar">
+        <div class="pb" style="background:#1A4D8C;width:60%">主色 60%</div>
+        <div class="pb" style="background:#FDF4F0;width:25%;color:#1A4D8C">印花 25%</div>
+        <div class="pb" style="background:#E6D5B8;width:8%;color:#1A4D8C">金线 8%</div>
+        <div class="pb" style="background:rgba(255,255,255,0.15);width:7%">留白 7%</div>
+      </div>
+      <table style="width:100%;font-size:13px;color:#8a9ab5;border-collapse:collapse">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05)"><td style="padding:8px">主色（杖身底色）</td><td style="padding:8px">55-65%</td><td style="padding:8px">决定整体色调，日本传统色名</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05)"><td style="padding:8px">印花纹样色</td><td style="padding:8px">20-30%</td><td style="padding:8px">和风纹样，对比色或同色系深浅</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05)"><td style="padding:8px">金线/金属点缀</td><td style="padding:8px">5-10%</td><td style="padding:8px">香槟金/山吹色细线，提升高级感</td></tr>
+        <tr><td style="padding:8px">留白</td><td style="padding:8px">10-15%</td><td style="padding:8px">克制装饰比例的核心（差异化）</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 首发4款配色可视化 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div>
+        <div class="section-title">首发4款配色可视化方案</div>
+        <div class="section-desc">每款配色模拟杖身效果 · 色块预览 · 文化话术</div>
+      </div>
+    </div>
+    <div id="designContainer"></div>
+  </section>
+
+  <!-- 04 材料与工艺参考 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div>
+        <div class="section-title">材料与表面工艺参考</div>
+        <div class="section-desc">杖身/手柄/金属件 · 光泽度与质感对照</div>
+      </div>
+    </div>
+    <div class="ref-grid" id="refContainer"></div>
+  </section>
+
+  <div class="footer">
+    <p><b>杖景 · CMF 可视化色卡与执行指南 V1.0</b></p>
+    <p style="margin-top:8px">色值以实物色卡为准 · 配套文档：CMF执行清单.md · 调研日期 2026.08.10</p>
+  </div>
+
+</div>
+
+<script>
+// ===== 色板数据 =====
+var families = [
+  {
+    name: '深海蓝系', jp: '瑠璃・群青・紺青', desc: '月夜梅影 / 夜海流金 / 星籠青海 主色系。日本最高认同度的高端色系，对应夜色、深海、能乐装束意境。',
+    colors: [
+      { name:'瑠璃色', jp:'ruri-iro 瑠璃色', pantone:'PMS 5405 C', rgb:'26,77,140', cmyk:'C90 M70 Y0 K40', ral:'RAL 5003', use:'杖身底色（月夜梅影/夜海流金）', hex:'#1A4D8C' },
+      { name:'紺青', jp:'konjō 紺青', pantone:'PMS 534 C', rgb:'17,50,133', cmyk:'C100 M85 Y0 K40', ral:'RAL 5004', use:'杖身渐变深部', hex:'#113285' },
+      { name:'群青', jp:'gunjō 群青', pantone:'PMS 2726 C', rgb:'77,91,170', cmyk:'C75 M65 Y0 K0', ral:'RAL 5015', use:'星籠青海主色', hex:'#4D5BAA' },
+      { name:'紺碧', jp:'konpeki 紺碧', pantone:'PMS 2925 C', rgb:'0,100,168', cmyk:'C100 M55 Y0 K20', ral:'RAL 5010', use:'青海波辅色', hex:'#0064A8' }
+    ]
+  },
+  {
+    name: '藤紫系', jp: '藤紫・藤色', desc: '藤月夜樱 / 紫藤和韵 主色系。藤紫是源氏物语色名，女性向高端首选，藤娘是经典歌舞伎题材。',
+    colors: [
+      { name:'藤紫', jp:'fuji-murasaki 藤紫', pantone:'PMS 7441 C', rgb:'139,129,195', cmyk:'C50 M55 Y0 K0', ral:'RAL 4005', use:'杖身底色（紫藤系）', hex:'#8B81C3' },
+      { name:'藤色', jp:'fuji-iro 藤色', pantone:'PMS 7443 C', rgb:'183,166,204', cmyk:'C35 M40 Y0 K0', ral:'RAL 4001', use:'渐变浅部 / 印花辅色', hex:'#B7A6CC' },
+      { name:'深紫', jp:'murasaki 紫', pantone:'PMS 2685 C', rgb:'81,52,108', cmyk:'C70 M85 Y0 K40', ral:'RAL 4007', use:'紫宵扇影主色', hex:'#51346C' }
+    ]
+  },
+  {
+    name: '翡翠绿系', jp: '翡翠・青磁・若菜', desc: '翡翠花庭 / 翠庭花羽 / 青岚鹤影 主色系。翡翠色喻玉，青磁色是侘寂美学代表色。',
+    colors: [
+      { name:'翡翠色', jp:'hisui-iro 翡翠色', pantone:'PMS 3272 C', rgb:'89,185,158', cmyk:'C70 Y45 K0', ral:'RAL 6016', use:'杖身底色（翡翠系）', hex:'#59B99E' },
+      { name:'青磁色', jp:'seiji-iro 青磁色', pantone:'PMS 5575 C', rgb:'132,169,140', cmyk:'C55 M20 Y50 K0', ral:'RAL 6019', use:'青岚鹤影主色', hex:'#84A98C' },
+      { name:'若菜色', jp:'wakana-iro 若菜色', pantone:'PMS 375 C', rgb:'166,206,142', cmyk:'C45 Y55 K0', ral:'RAL 6018', use:'印花辅色（嫩芽）', hex:'#A6CE8E' }
+    ]
+  },
+  {
+    name: '酒红系', jp: '茜・朱・緋', desc: '朱霞花宴 主色系。茜色/朱色是日本节庆与祝仪色，礼赠适用。',
+    colors: [
+      { name:'茜色', jp:'akane-iro 茜色', pantone:'PMS 1815 C', rgb:'183,40,46', cmyk:'C20 M95 Y80 K20', ral:'RAL 3005', use:'杖身底色（朱霞花宴）', hex:'#B7282E' },
+      { name:'朱色', jp:'shu-iro 朱色', pantone:'PMS 485 C', rgb:'232,57,47', cmyk:'C0 M85 Y90 K0', ral:'RAL 3020', use:'印花辅色', hex:'#E8392F' },
+      { name:'緋色', jp:'hi-iro 緋色', pantone:'PMS 7621 C', rgb:'211,60,50', cmyk:'C10 M85 Y75 K10', ral:'RAL 3013', use:'礼赠红/熨斗色', hex:'#D33C32' }
+    ]
+  },
+  {
+    name: '金色系', jp: '山吹・黄金・香槟金', desc: '全系列金属点缀色。金线/金属件是"高级感临界"的关键，区别于廉价花柄。',
+    colors: [
+      { name:'香槟金', jp:'— (金属)', pantone:'PMS 871 C (金属)', rgb:'230,213,184', cmyk:'C15 M25 Y40 K15', ral:'— (PVD)', use:'金属件PVD / 印花金线', hex:'#E6D5B8' },
+      { name:'山吹色', jp:'yamabuki 山吹色', pantone:'PMS 124 C', rgb:'236,166,107', cmyk:'C10 M45 Y60 K0', ral:'RAL 1033', use:'银杏和光主色 / 金线', hex:'#ECA66B' },
+      { name:'黄金', jp:'ogane 黄金', pantone:'PMS 871 C (金属)', rgb:'200,169,81', cmyk:'C25 M40 Y75 K10', ral:'RAL 1034', use:'夜海流金流动金脉', hex:'#C8A951' }
+    ]
+  },
+  {
+    name: '白·米·灰·黑系', jp: '白練・生成・銀鼠・墨', desc: '辅色与男性向深色系。白練是留白主色，墨色是夜海/系列Ⅲ深色款。',
+    colors: [
+      { name:'白練', jp:'shiro-neri 白練', pantone:'PMS 11-0601 C', rgb:'253,244,240', cmyk:'C0 M4 Y5 K0', ral:'RAL 9001', use:'印花留白 / 浅色款', hex:'#FDF4F0' },
+      { name:'真珠色', jp:'shinju 真珠色', pantone:'PMS 11-0107 C', rgb:'245,239,224', cmyk:'C0 M4 Y12 K0', ral:'RAL 1015', use:'珍珠白款杖身', hex:'#F5EFE0' },
+      { name:'生成色', jp:'kinari 生成', pantone:'PMS 12-0712 C', rgb:'245,240,230', cmyk:'C0 M3 Y8 K2', ral:'RAL 1015', use:'银杏和光底色 / 木柄配', hex:'#F5F0E6' },
+      { name:'銀鼠', jp:'gin-nezumi 銀鼠', pantone:'PMS 428 C', rgb:'158,158,158', cmyk:'C0 M0 Y0 K45', ral:'RAL 7001', use:'夜海流金辅色', hex:'#9E9E9E' },
+      { name:'墨色', jp:'sumi 墨', pantone:'PMS BLACK 6 C', rgb:'27,27,27', cmyk:'C0 M0 Y0 K95', ral:'RAL 9004', use:'深色款杖身 / 系列Ⅲ', hex:'#1B1B1B' },
+      { name:'琥珀色', jp:'ko-haku 琥珀色', pantone:'PMS 7563 C', rgb:'202,131,70', cmyk:'C15 M55 Y75 K5', ral:'RAL 8001', use:'系列Ⅲ琥珀纹手柄', hex:'#CA8346' }
+    ]
+  }
+];
+
+// 渲染色板
+var palHTML = '';
+families.forEach(function(f){
+  palHTML += '<div class="family-block">';
+  palHTML += '<div class="family-title">'+f.name+' <span class="jp">'+f.jp+'</span></div>';
+  palHTML += '<div class="family-desc">'+f.desc+'</div><div class="swatch-grid">';
+  f.colors.forEach(function(c){
+    var textColor = isLight(c.rgb) ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.7)';
+    palHTML += '<div class="swatch">'
+      + '<div class="swatch-color" style="background:'+c.hex+'">'
+      + '<span class="pantone" style="color:'+textColor+';background:'+(isLight(c.rgb)?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.35)')+'">'+c.pantone+'</span>'
+      + '</div>'
+      + '<div class="swatch-info">'
+      + '<div class="swatch-name">'+c.name+'</div>'
+      + '<div class="swatch-jp">'+c.jp+'</div>'
+      + '<div class="swatch-rgb">RGB '+c.rgb+'</div>'
+      + '<div class="swatch-cmyk">CMYK '+c.cmyk+'</div>'
+      + '<div class="swatch-use">'+c.use+'</div>'
+      + '</div></div>';
+  });
+  palHTML += '</div></div>';
+});
+document.getElementById('paletteContainer').innerHTML = palHTML;
+
+function isLight(rgb){
+  var p = rgb.split(','); var r=+p[0],g=+p[1],b=+p[2];
+  return (r*0.299+g*0.587+b*0.114) > 150;
+}
+
+// ===== 首发4款配色方案 =====
+var designs = [
+  {
+    name:'月夜梅影', jp:'getsubai-ei', tag:'系列Ⅰ · 品牌形象款',
+    story:'<b>瑠璃色</b>之夜，梅影横斜。梅喻高洁早春，"月夜梅"契合日本<b>物哀</b>美学。深海蓝金配色是日本高端市场验证过的夜色系，近江一文字"琵琶瑠璃"已证明此色系溢价能力。',
+    segments: [
+      { pct: 58, color:'#1A4D8C', label:'瑠璃色 底色' },
+      { pct: 22, color:'#FDF4F0', label:'白練 梅花' },
+      { pct: 12, color:'#113285', label:'紺青 渐变' },
+      { pct: 8, color:'#E6D5B8', label:'香槟金 梅枝金线' }
+    ],
+    palette: [
+      { name:'瑠璃色', role:'杖身底色', hex:'#1A4D8C' },
+      { name:'紺青', role:'渐变深部', hex:'#113285' },
+      { name:'白練', role:'梅花', hex:'#FDF4F0' },
+      { name:'山吹色', role:'梅花蕊', hex:'#ECA66B' },
+      { name:'香槟金', role:'梅枝金线/金属件', hex:'#E6D5B8' }
+    ]
+  },
+  {
+    name:'星籠青海', jp:'seikaiseigai', tag:'系列Ⅰ · 中性男性款',
+    story:'<b>青海波</b>源自能乐装束，寓意"波静、好运连绵"。群青+紺青现代化处理叠加几何网格，唯一中性款覆盖男性市场。金线勾边提升高级感。',
+    segments: [
+      { pct: 50, color:'#4D5BAA', label:'群青 底色' },
+      { pct: 25, color:'#113285', label:'紺青 深波纹' },
+      { pct: 15, color:'#0064A8', label:'紺碧 浅波纹' },
+      { pct: 10, color:'#E6D5B8', label:'香槟金 网格金线' }
+    ],
+    palette: [
+      { name:'群青', role:'杖身底色', hex:'#4D5BAA' },
+      { name:'紺青', role:'深波纹', hex:'#113285' },
+      { name:'紺碧', role:'浅波纹', hex:'#0064A8' },
+      { name:'香槟金', role:'网格金线/金属件', hex:'#E6D5B8' },
+      { name:'黄金', role:'点缀亮金', hex:'#C8A951' }
+    ]
+  },
+  {
+    name:'银杏和光', jp:'ichowako', tag:'系列Ⅱ · 礼赠长寿款',
+    story:'<b>银杏</b>喻长寿，PERFECT for敬老/米寿礼赠场景。秋日温暖色（山吹色+生成色），枫木手柄温润。银杏叶飘落构图留白多，克制优雅。',
+    segments: [
+      { pct: 55, color:'#F5F0E6', label:'生成色 底色' },
+      { pct: 25, color:'#ECA66B', label:'山吹色 银杏叶' },
+      { pct: 12, color:'#CA8346', label:'琥珀色 叶渐变' },
+      { pct: 8, color:'#E6D5B8', label:'香槟金 叶脉金线' }
+    ],
+    palette: [
+      { name:'生成色', role:'杖身底色', hex:'#F5F0E6' },
+      { name:'山吹色', role:'银杏叶主色', hex:'#ECA66B' },
+      { name:'琥珀色', role:'叶渐变深', hex:'#CA8346' },
+      { name:'香槟金', role:'叶脉金线/金属件', hex:'#E6D5B8' },
+      { name:'白練', role:'留白', hex:'#FDF4F0' }
+    ]
+  },
+  {
+    name:'夜海流金', jp:'yakairyūkin', tag:'系列Ⅱ · 深色旗舰款',
+    story:'夜海深沉，金流其间。呼应<b>葛饰北斋《神奈川冲浪里》</b>水纹是日本视觉基因。瑠璃色渐变至墨色，亮金流动金脉，男女通用旗舰。',
+    segments: [
+      { pct: 45, color:'#1A4D8C', label:'瑠璃色 底色' },
+      { pct: 30, color:'#1B1B1B', label:'墨色 渐变' },
+      { pct: 15, color:'#9E9E9E', label:'銀鼠 波纹细线' },
+      { pct: 10, color:'#C8A951', label:'黄金 流动金脉' }
+    ],
+    palette: [
+      { name:'瑠璃色', role:'杖身底色', hex:'#1A4D8C' },
+      { name:'墨色', role:'渐变深部', hex:'#1B1B1B' },
+      { name:'銀鼠', role:'波纹细线', hex:'#9E9E9E' },
+      { name:'黄金', role:'流动金脉/亮金金属件', hex:'#C8A951' },
+      { name:'紺青', role:'过渡色', hex:'#113285' }
+    ]
+  }
+];
+
+var dHTML = '';
+designs.forEach(function(d){
+  // 模拟杖身配色带
+  var segHTML = d.segments.map(function(s){ return '<div class="seg" style="background:'+s.color+';width:'+s.pct+'%" data-pct="'+s.pct+'%"></div>'; }).join('');
+  // 比例条
+  var propHTML = d.segments.map(function(s){ return '<div class="pb" style="background:'+s.color+';width:'+s.pct+'%;'+(isLight(s.color.replace('#',''))?'color:#1A4D8C':'')+'">'+s.pct+'%</div>'; }).join('');
+  // 色板
+  var palHTML = d.palette.map(function(p){ return '<div class="pal-chip"><div class="pal-chip-color" style="background:'+p.hex+'"></div><div class="pal-chip-info"><div class="pal-chip-name">'+p.name+'</div><div class="pal-chip-role">'+p.role+'</div></div></div>'; }).join('');
+
+  dHTML += '<div class="design-card">'
+    + '<div class="design-card-head"><div class="design-name">'+d.name+'<span class="jp">'+d.jp+'</span></div><span class="design-tag">'+d.tag+'</span></div>'
+    + '<div class="design-story">'+d.story+'</div>'
+    + '<div class="cane-sim-label">▸ 模拟杖身配色效果（按实际比例）</div>'
+    + '<div class="cane-sim">'+segHTML+'</div>'
+    + '<div class="cane-sim-label" style="margin-top:14px">▸ 配色比例</div>'
+    + '<div class="prop-bar">'+propHTML+'</div>'
+    + '<div class="cane-sim-label" style="margin-top:6px">▸ 用色色板</div>'
+    + '<div class="palette-row">'+palHTML+'</div>'
+    + '</div>';
+});
+document.getElementById('designContainer').innerHTML = dHTML;
+
+// ===== 材料工艺参考 =====
+var refs = [
+  { title:'碳纤维杖身（系列Ⅰ）', surface:'linear-gradient(135deg,#1a1a1a 0%,#2a2a3a 40%,#1a1a2a 100%)', specs:[
+    {k:'材料',v:'T700/T800 碳纤维复合材料'},
+    {k:'管径',v:'Φ22.5/19mm · 壁厚1.3mm'},
+    {k:'表面',v:'平纹哑光（非斜纹亮面）'},
+    {k:'重量',v:'整杖 ≤ 290g'},
+    {k:'光泽',v:'哑光 20-30 GU'}
+  ]},
+  { title:'铝合金杖身（系列Ⅱ/Ⅲ）', surface:'linear-gradient(135deg,#3a4a5a 0%,#5a6a7a 50%,#3a4a5a 100%)', specs:[
+    {k:'材料',v:'6063-T5 / 6061-T6 铝镁合金'},
+    {k:'管径',v:'Φ19/16mm细管 · 壁厚1.1mm'},
+    {k:'表面',v:'阳极氧化基底 ≥10μm'},
+    {k:'重量',v:'整杖 ≤ 310g'},
+    {k:'光泽',v:'哑光 20-30 GU'}
+  ]},
+  { title:'亚克力内嵌手柄（系列Ⅰ）', surface:'linear-gradient(135deg,rgba(200,230,255,0.4) 0%,rgba(255,255,255,0.6) 40%,rgba(200,230,255,0.3) 100%),radial-gradient(circle at 60% 40%,rgba(236,166,107,0.5) 0%,transparent 30%)', specs:[
+    {k:'基材',v:'PMMA亚克力 透光率≥92%'},
+    {k:'内嵌',v:'干花+金箔（浇注内嵌）'},
+    {k:'工艺',v:'真空浇注脱泡+CNC+抛光'},
+    {k:'表面',v:'非握持区镜面90+GU'},
+    {k:'握持区',v:'哑光止滑30-40GU'}
+  ]},
+  { title:'天然木手柄（系列Ⅱ）', surface:'linear-gradient(135deg,#8a6a3a 0%,#b08a5a 40%,#9a7a4a 70%,#7a5a2a 100%)', specs:[
+    {k:'材质',v:'枫木カエデ / 白樫 / 樫'},
+    {k:'含水率',v:'8-12%'},
+    {k:'工艺',v:'CNC+手工精修+砂光800#'},
+    {k:'涂装',v:'天然木蜡油（温润触感）'},
+    {k:'光泽',v:'半哑 40-50 GU'}
+  ]},
+  { title:'琥珀纹树脂手柄（系列Ⅲ）', surface:'linear-gradient(135deg,#CA8346 0%,#ECA66B 30%,#a06030 60%,#CA8346 100%),radial-gradient(circle at 40% 60%,rgba(255,220,150,0.4) 0%,transparent 25%)', specs:[
+    {k:'基材',v:'环氧树脂 琥珀色透明着色'},
+    {k:'内嵌',v:'金箔碎/木屑/花瓣'},
+    {k:'工艺',v:'真空浇注脱泡+CNC+抛光'},
+    {k:'表面',v:'镜面抛光90+GU'},
+    {k:'光泽',v:'镜面 90+ GU'}
+  ]},
+  { title:'金属件 PVD', surface:'linear-gradient(135deg,#E6D5B8 0%,#d4c0a0 40%,#E6D5B8 60%,#c8b496 100%)', specs:[
+    {k:'基材',v:'304不锈钢 / 铝合金'},
+    {k:'工艺',v:'PVD真空镀膜 香槟金/亮金'},
+    {k:'膜厚',v:'≥ 0.3μm'},
+    {k:'光泽',v:'半哑40-60GU（香槟金）'},
+    {k:'测试',v:'盐雾测试 ≥48h'}
+  ]}
+];
+
+var refHTML = refs.map(function(r){
+  var specHTML = r.specs.map(function(s){ return '<div style="margin-bottom:4px"><b>'+s.k+'</b>：'+s.v+'</div>'; }).join('');
+  return '<div class="ref-card"><h4>'+r.title+'</h4><div class="ref-surface" style="background:'+r.surface+'"></div><div class="ref-spec">'+specHTML+'</div></div>';
+}).join('');
+document.getElementById('refContainer').innerHTML = refHTML;
+</script>
+</body>
+</html>
