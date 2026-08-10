@@ -27,6 +27,8 @@ jobs:
           cp frontend/widget-case.html _site/widget-case.html
           cp -r frontend/images _site/images
           cp frontend/index.html _site/index.html 2>/dev/null || true
+          cp widget-japan-cane.html _site/widget-japan-cane.html
+          cp widget-cmf-color-guide.html _site/widget-cmf-color-guide.html
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
