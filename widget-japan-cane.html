@@ -178,6 +178,39 @@
   .color-role { font-size: 11px; color: #8a9ab5; margin-top: 4px; }
   .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
 
+  /* 09 方案主题建议 */
+  .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-top: 8px; }
+  .theme-card {
+    background: linear-gradient(180deg, rgba(20,30,50,0.6) 0%, rgba(15,22,35,0.85) 100%);
+    border: 1px solid rgba(0,212,255,0.12); border-radius: 16px; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .theme-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-2px); }
+  .theme-banner { height: 8px; display: flex; }
+  .theme-banner .tb { flex: 1; }
+  .theme-head { padding: 18px 20px 10px; }
+  .theme-name { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+  .theme-jp { font-size: 11px; color: #00d4ff; margin-top: 3px; letter-spacing: 2px; }
+  .theme-tier { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-top: 8px; letter-spacing: 1px; }
+  .theme-svg-box { height: 110px; margin: 6px 20px 12px; border-radius: 10px; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.04); }
+  .theme-colors { padding: 0 20px 14px; }
+  .theme-colors-label { font-size: 11px; color: #6b7a90; margin-bottom: 8px; letter-spacing: 1px; }
+  .theme-color-list { display: flex; gap: 8px; flex-wrap: wrap; }
+  .theme-color-item { flex: 1; min-width: 80px; text-align: center; }
+  .theme-swatch { height: 44px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.08); }
+  .theme-color-name { font-size: 12px; color: #e0e6ed; font-weight: 600; }
+  .theme-color-jp { font-size: 10px; color: #00d4ff; margin-top: 1px; }
+  .theme-color-hex { font-size: 9px; color: #6b7a90; margin-top: 1px; }
+  .theme-culture { padding: 12px 20px; background: rgba(0,212,255,0.04); border-top: 1px solid rgba(0,212,255,0.08); border-bottom: 1px solid rgba(0,212,255,0.08); }
+  .theme-culture-label { font-size: 10px; color: #00d4ff; letter-spacing: 2px; margin-bottom: 4px; }
+  .theme-culture-text { font-size: 12px; color: #b0bdd0; line-height: 1.6; }
+  .theme-culture-text b { color: #ffd54f; }
+  .theme-foot { padding: 12px 20px 18px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .theme-meta { font-size: 11px; color: #6b7a90; line-height: 1.7; }
+  .theme-meta b { color: #8a9ab5; }
+  .theme-price { font-size: 22px; color: #ffd54f; font-weight: 700; text-align: right; }
+  .theme-price-sub { font-size: 10px; color: #6b7a90; margin-top: 2px; }
+
   .footer { padding: 60px 0 40px; text-align: center; color: #4a5a70; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
   .footer b { color: #6b7a90; }
 </style>
@@ -565,6 +598,24 @@
     </div>
   </section>
 
+  <!-- 09 方案主题建议 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <div>
+        <div class="section-title">方案主题建议 · 色彩与主题搭配</div>
+        <div class="section-desc">基于调研结论与日本文化理解 · 6款推荐主题方案 · 纹样+配色+寓意+定价落地清单</div>
+      </div>
+    </div>
+
+    <div class="insight-card" style="margin-bottom:24px">
+      <h4>主题选择逻辑</h4>
+      <p>综合<b>第一梯队文化匹配度评分</b>、<b>市场缺口（8-15K円带和风空白/男性中性款缺失/礼赠故事体系）</b>、<b>色彩策略（女性珍珠白/薄红梅/藤紫/香槟金 · 男性瑠璃/墨色/深棕）</b>三大维度，从16款方案中精选6款主题，覆盖<b>女性向/男性向/中性</b>三类人群与<b>旗舰/礼赠/浪漫</b>三大场景，每款均配日本传统色名、文化寓意与建议定价。</p>
+    </div>
+
+    <div class="theme-grid" id="themeGrid"></div>
+  </section>
+
   <div class="footer">
     <p><b>杖景 · 日本中高端拐杖市场调研与设计评审</b></p>
     <p style="margin-top:8px">数据来源：Amazon.co.jp · Rakuten · Yahoo!购物 &nbsp;|&nbsp; 调研日期：2026.08.10 &nbsp;|&nbsp; 6维度分析框架沿用产品调研智能体</p>
@@ -875,6 +926,152 @@ renderTier('tier1', schemes.tier1);
 renderTier('tier2', schemes.tier2);
 renderTier('tier3', schemes.tier3);
 renderTier('tier4', schemes.tier4);
+
+// ===== 09 方案主题建议 渲染 =====
+var themes = [
+  {
+    name:'月夜梅影', jp:'つきよのうめがげ Tsukiyo no Umekage',
+    tier:'第一梯队 · 旗舰形象', tierClass:'tier-1',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#1A4D8C','#E8EDF5','#E6D5B8'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><defs><radialGradient id="tm1" cx="0.7" cy="0.3"><stop offset="0" stop-color="#E8EDF5" stop-opacity="0.3"/><stop offset="1" stop-color="#1A4D8C" stop-opacity="0"/></radialGradient></defs><rect width="200" height="110" fill="#0d1b2e"/><circle cx="150" cy="28" r="16" fill="#E8EDF5" opacity="0.85"/><circle cx="150" cy="28" r="16" fill="url(#tm1)"/><g transform="translate(55 60)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.5"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g><circle r="2.5" fill="#E6D5B8"/></g><g transform="translate(30 35) scale(0.6)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.6"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g></g><g transform="translate(105 85) scale(0.5)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.7"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g></g><g stroke="#E6D5B8" stroke-width="0.5" opacity="0.3"><line x1="20" y1="95" x2="45" y2="75"/><line x1="90" y1="55" x2="100" y2="80"/></g></svg>',
+    colors:[
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#E8EDF5', name:'月白', jp:'tsuki-shiro'},
+      {hex:'#E6D5B8', name:'香槟金', jp:'champagne'}
+    ],
+    culture:'梅在日本象征<b>高洁、早春报春</b>，学问之神菅原道真最爱梅花。"月夜梅"契合日本<b>物哀美学</b>——月下赏梅是和歌经典意象。深海蓝底+月白梅花+金蕊点缀，文化认同度最高（评分9.5）。',
+    audience:'知性女性 · 55-70岁',
+    scene:'自用旗舰 / 高端女性礼赠',
+    price:'¥14,800', priceNote:'系列Ⅰ 旗舰款'
+  },
+  {
+    name:'星籠青海', jp:'ほしかごせいがいなみ Hoshikago Seigainami',
+    tier:'第一梯队 · 中性空白', tierClass:'tier-1',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#1A4D8C','#B0BEC5','#C8A951'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#0d1b2e"/><g fill="none" stroke="#1A4D8C" stroke-width="1.4"><g transform="translate(0 0)"><path d="M0 55 Q12.5 40 25 55 T50 55 T75 55 T100 55 T125 55 T150 55 T175 55 T200 55"/><path d="M0 68 Q12.5 53 25 68 T50 68 T75 68 T100 68 T125 68 T150 68 T175 68 T200 68"/><path d="M0 81 Q12.5 66 25 81 T50 81 T75 81 T100 81 T125 81 T150 81 T175 81 T200 81"/><path d="M0 94 Q12.5 79 25 94 T50 94 T75 94 T100 94 T125 94 T150 94 T175 94 T200 94"/></g><g transform="translate(12.5 22)" stroke="#113285"><path d="M0 55 Q12.5 40 25 55 T50 55 T75 55 T100 55 T125 55 T150 55 T175 55"/><path d="M0 68 Q12.5 53 25 68 T50 68 T75 68 T100 68 T125 68 T150 68 T175 68"/></g></g><g fill="#C8A951" opacity="0.8"><circle cx="155" cy="20" r="1.5"/><circle cx="170" cy="15" r="1"/><circle cx="178" cy="28" r="1.2"/><circle cx="35" cy="18" r="1"/><circle cx="50" cy="12" r="1.3"/></g><g fill="#B0BEC5" opacity="0.5"><circle cx="120" cy="22" r="1"/><circle cx="140" cy="30" r="0.8"/></g></svg>',
+    colors:[
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#B0BEC5', name:'银鼠', jp:'nezumi-iro'},
+      {hex:'#C8A951', name:'黄金', jp:'ogane'}
+    ],
+    culture:'青海波源自<b>能乐装束</b>，寓意<b>好运连绵、波静海宁</b>。扇形波纹是日本最具辨识度的传统和纹之一。此款为<b>唯一中性款覆盖男性8-15K円空白市场</b>，星点点缀呼应"星籠"之意（评分9.5）。',
+    audience:'男性 / 中性 · 55-75岁',
+    scene:'男性自用 / 商务礼赠',
+    price:'¥13,800', priceNote:'系列Ⅰ 中性款'
+  },
+  {
+    name:'银杏和光', jp:'いちょうわこう Ichou Wakou',
+    tier:'第一梯队 · 礼赠核心', tierClass:'tier-1',
+    series:'系列Ⅱ · 铝合金细管 + 木手柄',
+    banner:['#6B4423','#D4A537','#7CB342'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#1a1410"/><g fill="#D4A537" stroke="#B8860B" stroke-width="0.5"><g transform="translate(60 55) rotate(-20)"><path d="M0,-30 C-13,-22 -22,-4 -22,9 C-13,17 13,17 22,9 C22,-4 13,-22 0,-30Z"/><line x1="0" y1="9" x2="0" y2="26" stroke="#B8860B" stroke-width="1"/></g><g transform="translate(135 65) rotate(15)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/><line x1="0" y1="7" x2="0" y2="20" stroke="#B8860B" stroke-width="1"/></g><g transform="translate(100 28) rotate(5) scale(0.65)"><path d="M0,-30 C-13,-22 -22,-4 -22,9 C-13,17 13,17 22,9 C22,-4 13,-22 0,-30Z"/></g></g><g fill="#7CB342" opacity="0.6"><g transform="translate(30 90) scale(0.5)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/></g><g transform="translate(170 30) scale(0.45)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/></g></g><g fill="#E6D5B8" opacity="0.15"><circle cx="100" cy="55" r="40"/></g></svg>',
+    colors:[
+      {hex:'#6B4423', name:'深棕木纹', jp:'kuri-iro'},
+      {hex:'#D4A537', name:'山吹色', jp:'yamabuki'},
+      {hex:'#7CB342', name:'若菜绿', jp:'wakana-iro'}
+    ],
+    culture:'银杏象征<b>长寿坚韧</b>，是<b>敬老之日/米寿(88岁)礼赠首选</b>。银杏叶秋日金黄，契合"和光"温暖意象。深棕木柄+金黄银杏+若菜绿点缀，是礼赠场景文化匹配度最高的方案（评分9.0）。',
+    audience:'礼赠 · 送父母/长辈',
+    scene:'敬老之日 / 米寿 / 长寿祝',
+    price:'¥10,800', priceNote:'系列Ⅱ 走量礼赠款'
+  },
+  {
+    name:'夜海流金', jp:'よるうみりゅうきん Yoru Umi Ryukin',
+    tier:'第一梯队 · 深色旗舰', tierClass:'tier-1',
+    series:'系列Ⅱ · 铝合金细管 + 木手柄',
+    banner:['#1B1B1B','#1A4D8C','#C8A951'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#0a0a0a"/><g fill="none" stroke-width="1.6"><path d="M-10 50 C10 20 30 15 50 35 C70 55 55 75 80 55 C105 35 120 20 140 35 C160 50 150 70 170 60 C190 50 200 30 220 45" stroke="#1A4D8C"/><path d="M-10 72 C10 50 25 45 45 60 C65 75 70 90 95 80 C120 70 125 55 145 65 C165 75 170 88 190 85 C210 82 220 70 230 78" stroke="#113285"/><path d="M-10 92 C15 75 35 72 55 82 C75 92 80 102 100 98 C120 94 130 85 145 92 C160 99 170 100 185 96 C205 92 215 85 230 92" stroke="#1A4D8C" opacity="0.6"/></g><g stroke="#C8A951" stroke-width="0.8" fill="none" opacity="0.7"><path d="M-10 55 C10 25 30 20 50 40 C70 60 55 80 80 60 C105 40 120 25 140 40 C160 55 150 75 170 65 C190 55 200 35 220 50"/><path d="M-10 77 C10 55 25 50 45 65 C65 80 70 95 95 85 C120 75 125 60 145 70 C165 80 170 93 190 90 C210 87 220 75 230 83"/></g><g fill="#C8A951" opacity="0.85"><circle cx="65" cy="48" r="1.5"/><circle cx="78" cy="44" r="1"/><circle cx="92" cy="50" r="1.2"/><circle cx="155" cy="68" r="1.3"/><circle cx="168" cy="72" r="1"/></g></svg>',
+    colors:[
+      {hex:'#1B1B1B', name:'墨色', jp:'sumi-iro'},
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#C8A951', name:'黄金', jp:'ogane'}
+    ],
+    culture:'夜海+流动金脉，对标<b>近江一文字琵琶瑠璃</b>定位。水纹是北斋《神奈川冲浪里》的日本视觉基因，墨色底+瑠璃波+流金点缀，男女通用深色旗舰，<b>商业接受度最高</b>（评分9.0）。',
+    audience:'男女通用 · 60-80岁',
+    scene:'自用旗舰 / 商务高端',
+    price:'¥11,800', priceNote:'系列Ⅱ 深色旗舰'
+  },
+  {
+    name:'紫藤和韵', jp:'しどうわいん Shidou Wain',
+    tier:'第二梯队 · 浪漫礼赠', tierClass:'tier-2',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#8B81C3','#FDF4F0','#E6D5B8'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#15101e"/><g transform="translate(100 5)"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="1"/><g fill="#8B81C3" stroke="#6B5A9E" stroke-width="0.3"><ellipse cx="-7" cy="22" rx="5.5" ry="9" transform="rotate(-20 -7 22)"/><ellipse cx="5" cy="27" rx="5.5" ry="9" transform="rotate(20 5 27)"/><ellipse cx="-12" cy="40" rx="6" ry="10" transform="rotate(-25 -12 40)"/><ellipse cx="10" cy="45" rx="6" ry="10" transform="rotate(25 10 45)"/><ellipse cx="-3" cy="50" rx="6.5" ry="10.5"/><ellipse cx="3" cy="60" rx="6.5" ry="10.5"/><ellipse cx="-9" cy="70" rx="7" ry="11" transform="rotate(-15 -9 70)"/><ellipse cx="9" cy="75" rx="7" ry="11" transform="rotate(15 9 75)"/><ellipse cx="-2" cy="85" rx="6.5" ry="10.5"/><ellipse cx="2" cy="97" rx="5.5" ry="8.5"/></g></g><g transform="translate(40 5) scale(0.6)" fill="#B7A6CC" stroke="#8B81C3" stroke-width="0.3"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="0.8"/><ellipse cx="-3" cy="50" rx="6.5" ry="10.5"/><ellipse cx="4" cy="65" rx="6.5" ry="10.5"/><ellipse cx="-7" cy="80" rx="7" ry="11"/><ellipse cx="2" cy="93" rx="5.5" ry="8.5"/></g><g transform="translate(160 5) scale(0.55)" fill="#B7A6CC" stroke="#8B81C3" stroke-width="0.3"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="0.7"/><ellipse cx="0" cy="55" rx="6.5" ry="10.5"/><ellipse cx="2" cy="72" rx="7" ry="11"/><ellipse cx="-4" cy="88" rx="5.5" ry="8.5"/></g><g fill="#E6D5B8" opacity="0.3"><circle cx="100" cy="55" r="38"/></g></svg>',
+    colors:[
+      {hex:'#8B81C3', name:'藤紫', jp:'fuji-murasaki'},
+      {hex:'#FDF4F0', name:'珍珠白', jp:'shinju-shiro'},
+      {hex:'#E6D5B8', name:'香槟金', jp:'champagne'}
+    ],
+    culture:'<b>藤娘</b>是经典歌舞伎/浮世绘题材，紫藤垂帘寓意<b>长寿延绵、女性优雅</b>。藤紫是日本市场女性向主力色，珍珠白底+藤紫垂藤+香槟金点缀，礼赠浪漫属性最强。与藤月夜樱纹样接近，建议二选一（评分9.0）。',
+    audience:'女性 · 55-70岁',
+    scene:'女性礼赠 / 母之日 / 浪漫自用',
+    price:'¥14,800', priceNote:'系列Ⅰ 浪漫款'
+  },
+  {
+    name:'月夜白椿', jp:'つきよしろつばき Tsukiyo Shiro Tsubaki',
+    tier:'优化推荐 · 文化升级', tierClass:'tier-2',
+    series:'系列Ⅲ · 铝合金 + 琥珀纹手柄',
+    banner:['#113285','#FAFAFA','#D4AF37'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><defs><radialGradient id="tc1" cx="0.75" cy="0.25"><stop offset="0" stop-color="#FAFAFA" stop-opacity="0.25"/><stop offset="1" stop-color="#113285" stop-opacity="0"/></radialGradient></defs><rect width="200" height="110" fill="#0a1228"/><circle cx="155" cy="25" r="14" fill="#FAFAFA" opacity="0.7"/><circle cx="155" cy="25" r="14" fill="url(#tc1)"/><g transform="translate(60 58)"><g fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.5"><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g><g fill="#D4AF37"><circle r="3"/><circle cx="2" cy="-1" r="1.2" opacity="0.7"/><circle cx="-2" cy="1" r="1" opacity="0.7"/></g></g><g transform="translate(120 80) scale(0.65)" fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.6"><g><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g><circle r="3" fill="#D4AF37"/></g><g transform="translate(30 35) scale(0.45)" fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.8" opacity="0.8"><g><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g></g></svg>',
+    colors:[
+      {hex:'#113285', name:'瑠璃紺', jp:'ruri-kon'},
+      {hex:'#FAFAFA', name:'白練', jp:'shiro-neri'},
+      {hex:'#D4AF37', name:'古金', jp:'furugane'}
+    ],
+    culture:'椿（山茶花）是日本<b>武士文化</b>（整朵凋零=武士气节）与<b>女性美</b>的双重象征，深蓝底白椿是京都老铺经典高级纹样。<b>原"月白玉兰"优化款</b>——玉兰偏中国风（上海市花），改椿后文化纯度跃升，推荐高端文化礼赠定位。',
+    audience:'高端女性 / 文化礼赠',
+    scene:'文化礼赠 / 限量高端',
+    price:'¥12,800', priceNote:'系列Ⅲ 优化款'
+  }
+];
+
+function renderThemes(){
+  var el = document.getElementById('themeGrid');
+  el.innerHTML = themes.map(function(t){
+    var banner = t.banner.map(function(c){return '<div class="tb" style="background:'+c+'"></div>';}).join('');
+    var colors = t.colors.map(function(c){
+      return '<div class="theme-color-item">'+
+        '<div class="theme-swatch" style="background:'+c.hex+'"></div>'+
+        '<div class="theme-color-name">'+c.name+'</div>'+
+        '<div class="theme-color-jp">'+c.jp+'</div>'+
+        '<div class="theme-color-hex">'+c.hex+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="theme-card">'+
+      '<div class="theme-banner">'+banner+'</div>'+
+      '<div class="theme-head">'+
+        '<div class="theme-name">'+t.name+'</div>'+
+        '<div class="theme-jp">'+t.jp+'</div>'+
+        '<span class="theme-tier '+t.tierClass+'" style="'+
+          (t.tierClass==='tier-1'?'background:rgba(0,212,255,0.18);color:#00d4ff;border:1px solid rgba(0,212,255,0.4)':
+           'background:rgba(124,179,66,0.15);color:#aed581;border:1px solid rgba(124,179,66,0.35)')+'">'+t.tier+'</span>'+
+      '</div>'+
+      '<div class="theme-svg-box">'+t.svg+'</div>'+
+      '<div class="theme-colors">'+
+        '<div class="theme-colors-label">色彩搭配 · 日本传统色</div>'+
+        '<div class="theme-color-list">'+colors+'</div>'+
+      '</div>'+
+      '<div class="theme-culture">'+
+        '<div class="theme-culture-label">文化寓意</div>'+
+        '<div class="theme-culture-text">'+t.culture+'</div>'+
+      '</div>'+
+      '<div class="theme-foot">'+
+        '<div class="theme-meta">'+
+          '<b>系列：</b>'+t.series+'<br>'+
+          '<b>人群：</b>'+t.audience+'<br>'+
+          '<b>场景：</b>'+t.scene+
+        '</div>'+
+        '<div>'+
+          '<div class="theme-price">'+t.price+'</div>'+
+          '<div class="theme-price-sub">'+t.priceNote+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+renderThemes();
 
 // ===== 纹样平面图SVG渲染 =====
 var patterns = [
