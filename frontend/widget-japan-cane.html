@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杖景 · 日本中高端拐杖市场调研与设计评审</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #0a0f1a;
+    color: #e0e6ed;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  .hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0;
+    position: relative;
+    background: radial-gradient(ellipse at 30% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(100, 60, 180, 0.06) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display: inline-block; padding: 6px 16px;
+    border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 20px;
+    font-size: 12px; color: #00d4ff; letter-spacing: 2px;
+    margin-bottom: 24px; text-transform: uppercase;
+  }
+  .hero-title {
+    font-size: clamp(32px, 6vw, 64px); font-weight: 700; line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #8ab4d8 50%, #00d4ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-subtitle { font-size: 18px; color: #8a9ab5; margin-bottom: 32px; max-width: 640px; }
+  .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 40px; }
+  .stat-value { font-size: 42px; font-weight: 700; color: #00d4ff; line-height: 1; }
+  .stat-label { font-size: 13px; color: #6b7a90; margin-top: 8px; letter-spacing: 1px; }
+
+  .flow-line {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    padding: 40px 0; color: #4a5a70; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .flow-step { display: flex; align-items: center; gap: 8px; }
+  .flow-step.active { color: #00d4ff; }
+  .flow-arrow { color: #2a3a50; }
+
+  /* Section */
+  .section { padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+  .section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 48px; }
+  .section-num { font-size: 48px; font-weight: 700; color: rgba(0, 212, 255, 0.15); line-height: 1; letter-spacing: -2px; }
+  .section-title { font-size: 28px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+  .section-desc { font-size: 14px; color: #6b7a90; }
+
+  /* Overview Cards */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .overview-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 212, 255, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 12px; padding: 24px; text-align: center;
+  }
+  .overview-card .value { font-size: 36px; font-weight: 700; color: #00d4ff; }
+  .overview-card .label { font-size: 13px; color: #6b7a90; margin-top: 8px; }
+  .overview-card .sub { font-size: 11px; color: #4a5a70; margin-top: 4px; }
+
+  .chart { width: 100%; height: 400px; }
+  .chart.small { height: 300px; }
+  .chart-wrap {
+    background: rgba(0,0,0,0.2); border: 1px solid rgba(0,212,255,0.08);
+    border-radius: 14px; padding: 20px; margin-bottom: 20px;
+  }
+  .chart-wrap h4 { font-size: 14px; color: #8a9ab5; margin-bottom: 8px; letter-spacing: 1px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Platform tabs */
+  .platform-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 768px) { .platform-row { grid-template-columns: 1fr; } }
+  .platform-card {
+    background: linear-gradient(180deg, rgba(20,30,50,0.6) 0%, rgba(15,22,35,0.8) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 14px; padding: 20px;
+  }
+  .platform-card h4 { font-size: 16px; color: #ffffff; margin-bottom: 4px; }
+  .platform-card .pf-sub { font-size: 12px; color: #6b7a90; margin-bottom: 14px; }
+  .platform-card .pf-stat { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .platform-card .pf-stat span:last-child { color: #00d4ff; font-weight: 600; }
+
+  /* Design scheme cards */
+  .tier-block { margin-bottom: 28px; }
+  .tier-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .tier-badge { padding: 4px 14px; border-radius: 16px; font-size: 12px; font-weight: 600; letter-spacing: 1px; }
+  .tier-1 { background: rgba(0, 212, 255, 0.18); color: #00d4ff; border: 1px solid rgba(0,212,255,0.4); }
+  .tier-2 { background: rgba(124, 179, 66, 0.15); color: #aed581; border: 1px solid rgba(124,179,66,0.35); }
+  .tier-3 { background: rgba(255, 183, 77, 0.15); color: #ffb74d; border: 1px solid rgba(255,183,77,0.35); }
+  .tier-4 { background: rgba(255, 82, 82, 0.12); color: #ff8a80; border: 1px solid rgba(255,82,82,0.3); }
+  .tier-desc { font-size: 13px; color: #6b7a90; }
+
+  .scheme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .scheme-card {
+    background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 12px; padding: 18px;
+    transition: border-color 0.3s;
+  }
+  .scheme-card:hover { border-color: rgba(0, 212, 255, 0.35); }
+  .scheme-name { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 2px; }
+  .scheme-series { font-size: 11px; color: #6b7a90; margin-bottom: 10px; letter-spacing: 1px; }
+  .scheme-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .meta-tag { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: rgba(0,212,255,0.1); color: #00d4ff; }
+  .meta-tag.warn { background: rgba(255,183,77,0.12); color: #ffb74d; }
+  .scheme-score { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .score-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; }
+  .score-val { font-size: 13px; font-weight: 600; width: 32px; text-align: right; }
+  .scheme-note { font-size: 12px; color: #8a9ab5; margin-top: 8px; line-height: 1.5; }
+
+  /* Insight cards */
+  .insight-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.06) 0%, rgba(100, 60, 180, 0.04) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.12); border-radius: 12px; padding: 20px; margin-bottom: 16px;
+  }
+  .insight-card h4 { font-size: 15px; color: #00d4ff; margin-bottom: 8px; }
+  .insight-card p { font-size: 13px; color: #8a9ab5; }
+  .insight-card .highlight { color: #ffd54f; font-weight: 600; }
+
+  /* Recommendation list */
+  .rec-list { list-style: none; }
+  .rec-list li {
+    padding: 14px 18px; background: rgba(0,0,0,0.2); border-left: 3px solid #00d4ff;
+    border-radius: 0 8px 8px 0; margin-bottom: 10px; font-size: 13px; color: #c0cad8;
+  }
+  .rec-list li b { color: #ffffff; }
+  .rec-list li.warn { border-left-color: #ffb74d; }
+  .rec-list li.danger { border-left-color: #ff5252; }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th { text-align: left; padding: 12px 14px; color: #6b7a90; font-weight: 600; border-bottom: 1px solid rgba(0,212,255,0.2); font-size: 12px; letter-spacing: 1px; }
+  .data-table td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0cad8; }
+  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
+  .price-tag { color: #ffd54f; font-weight: 600; }
+  .rating-tag { color: #ffb74d; }
+
+  /* 纹样平面图 */
+  .pattern-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 16px; }
+  .pattern-card { background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%); border: 1px solid rgba(0,212,255,0.1); border-radius: 12px; overflow: hidden; }
+  .pattern-svg { height: 130px; display: flex; align-items: center; justify-content: center; }
+  .pattern-info { padding: 12px 14px; }
+  .pattern-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .pattern-jp { font-size: 11px; color: #00d4ff; margin-top: 2px; }
+  .pattern-desc { font-size: 11px; color: #6b7a90; margin-top: 6px; line-height: 1.5; }
+  .pattern-use { font-size: 11px; color: #ffb74d; margin-top: 6px; }
+
+  /* 市场产品参考图 */
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 18px; }
+  .product-card { background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%); border: 1px solid rgba(0,212,255,0.1); border-radius: 14px; padding: 18px; }
+  .product-illu { height: 260px; border-radius: 10px; overflow: hidden; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
+  .product-info h5 { font-size: 15px; color: #fff; margin: 12px 0 4px; }
+  .product-brand { font-size: 12px; color: #00d4ff; margin-bottom: 8px; }
+  .product-price { font-size: 16px; color: #ffd54f; font-weight: 700; }
+  .product-note { font-size: 11px; color: #6b7a90; margin-top: 8px; line-height: 1.6; }
+
+  /* CMF色带 */
+  .cmf-band-wrap { margin: 14px 0 20px; }
+  .cmf-band-label { font-size: 12px; color: #6b7a90; margin-bottom: 6px; }
+  .cmf-band { display: flex; height: 40px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .cmf-band .cb { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .color-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,212,255,0.1); border-radius: 10px; padding: 14px; }
+  .color-swatch { height: 60px; border-radius: 6px; margin-bottom: 10px; }
+  .color-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .color-jp { font-size: 11px; color: #00d4ff; }
+  .color-role { font-size: 11px; color: #8a9ab5; margin-top: 4px; }
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+
+  /* 09 方案主题建议 */
+  .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-top: 8px; }
+  .theme-card {
+    background: linear-gradient(180deg, rgba(20,30,50,0.6) 0%, rgba(15,22,35,0.85) 100%);
+    border: 1px solid rgba(0,212,255,0.12); border-radius: 16px; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .theme-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-2px); }
+  .theme-banner { height: 8px; display: flex; }
+  .theme-banner .tb { flex: 1; }
+  .theme-head { padding: 18px 20px 10px; }
+  .theme-name { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+  .theme-jp { font-size: 11px; color: #00d4ff; margin-top: 3px; letter-spacing: 2px; }
+  .theme-tier { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-top: 8px; letter-spacing: 1px; }
+  .theme-svg-box { height: 110px; margin: 6px 20px 12px; border-radius: 10px; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.04); }
+  .theme-img-box { height: 300px; margin: 6px 20px 12px; border-radius: 10px; overflow: hidden; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.06); }
+  .theme-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+  .theme-svg-fallback { height: 110px; display: flex; align-items: center; justify-content: center; }
+  .theme-img-label { font-size: 10px; color: #6b7a90; text-align: center; margin-top: 4px; letter-spacing: 1px; }
+  .theme-colors { padding: 0 20px 14px; }
+  .theme-colors-label { font-size: 11px; color: #6b7a90; margin-bottom: 8px; letter-spacing: 1px; }
+  .theme-color-list { display: flex; gap: 8px; flex-wrap: wrap; }
+  .theme-color-item { flex: 1; min-width: 80px; text-align: center; }
+  .theme-swatch { height: 44px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.08); }
+  .theme-color-name { font-size: 12px; color: #e0e6ed; font-weight: 600; }
+  .theme-color-jp { font-size: 10px; color: #00d4ff; margin-top: 1px; }
+  .theme-color-hex { font-size: 9px; color: #6b7a90; margin-top: 1px; }
+  .theme-culture { padding: 12px 20px; background: rgba(0,212,255,0.04); border-top: 1px solid rgba(0,212,255,0.08); border-bottom: 1px solid rgba(0,212,255,0.08); }
+  .theme-culture-label { font-size: 10px; color: #00d4ff; letter-spacing: 2px; margin-bottom: 4px; }
+  .theme-culture-text { font-size: 12px; color: #b0bdd0; line-height: 1.6; }
+  .theme-culture-text b { color: #ffd54f; }
+  .theme-foot { padding: 12px 20px 18px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .theme-meta { font-size: 11px; color: #6b7a90; line-height: 1.7; }
+  .theme-meta b { color: #8a9ab5; }
+  .theme-price { font-size: 22px; color: #ffd54f; font-weight: 700; text-align: right; }
+  .theme-price-sub { font-size: 10px; color: #6b7a90; margin-top: 2px; }
+
+  .footer { padding: 60px 0 40px; text-align: center; color: #4a5a70; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .footer b { color: #6b7a90; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-badge">JAPAN MARKET · DESIGN REVIEW</span>
+    <h1 class="hero-title">杖景 · 日本中高端拐杖<br>市场调研与设计评审</h1>
+    <p class="hero-subtitle">面向日本熟龄市场的铝合金精品拐杖品牌。三平台真实数据 · 6维度竞品分析 · 16款方案文化匹配度评审 · 优化方向与首发策略。</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">调研平台 (Amazon JP / Rakuten / Yahoo)</div></div>
+      <div class="stat"><div class="stat-value">80</div><div class="stat-label">采集竞品数</div></div>
+      <div class="stat"><div class="stat-value">16</div><div class="stat-label">设计方案评审</div></div>
+      <div class="stat"><div class="stat-value">8-15K</div><div class="stat-label">目标价格带 (日元)</div></div>
+    </div>
+  </section>
+
+  <!-- Flow -->
+  <div class="flow-line">
+    <span class="flow-step active">市场调研</span><span class="flow-arrow">→</span>
+    <span class="flow-step active">6维度分析</span><span class="flow-arrow">→</span>
+    <span class="flow-step active">竞争格局</span><span class="flow-arrow">→</span>
+    <span class="flow-step active">纹样分析</span><span class="flow-arrow">→</span>
+    <span class="flow-step active">设计评审</span><span class="flow-arrow">→</span>
+    <span class="flow-step active">优化建议</span>
+  </div>
+
+  <!-- 01 调研概述 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div>
+        <div class="section-title">调研概述</div>
+        <div class="section-desc">三平台定位差异与核心发现</div>
+      </div>
+    </div>
+    <div class="overview-grid" style="margin-bottom:32px">
+      <div class="overview-card"><div class="value">35-60%</div><div class="label">装饰拐杖占比</div><div class="sub">中高端核心带最高</div></div>
+      <div class="overview-card"><div class="value">¥12,100</div><div class="label">花柄女性向共识价</div><div class="sub">多品牌同时锚定</div></div>
+      <div class="overview-card"><div class="value">碳纤维</div><div class="label">8-15K円关键材质</div><div class="sub">铝合金集中5-8K帯</div></div>
+      <div class="overview-card"><div class="value">SG认证</div><div class="label">8K円+硬门槛</div><div class="sub">普及率80%+</div></div>
+      <div class="overview-card"><div class="value">礼品化</div><div class="label">市场底层逻辑</div><div class="sub">敬老之日/母之日/长寿祝</div></div>
+      <div class="overview-card"><div class="value">30-100%</div><div class="label">日本制溢价</div><div class="sub">职人手作+国産</div></div>
+    </div>
+
+    <div class="platform-row">
+      <div class="platform-card">
+        <h4>Amazon 日本站</h4>
+        <div class="pf-sub">amazon.co.jp · 国际品牌+碳纤维标杆</div>
+        <div class="pf-stat"><span>采集产品</span><span>24 款</span></div>
+        <div class="pf-stat"><span>装饰拐杖占比(核心带)</span><span>60%</span></div>
+        <div class="pf-stat"><span>代表品牌</span><span>KMINA · KISS MY LIFE</span></div>
+        <div class="pf-stat"><span>特征</span><span>评论规模大 · 碳纤维主导</span></div>
+      </div>
+      <div class="platform-card">
+        <h4>乐天 Rakuten</h4>
+        <div class="pf-sub">search.rakuten.co.jp · おしゃれ杖専門店+IP授权</div>
+        <div class="pf-stat"><span>采集产品</span><span>34 款</span></div>
+        <div class="pf-stat"><span>装饰拐杖占比</span><span>35-40%</span></div>
+        <div class="pf-stat"><span>代表店铺</span><span>神戸ステッキ · Shop Zen</span></div>
+        <div class="pf-stat"><span>特征</span><span>IP授权最丰富 · 礼品服务最完善</span></div>
+      </div>
+      <div class="platform-card">
+        <h4>Yahoo! 购物</h4>
+        <div class="pf-sub">shopping.yahoo.co.jp · 中老年用户占比最高</div>
+        <div class="pf-stat"><span>搜索结果</span><span>872 件</span></div>
+        <div class="pf-stat"><span>花柄占装饰类</span><span>70%+</span></div>
+        <div class="pf-stat"><span>代表品牌</span><span>HOSPIA · シナノ · フジホーム</span></div>
+        <div class="pf-stat"><span>特征</span><span>PayPay 5%返还 · 中老年花柄接受度高</span></div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <h4>核心洞察：日本消费者"接受印花但拒绝廉价感"</h4>
+      <p>三平台一致显示，低价印花（3,000-5,000円）被评价为"有设计无高级感"；而 <span class="highlight">8,000-15,000円正是"高品质+印花"的临界甜区</span>——印花必须配合碳纤维/木制等高级材质、SG认证、精细做工才能获得正面评价。这构成"杖景"品牌进入该价格带的核心逻辑。</p>
+    </div>
+  </section>
+
+  <!-- 02 6维度雷达 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div>
+        <div class="section-title">6维度品类分析</div>
+        <div class="section-desc">沿用调研智能体6大维度框架 · 三平台综合评分</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>品类6维度雷达图</h4>
+        <div id="radarChart" class="chart"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>维度得分排名</h4>
+        <div id="dimBarChart" class="chart"></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>子维度细分评分</h4>
+        <div id="subDimChart" class="chart" style="height:420px"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>维度解读</h4>
+        <div style="padding:8px 4px">
+          <div class="insight-card" style="margin-bottom:12px"><h4>审美维度 7.5 — 最强项</h4><p>装饰拐杖在中高端带占比35-60%，日本消费者对"おしゃれ杖"接受度高。纹样以樱花/整体花卉/和纹几何为主流，"介護用品感がない"成核心赞美词。</p></div>
+          <div class="insight-card" style="margin-bottom:12px"><h4>体验维度 7.2 — 次强项</h4><p>轻量化是好评基础，250-290g为黄金区间。细颈（スリムネック）人体工学针对握力弱老人成趋势。"軽量+おしゃれ"组合最受好评。</p></div>
+          <div class="insight-card" style="margin-bottom:12px"><h4>价格维度 6.5 — 最弱项</h4><p>12,100円为花柄女性向价格共识锚点，同质化定价集中。8-12K円带产品密度高但差异化不足，存在"碳纤维+精品和风"组合缺口。</p></div>
+          <div class="insight-card"><h4>功能维度 6.8 — 够用即止</h4><p>中高端带功能竞争已饱和（折叠100%渗透、SG认证80%+），差异化转移到材质与设计。智能功能渗透率<15%且集中在低价带。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 竞争格局矩阵 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div>
+        <div class="section-title">竞争格局矩阵</div>
+        <div class="section-desc">价格-评分定位散点 · 品牌竞争地图</div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <h4>价格-评分定位矩阵（三平台主要竞品）</h4>
+      <div id="scatterChart" class="chart" style="height:500px"></div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>头部品牌产品数与均价</h4>
+        <div id="brandChart" class="chart"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>价格带产品密度分布</h4>
+        <div id="priceTierChart" class="chart"></div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <h4>"杖景"定位空白点</h4>
+      <p>矩阵显示 <span class="highlight">8,000-15,000円 + 中高评分 区间存在空白</span>：KISS MY LIFE 靠布印花+日本制占据12,100円；Hospia靠满印花柄碳纤维占10,500円；近江一文字靠3D色碳纤维占17,380円。无人覆盖"原创和风现代化纹样 + 亚克力内嵌手柄"组合，这正是杖景的核心差异化空间。</p>
+    </div>
+  </section>
+
+  <!-- 04 纹样主题分析 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div>
+        <div class="section-title">纹样主题市场分析</div>
+        <div class="section-desc">日本市场流行纹样频次 · 装饰拐杖占比 · 配色趋势</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>市场纹样主题出现频次</h4>
+        <div id="patternChart" class="chart" style="height:450px"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>三平台装饰拐杖占比</h4>
+        <div id="decorPieChart" class="chart"></div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <h4>流行配色分布（女性向 vs 男性向）</h4>
+      <div id="colorChart" class="chart"></div>
+    </div>
+    <div class="insight-card">
+      <h4>纹样机会洞察</h4>
+      <p>樱花、整体花卉（総花柄）、Liberty/William Morris IP授权是三大主流。<span class="highlight">"和风传统纹样现代化"（青海波/水纹/扇面/鹤）在8-15K円带存在明显空白</span>——现有和风款多为京都老铺高价手绘（18,700円+），或低价满印。杖景的"克制和风+现代构图"恰好卡位中间空白。</p>
+    </div>
+
+    <!-- 日本经典纹样平面图 -->
+    <div class="chart-wrap" style="margin-top:24px">
+      <h4>日本经典纹样平面图 · 市场主流8款参考</h4>
+      <div class="pattern-grid" id="patternSvgGrid"></div>
+    </div>
+
+    <!-- 市场热销产品参考 -->
+    <div class="chart-wrap" style="margin-top:24px">
+      <h4>市场热销装饰拐杖产品参考 · 造型图示</h4>
+      <p style="font-size:12px;color:#6b7a90;margin-bottom:4px">基于乐天/Yahoo!购物爆款花柄款还原示意图（仅作造型与纹样参考）</p>
+      <div class="product-grid" id="productIlluGrid"></div>
+    </div>
+  </section>
+
+  <!-- 04.5 CMF色彩市场分析 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04.5</span>
+      <div>
+        <div class="section-title">CMF色彩市场分析与建议配色</div>
+        <div class="section-desc">三平台畅销色分布 · 色彩占比 · 色彩策略洞察</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>三平台畅销色占比（女性向）</h4>
+        <div id="colorFemChart" class="chart" style="height:360px"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>三平台畅销色占比（男性向）</h4>
+        <div id="colorMalChart" class="chart" style="height:360px"></div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h4>三平台色彩对比 · 价格带分布</h4>
+      <div id="colorPriceChart" class="chart" style="height:400px"></div>
+    </div>
+
+    <div class="chart-wrap">
+      <h4>建议色卡 · 日本传统色名对照</h4>
+      <div class="color-grid" id="cmfColorGrid"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>色彩策略矩阵 · 市场定位四象限</h4>
+        <div id="colorStrategyChart" class="chart" style="height:380px"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>三平台畅销色溢价能力对比</h4>
+        <div id="colorPremiumChart" class="chart" style="height:380px"></div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h4>色彩策略总结 · 分性别×分场景色带</h4>
+      <div id="colorStrategyBands"></div>
+    </div>
+
+    <div class="insight-card">
+      <h4>色彩策略总结</h4>
+      <p><b>女性向主打：</b>珍珠白/薄红梅/藤紫/香槟金 — 占女性向销量 70%，对应"优雅+不廉价"核心诉求。<br><b>男性向主打：</b>瑠璃色/藏青/深棕/墨色 — 男性向8-15K带中性和风款缺口明显（青海波/水纹可卡入）。<br><b>礼赠溢价色：</b>香槟金金属点缀+日本传统色名叙事 — 比素色款溢价30%+，KISS MY LIFE/神戸ステッキ均已验证。</p>
+    </div>
+  </section>
+
+  <!-- 05 设计方案评审 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <div>
+        <div class="section-title">16款设计方案文化匹配度评审</div>
+        <div class="section-desc">3系列16款 · 日本文化匹配度评分 · 上市梯队排序</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-bottom:24px">
+      <h4>16款方案文化匹配度评分总览</h4>
+      <div id="schemeScoreChart" class="chart" style="height:480px"></div>
+    </div>
+
+    <!-- 第一梯队 -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge tier-1">第一梯队 · 建议首发</span>
+        <span class="tier-desc">市场验证度高 + 文化匹配强 + 差异化明显</span>
+      </div>
+      <div class="scheme-grid" id="tier1"></div>
+    </div>
+
+    <!-- 第二梯队 -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge tier-2">第二梯队 · 差异化好</span>
+        <span class="tier-desc">需市场教育，建议首发后扩展</span>
+      </div>
+      <div class="scheme-grid" id="tier2"></div>
+    </div>
+
+    <!-- 第三梯队 -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge tier-3">第三梯队 · 需调整</span>
+        <span class="tier-desc">纹样或命名需本地化调整后再上</span>
+      </div>
+      <div class="scheme-grid" id="tier3"></div>
+    </div>
+
+    <!-- 第四梯队 -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge tier-4">第四梯队 · 建议暂缓</span>
+        <span class="tier-desc">定位或认知成本较高，建议后期或作限量</span>
+      </div>
+      <div class="scheme-grid" id="tier4"></div>
+    </div>
+  </section>
+
+  <!-- 06 缺口与机会 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <div>
+        <div class="section-title">缺口分析与机会矩阵</div>
+        <div class="section-desc">市场缺口识别 · 机会价值-难度评估</div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <h4>机会价值-难度矩阵</h4>
+      <div id="opportunityChart" class="chart" style="height:480px"></div>
+    </div>
+    <table class="data-table" style="margin-top:20px">
+      <thead>
+        <tr><th>缺口类型</th><th>描述</th><th>机会等级</th><th>杖景回应</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>设计缺口</td><td>亚克力内嵌花卉手柄+和风纹样杖身组合，市场无人覆盖</td><td style="color:#00d4ff;font-weight:600">★★★★★</td><td>核心差异化</td></tr>
+        <tr><td>材质缺口</td><td>8-12K円带"碳纤维+精品和风印花"组合产品稀疏（核心带仅5款）</td><td style="color:#00d4ff;font-weight:600">★★★★☆</td><td>系列Ⅰ机会</td></tr>
+        <tr><td>体验缺口</td><td>真正轻量(<290g)+装饰性+人体工学细颈的组合不足</td><td style="color:#4fc3f7;font-weight:600">★★★★☆</td><td>重量指标必达</td></tr>
+        <tr><td>礼赠缺口</td><td>有包装但缺"纹样寓意+长寿祝词+年龄节点"完整故事体系</td><td style="color:#4fc3f7;font-weight:600">★★★★☆</td><td>礼赠五件套</td></tr>
+        <tr><td>男性缺口</td><td>中性现代和风（青海波/几何/水纹）在8-15K円带少</td><td style="color:#aed581;font-weight:600">★★★☆☆</td><td>星籠青海覆盖</td></tr>
+        <tr><td>饱和区</td><td>樱花满印+铝合金低价款已饱和（Habilis/Hospia）</td><td style="color:#ff8a80;font-weight:600">避开</td><td>走克制路线</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 07 优化建议 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <div>
+        <div class="section-title">优化建议与首发策略</div>
+        <div class="section-desc">4个战略问题 · 材质/礼赠/CMF/定价建议</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <h4 style="color:#ff5252;font-size:15px;margin-bottom:14px">4个战略级问题（必解决）</h4>
+        <ul class="rec-list">
+          <li class="danger"><b>材质与价格带错配：</b>铝合金在8-15K円面临碳纤维强势竞争。建议系列Ⅰ升级碳纤维杖身，系列Ⅱ/Ⅲ保留铝合金细管但定价8-11K円。</li>
+          <li class="warn"><b>SG认证与重量指标缺失：</b>SGマーク是8K円+硬门槛必须取得；杖身重量须控制碳纤维≤290g / 铝合金≤310g。</li>
+          <li class="warn"><b>礼赠服务体系缺失：</b>企划有礼赠"概念"缺"体系"。须建免费名入れ刻名+のし熨斗+年龄祝词卡+刺绣收纳袋+专用礼盒。</li>
+          <li class="warn"><b>纹样"和风纯度"风险：</b>玉兰偏中国风（上海市花）建议改椿（山茶花）；鸢尾建议改花菖蒲；构图须用浮世绘平面化/琳派金地曲线而非中国画写意笔法。</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#00d4ff;font-size:15px;margin-bottom:14px">材质与定价策略</h4>
+        <table class="data-table">
+          <thead><tr><th>系列</th><th>材质</th><th>定价(円)</th><th>定位</th></tr></thead>
+          <tbody>
+            <tr><td>系列Ⅰ</td><td>碳纤维+亚克力内嵌手柄</td><td class="price-tag">13,800-14,800</td><td>旗舰形象</td></tr>
+            <tr><td>系列Ⅱ</td><td>铝合金细管(19+16mm)+木柄</td><td class="price-tag">9,800-11,800</td><td>走量礼赠</td></tr>
+            <tr><td>系列Ⅲ</td><td>铝合金+琥珀纹手柄</td><td class="price-tag">11,800-13,800</td><td>中间过渡</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:20px">
+          <h4 style="color:#00d4ff;font-size:15px;margin-bottom:14px">CMF与传统色营销</h4>
+          <ul class="rec-list">
+            <li>主色保留现有方案（深海蓝/藤紫/翡翠绿/酒红/珍珠白+香槟金）</li>
+            <li>增加日本传统色名营销：藤紫/瑠璃色/茜色/白練/若菜色</li>
+            <li>表面：亚克力透明感+金属细金线+杖身哑光</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-card" style="margin-top:24px">
+      <h4>首发4款策略</h4>
+      <p><b style="color:#fff">月夜梅影</b>（品牌形象款）+ <b style="color:#fff">星籠青海</b>（中性男性市场）+ <b style="color:#fff">银杏和光</b>（礼赠长寿款）+ <b style="color:#fff">夜海流金</b>（深色旗舰款）。四款覆盖女性/男性、形象/礼赠、浅色/深色，验证市场后扩展第二梯队。</p>
+    </div>
+  </section>
+
+  <!-- 08 礼赠体系 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <div>
+        <div class="section-title">礼赠服务体系（必建）</div>
+        <div class="section-desc">日本拐杖市场底层逻辑 · 完整礼赠故事体系</div>
+      </div>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-card"><div class="value" style="font-size:24px">名入れ刻名</div><div class="label">免费刻名服务</div><div class="sub">礼品个性化标配</div></div>
+      <div class="overview-card"><div class="value" style="font-size:24px">のし熨斗</div><div class="label">敬老/母/父之日包装</div><div class="sub">场景化礼赠</div></div>
+      <div class="overview-card"><div class="value" style="font-size:24px">长寿祝词卡</div><div class="label">还暦/古希/喜寿/傘寿/米寿</div><div class="sub">完整年龄节点话术</div></div>
+      <div class="overview-card"><div class="value" style="font-size:24px">纹样寓意卡</div><div class="label">每款配文化寓意说明</div><div class="sub">梅=高洁 銀杏=长寿 鶴=千年</div></div>
+      <div class="overview-card"><div class="value" style="font-size:24px">刺绣手提袋</div><div class="label">专用礼盒+收纳袋</div><div class="sub">KISS MY LIFE验证加分项</div></div>
+      <div class="overview-card"><div class="value" style="font-size:24px">SG认证</div><div class="label">安全安心背书</div><div class="sub">8K円+硬门槛</div></div>
+    </div>
+  </section>
+
+  <!-- 09 方案主题建议 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <div>
+        <div class="section-title">方案主题建议 · 色彩与主题搭配</div>
+        <div class="section-desc">基于调研结论与日本文化理解 · 6款推荐主题方案 · 纹样+配色+寓意+定价落地清单</div>
+      </div>
+    </div>
+
+    <div class="insight-card" style="margin-bottom:24px">
+      <h4>主题选择逻辑</h4>
+      <p>综合<b>第一梯队文化匹配度评分</b>、<b>市场缺口（8-15K円带和风空白/男性中性款缺失/礼赠故事体系）</b>、<b>色彩策略（女性珍珠白/薄红梅/藤紫/香槟金 · 男性瑠璃/墨色/深棕）</b>三大维度，从16款方案中精选6款主题，覆盖<b>女性向/男性向/中性</b>三类人群与<b>旗舰/礼赠/浪漫</b>三大场景，每款均配日本传统色名、文化寓意与建议定价。</p>
+    </div>
+
+    <div class="theme-grid" id="themeGrid"></div>
+  </section>
+
+  <div class="footer">
+    <p><b>杖景 · 日本中高端拐杖市场调研与设计评审</b></p>
+    <p style="margin-top:8px">数据来源：Amazon.co.jp · Rakuten · Yahoo!购物 &nbsp;|&nbsp; 调研日期：2026.08.10 &nbsp;|&nbsp; 6维度分析框架沿用产品调研智能体</p>
+  </div>
+
+</div>
+
+<script>
+// ===== 图表主题 =====
+const chartTheme = {
+  backgroundColor: 'transparent',
+  textStyle: { color: '#8a9ab5' },
+  legend: { textStyle: { color: '#8a9ab5' }, top: 10 },
+  tooltip: {
+    backgroundColor: 'rgba(15,22,35,0.95)',
+    borderColor: 'rgba(0,212,255,0.3)',
+    textStyle: { color: '#e0e6ed' }
+  }
+};
+
+// 1. 6维度雷达图
+var radarChart = echarts.init(document.getElementById('radarChart'));
+radarChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip },
+  radar: {
+    indicator: ["功能","体验","审美","品质","价格","市场"].map(d => ({ name: d, max: 10 })),
+    radius: '65%',
+    axisName: { color: '#8a9ab5', fontSize: 13 },
+    splitArea: { areaStyle: { color: ['rgba(0,0,0,0.2)', 'rgba(0,0,0,0.1)'] } },
+    splitLine: { lineStyle: { color: 'rgba(0,212,255,0.15)' } },
+    axisLine: { lineStyle: { color: 'rgba(0,212,255,0.2)' } }
+  },
+  legend: { data: ['品类平均', '杖景目标'], textStyle: { color: '#8a9ab5' }, top: 10 },
+  series: [{
+    type: 'radar',
+    data: [
+      { value: [6.8, 7.2, 7.5, 7.0, 6.5, 7.0], name: '品类平均',
+        areaStyle: { color: 'rgba(0,212,255,0.2)' }, lineStyle: { color: '#00d4ff', width: 2 }, itemStyle: { color: '#00d4ff' } },
+      { value: [7.5, 8.5, 9.0, 8.0, 7.5, 7.5], name: '杖景目标',
+        areaStyle: { color: 'rgba(124,179,66,0.12)' }, lineStyle: { color: '#aed581', width: 2, type: 'dashed' }, itemStyle: { color: '#aed581' } }
+    ]
+  }]
+});
+
+// 2. 维度得分柱状图
+var dimBarChart = echarts.init(document.getElementById('dimBarChart'));
+dimBarChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip },
+  grid: { left: 80, right: 50, top: 20, bottom: 30 },
+  xAxis: { type: 'value', max: 10, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  yAxis: { type: 'category', data: ["价格","功能","品质","市场","体验","审美"].reverse(), axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5' } },
+  series: [{
+    type: 'bar',
+    data: [6.5,6.8,7.0,7.0,7.2,7.5].reverse(),
+    itemStyle: {
+      color: function(p) { var v = p.value; return v >= 7.5 ? '#00d4ff' : (v >= 7 ? '#4fc3f7' : '#ff7043'); },
+      borderRadius: [0, 4, 4, 0]
+    },
+    label: { show: true, position: 'right', color: '#8a9ab5', fontSize: 12 },
+    barWidth: 22
+  }]
+});
+
+// 3. 子维度细分评分
+var subDimChart = echarts.init(document.getElementById('subDimChart'));
+subDimChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: 130, right: 40, top: 30, bottom: 30 },
+  xAxis: { type: 'value', max: 10, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  yAxis: { type: 'category', data: ['智能功能渗透','续航能力','定价合理性','价格带覆盖','功能丰富度','SG认证普及','材质等级','市场热度','高度调节','人体工学','色彩选择','差异化程度','材质质感','造型设计','轻量化','清洁维护'].reverse(), axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5', fontSize: 11 } },
+  series: [{
+    type: 'bar',
+    data: [4.0,5.5,6.0,6.2,6.5,7.5,7.0,7.0,7.5,7.8,7.5,7.2,7.3,7.6,8.0,6.5].reverse(),
+    itemStyle: { color: function(p){var v=p.value;return v>=8?'#00d4ff':(v>=7?'#4fc3f7':(v>=6?'#ffb74d':'#ff7043'));}, borderRadius: [0,3,3,0] },
+    barWidth: 14
+  }]
+});
+
+// 4. 价格-评分散点图
+var scatterChart = echarts.init(document.getElementById('scatterChart'));
+scatterChart.setOption({
+  ...chartTheme,
+  tooltip: {
+    ...chartTheme.tooltip,
+    formatter: function(p) {
+      return '<b>'+p.data[3]+'</b><br/>'+p.data[2]+'<br/>价格: ¥'+p.data[0].toLocaleString()+' · 评分: '+p.data[1]+'★';
+    }
+  },
+  grid: { left: 60, right: 30, top: 50, bottom: 50 },
+  xAxis: { type: 'value', name: '价格 (日元)', nameTextStyle: { color: '#6b7a90' }, min: 3000, max: 30000, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90', formatter: '¥{value}' } },
+  yAxis: { type: 'value', name: '评分', nameTextStyle: { color: '#6b7a90' }, min: 3, max: 5, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  legend: { data: ['国际/碳纤维','日本设计师女性向','日本制/老铺','IP授权高端','低价走量','杖景目标'], textStyle: { color: '#8a9ab5' }, top: 5 },
+  series: [
+    { name:'国际/碳纤维', type:'scatter', symbolSize:18, itemStyle:{color:'#00d4ff'},
+      data:[[9800,4.7,'KMINA 碳纤维','KMINA (西班牙)'],[17380,3.5,'近江一文字 琵琶瑠璃','近江一文字 日本制碳纤维'],[14980,4.6,'LEKI レガシー','LEKI (德国)户外']] },
+    { name:'日本设计师女性向', type:'scatter', symbolSize:18, itemStyle:{color:'#f06292'},
+      data:[[12100,4.8,'BONBON STICK 花柄','KISS MY LIFE'],[16500,4.6,'蝶薔薇リボン','KISS MY LIFE 高端'],[13200,4.56,'日本制白樫木杖','KISS MY LIFE 日本制']] },
+    { name:'日本制/老铺', type:'scatter', symbolSize:16, itemStyle:{color:'#aed581'},
+      data:[[14300,4.65,'ガストロック 樫','つえ子 德国制木'],[12100,4.8,'ガストロック 3401金','神戸ステッキ'],[18700,4.5,'京都つえ屋 花柄','京都老铺手绘'],[11440,4.5,'シナノ 三点杖','シナノ 日本制']] },
+    { name:'IP授权高端', type:'scatter', symbolSize:20, itemStyle:{color:'#ba68c8'},
+      data:[[22000,4.83,'Liberty 印花','神戸ステッキ 418评论'],[21560,4.5,'William Morris','シニアサポート'],[19800,4.77,'スワロフスキー','神戸ステッキ 274评论']] },
+    { name:'低价走量', type:'scatter', symbolSize:14, itemStyle:{color:'#ff7043', opacity:0.7},
+      data:[[3980,4.5,'Habilis 樱花4点','Amazon爆款'],[3982,4.0,'夢ライフ 折畳','乐天1位 1078评论'],[6480,4.3,'KINGGEAR 铝折畳','入门铝杖']] },
+    { name:'杖景目标', type:'scatter', symbolSize:28, itemStyle:{color:'#ffd54f', borderColor:'#fff', borderWidth:2},
+      data:[[13000,4.6,'杖景 目标定位','原创和风+亚克力内嵌']] }
+  ]
+});
+
+// 5. 头部品牌
+var brandChart = echarts.init(document.getElementById('brandChart'));
+brandChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis' },
+  legend: { data: ['产品数','均价(千円)'], textStyle: { color: '#8a9ab5' }, top: 5 },
+  grid: { left: 110, right: 50, top: 40, bottom: 30 },
+  xAxis: [ { type: 'value', name: '产品数', nameTextStyle:{color:'#6b7a90'}, axisLine:{lineStyle:{color:'#2a3a50'}}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.03)'}}, axisLabel:{color:'#6b7a90'} } ],
+  yAxis: { type: 'category', data: ['フジホーム','HOSPIA','SINANO','神戸ステッキ','KISS MY LIFE','つえ子','Cherry Mountain','京都つえ屋'].reverse(), axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5',fontSize:11} },
+  series: [
+    { name:'产品数', type:'bar', data:[100,43,25,20,15,12,8,6].reverse(), itemStyle:{color:'#00d4ff',borderRadius:[0,3,3,0]}, barWidth:12 },
+    { name:'均价(千円)', type:'bar', data:[9,11,14,18,16,11,22,25].reverse(), itemStyle:{color:'#f06292',borderRadius:[0,3,3,0]}, barWidth:12 }
+  ]
+});
+
+// 6. 价格带分布
+var priceTierChart = echarts.init(document.getElementById('priceTierChart'));
+priceTierChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis' },
+  grid: { left: 50, right: 30, top: 30, bottom: 40 },
+  xAxis: { type: 'category', data: ['3-5K','5-8K','8-12K','12-15K','15-23K','23K+'], axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'} },
+  yAxis: { type: 'value', name: '产品数', nameTextStyle:{color:'#6b7a90'}, axisLine:{lineStyle:{color:'#2a3a50'}}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.03)'}}, axisLabel:{color:'#6b7a90'} },
+  series: [{
+    type: 'bar',
+    data: [
+      {value:18, itemStyle:{color:'#ff7043'}},
+      {value:22, itemStyle:{color:'#ffb74d'}},
+      {value:20, itemStyle:{color:'#4fc3f7'}},
+      {value:12, itemStyle:{color:'#00d4ff'}},
+      {value:15, itemStyle:{color:'#ba68c8'}},
+      {value:8, itemStyle:{color:'#7986cb'}}
+    ],
+    label: { show:true, position:'top', color:'#8a9ab5' },
+    barWidth: '55%',
+    markArea: { silent:true, itemStyle:{color:'rgba(0,212,255,0.08)'}, data: [[{xAxis:'8-12K'},{xAxis:'12-15K'}]] }
+  }]
+});
+
+// 7. 纹样主题频次
+var patternChart = echarts.init(document.getElementById('patternChart'));
+patternChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: 110, right: 50, top: 20, bottom: 30 },
+  xAxis: { type: 'value', axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  yAxis: { type: 'category', data: ['金线蕾丝/珍珠','蝶蔷薇/缎带','唐草/龍彫刻','几何/阿拉伯','猫柄/角色IP','青海波/和纹','红叶','William Morris','Liberty印花','整体花卉/総花柄','樱花(桜)'].reverse(), axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5' } },
+  series: [{
+    type: 'bar',
+    data: [3,3,3,3,5,4,4,5,6,8,9].reverse(),
+    itemStyle: {
+      color: function(p) {
+        var palette = ['#7986cb','#7986cb','#aed581','#aed581','#ffb74d','#00d4ff','#4fc3f7','#ba68c8','#ba68c8','#f06292','#f06292'];
+        return palette[p.dataIndex];
+      },
+      borderRadius: [0, 4, 4, 0]
+    },
+    label: { show: true, position: 'right', color: '#8a9ab5' },
+    barWidth: 16
+  }]
+});
+
+// 8. 装饰拐杖占比
+var decorPieChart = echarts.init(document.getElementById('decorPieChart'));
+decorPieChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'item' },
+  legend: { textStyle: { color: '#8a9ab5' }, bottom: 10 },
+  series: [{
+    type: 'pie',
+    radius: ['40%', '68%'],
+    center: ['50%', '45%'],
+    data: [
+      { value: 60, name: 'Amazon核心带 装饰款', itemStyle: { color: '#00d4ff' } },
+      { value: 40, name: 'Amazon核心带 素色款', itemStyle: { color: '#2a3a50' } }
+    ],
+    label: { color: '#8a9ab5', fontSize: 12 }
+  }],
+  graphic: [
+    { type:'text', left:'30%', top:'38%', style:{text:'60%', fill:'#00d4ff', font:'bold 28px sans-serif'} }
+  ]
+});
+
+// 9. 配色分布
+var colorChart = echarts.init(document.getElementById('colorChart'));
+colorChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis' },
+  legend: { data: ['女性向','男性向'], textStyle: { color: '#8a9ab5' }, top: 5 },
+  grid: { left: 50, right: 30, top: 40, bottom: 40 },
+  xAxis: { type: 'category', data: ['珍珠白','香槟金','薄红梅(淡粉)','藤紫','皇家蓝','翡翠绿','若菜(嫩绿)','酒红','空色(淡蓝)'], axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5', fontSize: 10, rotate: 25 } },
+  yAxis: { type: 'value', axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  series: [
+    { name:'女性向', type:'bar', data:[9,8,8,7,6,5,5,4,5], itemStyle:{color:'#f06292',borderRadius:[3,3,0,0]}, barWidth:'35%' },
+    { name:'男性向', type:'bar', data:[3,5,1,1,7,2,1,5,2], itemStyle:{color:'#4fc3f7',borderRadius:[3,3,0,0]}, barWidth:'35%' }
+  ]
+});
+
+// 10. 16款方案评分
+var schemeScoreChart = echarts.init(document.getElementById('schemeScoreChart'));
+var schemeNames = ['月夜梅影','星籠青海','银杏和光','夜海流金','藤月夜樱','紫藤和韵','苍海金澜','紫宵扇影','青岚鹤影','翡翠花庭','翠庭花羽','朱霞花宴','玄格秋实','织影雅格','青庭鸢尾','月白玉兰'];
+var schemeScores = [9.5,9.5,9.0,9.0,9.0,9.0,9.0,8.5,8.5,8.0,7.5,7.5,7.5,8.0,6.5,5.5];
+var schemeColors = schemeScores.map(function(s){
+  if(s>=9) return '#00d4ff';
+  if(s>=8) return '#aed581';
+  if(s>=7) return '#ffb74d';
+  return '#ff7043';
+});
+schemeScoreChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: 50, right: 30, top: 30, bottom: 80 },
+  xAxis: { type: 'category', data: schemeNames, axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5', rotate: 40, fontSize: 11 } },
+  yAxis: { type: 'value', max: 10, min: 0, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  series: [{
+    type: 'bar',
+    data: schemeScores.map(function(v,i){return {value:v, itemStyle:{color:schemeColors[i], borderRadius:[3,3,0,0]}};}),
+    label: { show: true, position: 'top', color: '#8a9ab5', fontSize: 11 },
+    barWidth: '55%',
+    markLine: { silent:true, symbol:'none', lineStyle:{color:'#ffb74d',type:'dashed'}, data:[{yAxis:9, label:{formatter:'首发线', color:'#ffb74d', fontSize:10}}] }
+  }]
+});
+
+// 11. 机会矩阵
+var opportunityChart = echarts.init(document.getElementById('opportunityChart'));
+opportunityChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, formatter: function(p){ return '<b>'+p.data[3]+'</b><br/>机会价值: '+p.data[0]+'/5 · 实现难度: '+p.data[1]+'/5<br/>'+p.data[2]; } },
+  grid: { left: 70, right: 40, top: 40, bottom: 50 },
+  xAxis: { type: 'value', name: '机会价值 →', nameTextStyle:{color:'#6b7a90'}, min: 2, max: 5.5, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  yAxis: { type: 'value', name: '实现难度 →', nameTextStyle:{color:'#6b7a90'}, min: 1, max: 5.5, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90' } },
+  series: [{
+    type: 'scatter',
+    symbolSize: function(d){ return 28 + d[0]*4; },
+    data: [
+      [5.0, 3.0, '亚克力内嵌+和风纹样（核心差异化）', '设计缺口'],
+      [4.5, 3.5, '碳纤维+精品和风印花组合', '材质缺口'],
+      [4.0, 2.0, '礼赠祝词完整故事体系', '礼赠缺口'],
+      [4.0, 3.0, '轻量+装饰+人体工学细颈', '体验缺口'],
+      [3.5, 2.5, '中性现代和风男性市场', '男性缺口'],
+      [3.0, 4.0, 'IP授权合作路径', 'IP合作'],
+      [2.5, 4.5, '角色IP联名（Hello Kitty等）', '角色IP']
+    ],
+    itemStyle: {
+      color: function(p){ var v=p.data[0]; return v>=4.5?'#00d4ff':(v>=3.5?'#aed581':(v>=3?'#ffb74d':'#ff7043')); },
+      opacity: 0.85,
+      borderColor: '#fff',
+      borderWidth: 1
+    },
+    label: { show: true, formatter: function(p){ return p.data[3]; }, position: 'top', color: '#8a9ab5', fontSize: 11 }
+  }],
+  visualMap: { show: false }
+});
+
+// ===== 方案卡片数据 =====
+var schemes = {
+  tier1: [
+    { name:'月夜梅影', series:'系列Ⅰ · 亚克力手柄', tags:['梅花','深海蓝','形象款'], score:9.5, color:'#00d4ff', note:'梅+月夜+深海蓝金，文化认同最高。梅在日本象征高洁早春，"月夜梅"契合物哀美学。' },
+    { name:'星籠青海', series:'系列Ⅰ · 亚克力手柄', tags:['青海波','中性款','男性市场'], score:9.5, color:'#00d4ff', note:'青海波现代化+几何网格，唯一中性款覆盖男性市场。青海波源自能乐装束寓意好运连绵。' },
+    { name:'银杏和光', series:'系列Ⅱ · 木手柄', tags:['银杏','长寿','礼赠款'], score:9.0, color:'#00d4ff', note:'银杏象征长寿，PERFECT for敬老/米寿礼赠场景。秋日温暖色，送礼首选。' },
+    { name:'夜海流金', series:'系列Ⅱ · 木手柄', tags:['水纹','深色旗舰','男女通用'], score:9.0, color:'#00d4ff', note:'夜海+流动金脉，深色旗舰。可对标近江一文字琵琶瑠璃定位，商业接受度最高。' }
+  ],
+  tier2: [
+    { name:'藤月夜樱', series:'系列Ⅰ · 亚克力手柄', tags:['夜樱','藤紫','浪漫'], score:9.0, color:'#aed581', note:'藤+夜樱组合有辨识度。"夜桜"是日本特有赏夜樱文化。注意樱花主题市场已饱和，靠夜桜意境差异化。' },
+    { name:'紫藤和韵', series:'系列Ⅰ · 亚克力手柄', tags:['紫藤','藤紫','礼赠'], score:9.0, color:'#aed581', note:'藤紫优雅礼赠属性强。藤娘是经典歌舞伎/浮世绘题材。与藤月夜樱纹样接近，建议二选一或拉开差异。' },
+    { name:'苍海金澜', series:'系列Ⅲ · 琥珀纹手柄', tags:['水纹','现代旗舰','深色'], score:9.0, color:'#aed581', note:'水纹现代化旗舰感强。与夜海流金定位重叠，建议分属不同系列区隔。' },
+    { name:'紫宵扇影', series:'系列Ⅲ · 琥珀纹手柄', tags:['折扇','华丽','舞台感'], score:8.5, color:'#aed581', note:'扇面纹样华丽，扇=末広がり（繁荣）。装饰性最强但接受度偏窄，适合限量款。' }
+  ],
+  tier3: [
+    { name:'青岚鹤影', series:'系列Ⅱ · 木手柄', tags:['鹤','青瓷绿','长寿'], score:8.5, color:'#ffb74d', note:'鹤寿千年是经典祝仪纹样。但"青岚"意境偏抽象，需具象化鹤纹才能传达礼赠价值。' },
+    { name:'织影雅格', series:'系列Ⅱ · 木手柄', tags:['几何','都市','中性'], score:8.0, color:'#ffb74d', note:'抽象几何方向好，但日本市场几何款集中在高端（William Morris 21K円+），铝合金细管撑不起此定位，建议升级材质后推。' },
+    { name:'翡翠花庭', series:'系列Ⅰ · 亚克力手柄', tags:['花鸟','庭院','翡翠绿'], score:8.0, color:'#ffb74d', note:'花鸟款市场已有竞品（Hospia花鸟）。需强化"庭院"叙事避免与低价花鸟款同质。' },
+    { name:'翠庭花羽', series:'系列Ⅱ · 木手柄', tags:['花鸟','深翡翠','精致'], score:7.5, color:'#ffb74d', note:'比翡翠花庭更浓郁更有装饰性，但与翡翠花庭纹样接近，建议二选一。' },
+    { name:'朱霞花宴', series:'系列Ⅰ · 亚克力手柄', tags:['盛放花卉','节庆','酒红'], score:7.5, color:'#ffb74d', note:'节庆定位好但"花宴"纹样需明确。确保用日本"唐花/八重桜"而非中国牡丹画法。' },
+    { name:'玄格秋实', series:'系列Ⅲ · 琥珀纹手柄', tags:['几何格纹','秋实','中性'], score:7.5, color:'#ffb74d', note:'几何+秋实组合略复杂，认知成本高。可简化为纯秋草纹或纯格纹。' }
+  ],
+  tier4: [
+    { name:'青庭鸢尾', series:'系列Ⅲ · 琥珀纹手柄', tags:['鸢尾','需改名'], score:6.5, color:'#ff7043', note:'⚠ 命名偏中文。日本称"あやめ/花菖蒲"且是端午题材。建议改名"青庭花菖蒲"。' },
+    { name:'月白玉兰', series:'系列Ⅲ · 琥珀纹手柄', tags:['玉兰','需改纹样'], score:5.5, color:'#ff7043', note:'⚠ 玉兰是上海市花，易读作"中国风"。建议改为"月夜白椿"——椿（山茶花）是日本武士文化与女性美双重象征，深蓝底白椿是经典高级纹样。' }
+  ]
+};
+
+function renderTier(id, list) {
+  var el = document.getElementById(id);
+  el.innerHTML = list.map(function(s){
+    var pct = (s.score/10*100);
+    return '<div class="scheme-card">'+
+      '<div class="scheme-name">'+s.name+'</div>'+
+      '<div class="scheme-series">'+s.series+'</div>'+
+      '<div class="scheme-meta">'+s.tags.map(function(t,i){return '<span class="meta-tag'+(i===0?'':' warn')+'">'+t+'</span>';}).join('')+'</div>'+
+      '<div class="scheme-score"><span style="font-size:11px;color:#6b7a90">文化匹配</span><div class="score-bar"><div class="score-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div><span class="score-val" style="color:'+s.color+'">'+s.score+'</span></div>'+
+      '<div class="scheme-note">'+s.note+'</div>'+
+    '</div>';
+  }).join('');
+}
+renderTier('tier1', schemes.tier1);
+renderTier('tier2', schemes.tier2);
+renderTier('tier3', schemes.tier3);
+renderTier('tier4', schemes.tier4);
+
+// ===== 09 方案主题建议 渲染 =====
+var themes = [
+  {
+    name:'月夜梅影', jp:'つきよのうめがげ Tsukiyo no Umekage',
+    id:'01', img:'images/schemes/theme-01-moon-plum.png',
+    tier:'第一梯队 · 旗舰形象', tierClass:'tier-1',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#1A4D8C','#E8EDF5','#E6D5B8'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><defs><radialGradient id="tm1" cx="0.7" cy="0.3"><stop offset="0" stop-color="#E8EDF5" stop-opacity="0.3"/><stop offset="1" stop-color="#1A4D8C" stop-opacity="0"/></radialGradient></defs><rect width="200" height="110" fill="#0d1b2e"/><circle cx="150" cy="28" r="16" fill="#E8EDF5" opacity="0.85"/><circle cx="150" cy="28" r="16" fill="url(#tm1)"/><g transform="translate(55 60)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.5"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g><circle r="2.5" fill="#E6D5B8"/></g><g transform="translate(30 35) scale(0.6)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.6"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g></g><g transform="translate(105 85) scale(0.5)" fill="#E8EDF5" stroke="#E6D5B8" stroke-width="0.7"><g><circle cx="0" cy="-10" r="5"/><circle cx="9" cy="-3" r="5"/><circle cx="6" cy="8" r="5"/><circle cx="-6" cy="8" r="5"/><circle cx="-9" cy="-3" r="5"/></g></g><g stroke="#E6D5B8" stroke-width="0.5" opacity="0.3"><line x1="20" y1="95" x2="45" y2="75"/><line x1="90" y1="55" x2="100" y2="80"/></g></svg>',
+    colors:[
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#E8EDF5', name:'月白', jp:'tsuki-shiro'},
+      {hex:'#E6D5B8', name:'香槟金', jp:'champagne'}
+    ],
+    culture:'梅在日本象征<b>高洁、早春报春</b>，学问之神菅原道真最爱梅花。"月夜梅"契合日本<b>物哀美学</b>——月下赏梅是和歌经典意象。深海蓝底+月白梅花+金蕊点缀，文化认同度最高（评分9.5）。',
+    audience:'知性女性 · 55-70岁',
+    scene:'自用旗舰 / 高端女性礼赠',
+    price:'¥14,800', priceNote:'系列Ⅰ 旗舰款'
+  },
+  {
+    name:'星籠青海', jp:'ほしかごせいがいなみ Hoshikago Seigainami',
+    id:'02', img:'images/schemes/theme-02-seigaiha.png',
+    tier:'第一梯队 · 中性空白', tierClass:'tier-1',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#1A4D8C','#B0BEC5','#C8A951'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#0d1b2e"/><g fill="none" stroke="#1A4D8C" stroke-width="1.4"><g transform="translate(0 0)"><path d="M0 55 Q12.5 40 25 55 T50 55 T75 55 T100 55 T125 55 T150 55 T175 55 T200 55"/><path d="M0 68 Q12.5 53 25 68 T50 68 T75 68 T100 68 T125 68 T150 68 T175 68 T200 68"/><path d="M0 81 Q12.5 66 25 81 T50 81 T75 81 T100 81 T125 81 T150 81 T175 81 T200 81"/><path d="M0 94 Q12.5 79 25 94 T50 94 T75 94 T100 94 T125 94 T150 94 T175 94 T200 94"/></g><g transform="translate(12.5 22)" stroke="#113285"><path d="M0 55 Q12.5 40 25 55 T50 55 T75 55 T100 55 T125 55 T150 55 T175 55"/><path d="M0 68 Q12.5 53 25 68 T50 68 T75 68 T100 68 T125 68 T150 68 T175 68"/></g></g><g fill="#C8A951" opacity="0.8"><circle cx="155" cy="20" r="1.5"/><circle cx="170" cy="15" r="1"/><circle cx="178" cy="28" r="1.2"/><circle cx="35" cy="18" r="1"/><circle cx="50" cy="12" r="1.3"/></g><g fill="#B0BEC5" opacity="0.5"><circle cx="120" cy="22" r="1"/><circle cx="140" cy="30" r="0.8"/></g></svg>',
+    colors:[
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#B0BEC5', name:'银鼠', jp:'nezumi-iro'},
+      {hex:'#C8A951', name:'黄金', jp:'ogane'}
+    ],
+    culture:'青海波源自<b>能乐装束</b>，寓意<b>好运连绵、波静海宁</b>。扇形波纹是日本最具辨识度的传统和纹之一。此款为<b>唯一中性款覆盖男性8-15K円空白市场</b>，星点点缀呼应"星籠"之意（评分9.5）。',
+    audience:'男性 / 中性 · 55-75岁',
+    scene:'男性自用 / 商务礼赠',
+    price:'¥13,800', priceNote:'系列Ⅰ 中性款'
+  },
+  {
+    name:'银杏和光', jp:'いちょうわこう Ichou Wakou',
+    id:'03', img:'images/schemes/theme-03-ginkgo.png',
+    tier:'第一梯队 · 礼赠核心', tierClass:'tier-1',
+    series:'系列Ⅱ · 铝合金细管 + 木手柄',
+    banner:['#6B4423','#D4A537','#7CB342'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#1a1410"/><g fill="#D4A537" stroke="#B8860B" stroke-width="0.5"><g transform="translate(60 55) rotate(-20)"><path d="M0,-30 C-13,-22 -22,-4 -22,9 C-13,17 13,17 22,9 C22,-4 13,-22 0,-30Z"/><line x1="0" y1="9" x2="0" y2="26" stroke="#B8860B" stroke-width="1"/></g><g transform="translate(135 65) rotate(15)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/><line x1="0" y1="7" x2="0" y2="20" stroke="#B8860B" stroke-width="1"/></g><g transform="translate(100 28) rotate(5) scale(0.65)"><path d="M0,-30 C-13,-22 -22,-4 -22,9 C-13,17 13,17 22,9 C22,-4 13,-22 0,-30Z"/></g></g><g fill="#7CB342" opacity="0.6"><g transform="translate(30 90) scale(0.5)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/></g><g transform="translate(170 30) scale(0.45)"><path d="M0,-25 C-11,-18 -18,-3 -18,7 C-11,14 11,14 18,7 C18,-3 11,-18 0,-25Z"/></g></g><g fill="#E6D5B8" opacity="0.15"><circle cx="100" cy="55" r="40"/></g></svg>',
+    colors:[
+      {hex:'#6B4423', name:'深棕木纹', jp:'kuri-iro'},
+      {hex:'#D4A537', name:'山吹色', jp:'yamabuki'},
+      {hex:'#7CB342', name:'若菜绿', jp:'wakana-iro'}
+    ],
+    culture:'银杏象征<b>长寿坚韧</b>，是<b>敬老之日/米寿(88岁)礼赠首选</b>。银杏叶秋日金黄，契合"和光"温暖意象。深棕木柄+金黄银杏+若菜绿点缀，是礼赠场景文化匹配度最高的方案（评分9.0）。',
+    audience:'礼赠 · 送父母/长辈',
+    scene:'敬老之日 / 米寿 / 长寿祝',
+    price:'¥10,800', priceNote:'系列Ⅱ 走量礼赠款'
+  },
+  {
+    name:'夜海流金', jp:'よるうみりゅうきん Yoru Umi Ryukin',
+    id:'04', img:'images/schemes/theme-04-night-sea.png',
+    tier:'第一梯队 · 深色旗舰', tierClass:'tier-1',
+    series:'系列Ⅱ · 铝合金细管 + 木手柄',
+    banner:['#1B1B1B','#1A4D8C','#C8A951'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#0a0a0a"/><g fill="none" stroke-width="1.6"><path d="M-10 50 C10 20 30 15 50 35 C70 55 55 75 80 55 C105 35 120 20 140 35 C160 50 150 70 170 60 C190 50 200 30 220 45" stroke="#1A4D8C"/><path d="M-10 72 C10 50 25 45 45 60 C65 75 70 90 95 80 C120 70 125 55 145 65 C165 75 170 88 190 85 C210 82 220 70 230 78" stroke="#113285"/><path d="M-10 92 C15 75 35 72 55 82 C75 92 80 102 100 98 C120 94 130 85 145 92 C160 99 170 100 185 96 C205 92 215 85 230 92" stroke="#1A4D8C" opacity="0.6"/></g><g stroke="#C8A951" stroke-width="0.8" fill="none" opacity="0.7"><path d="M-10 55 C10 25 30 20 50 40 C70 60 55 80 80 60 C105 40 120 25 140 40 C160 55 150 75 170 65 C190 55 200 35 220 50"/><path d="M-10 77 C10 55 25 50 45 65 C65 80 70 95 95 85 C120 75 125 60 145 70 C165 80 170 93 190 90 C210 87 220 75 230 83"/></g><g fill="#C8A951" opacity="0.85"><circle cx="65" cy="48" r="1.5"/><circle cx="78" cy="44" r="1"/><circle cx="92" cy="50" r="1.2"/><circle cx="155" cy="68" r="1.3"/><circle cx="168" cy="72" r="1"/></g></svg>',
+    colors:[
+      {hex:'#1B1B1B', name:'墨色', jp:'sumi-iro'},
+      {hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro'},
+      {hex:'#C8A951', name:'黄金', jp:'ogane'}
+    ],
+    culture:'夜海+流动金脉，对标<b>近江一文字琵琶瑠璃</b>定位。水纹是北斋《神奈川冲浪里》的日本视觉基因，墨色底+瑠璃波+流金点缀，男女通用深色旗舰，<b>商业接受度最高</b>（评分9.0）。',
+    audience:'男女通用 · 60-80岁',
+    scene:'自用旗舰 / 商务高端',
+    price:'¥11,800', priceNote:'系列Ⅱ 深色旗舰'
+  },
+  {
+    name:'紫藤和韵', jp:'しどうわいん Shidou Wain',
+    id:'05', img:'images/schemes/theme-05-wisteria.png',
+    tier:'第二梯队 · 浪漫礼赠', tierClass:'tier-2',
+    series:'系列Ⅰ · 碳纤维杖身 + 亚克力内嵌手柄',
+    banner:['#8B81C3','#FDF4F0','#E6D5B8'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#15101e"/><g transform="translate(100 5)"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="1"/><g fill="#8B81C3" stroke="#6B5A9E" stroke-width="0.3"><ellipse cx="-7" cy="22" rx="5.5" ry="9" transform="rotate(-20 -7 22)"/><ellipse cx="5" cy="27" rx="5.5" ry="9" transform="rotate(20 5 27)"/><ellipse cx="-12" cy="40" rx="6" ry="10" transform="rotate(-25 -12 40)"/><ellipse cx="10" cy="45" rx="6" ry="10" transform="rotate(25 10 45)"/><ellipse cx="-3" cy="50" rx="6.5" ry="10.5"/><ellipse cx="3" cy="60" rx="6.5" ry="10.5"/><ellipse cx="-9" cy="70" rx="7" ry="11" transform="rotate(-15 -9 70)"/><ellipse cx="9" cy="75" rx="7" ry="11" transform="rotate(15 9 75)"/><ellipse cx="-2" cy="85" rx="6.5" ry="10.5"/><ellipse cx="2" cy="97" rx="5.5" ry="8.5"/></g></g><g transform="translate(40 5) scale(0.6)" fill="#B7A6CC" stroke="#8B81C3" stroke-width="0.3"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="0.8"/><ellipse cx="-3" cy="50" rx="6.5" ry="10.5"/><ellipse cx="4" cy="65" rx="6.5" ry="10.5"/><ellipse cx="-7" cy="80" rx="7" ry="11"/><ellipse cx="2" cy="93" rx="5.5" ry="8.5"/></g><g transform="translate(160 5) scale(0.55)" fill="#B7A6CC" stroke="#8B81C3" stroke-width="0.3"><line x1="0" y1="0" x2="0" y2="100" stroke="#51346C" stroke-width="0.7"/><ellipse cx="0" cy="55" rx="6.5" ry="10.5"/><ellipse cx="2" cy="72" rx="7" ry="11"/><ellipse cx="-4" cy="88" rx="5.5" ry="8.5"/></g><g fill="#E6D5B8" opacity="0.3"><circle cx="100" cy="55" r="38"/></g></svg>',
+    colors:[
+      {hex:'#8B81C3', name:'藤紫', jp:'fuji-murasaki'},
+      {hex:'#FDF4F0', name:'珍珠白', jp:'shinju-shiro'},
+      {hex:'#E6D5B8', name:'香槟金', jp:'champagne'}
+    ],
+    culture:'<b>藤娘</b>是经典歌舞伎/浮世绘题材，紫藤垂帘寓意<b>长寿延绵、女性优雅</b>。藤紫是日本市场女性向主力色，珍珠白底+藤紫垂藤+香槟金点缀，礼赠浪漫属性最强。与藤月夜樱纹样接近，建议二选一（评分9.0）。',
+    audience:'女性 · 55-70岁',
+    scene:'女性礼赠 / 母之日 / 浪漫自用',
+    price:'¥14,800', priceNote:'系列Ⅰ 浪漫款'
+  },
+  {
+    name:'月夜白椿', jp:'つきよしろつばき Tsukiyo Shiro Tsubaki',
+    id:'06', img:'images/schemes/theme-06-camellia.png',
+    tier:'优化推荐 · 文化升级', tierClass:'tier-2',
+    series:'系列Ⅲ · 铝合金 + 琥珀纹手柄',
+    banner:['#113285','#FAFAFA','#D4AF37'],
+    svg:'<svg viewBox="0 0 200 110" width="180" height="100"><defs><radialGradient id="tc1" cx="0.75" cy="0.25"><stop offset="0" stop-color="#FAFAFA" stop-opacity="0.25"/><stop offset="1" stop-color="#113285" stop-opacity="0"/></radialGradient></defs><rect width="200" height="110" fill="#0a1228"/><circle cx="155" cy="25" r="14" fill="#FAFAFA" opacity="0.7"/><circle cx="155" cy="25" r="14" fill="url(#tc1)"/><g transform="translate(60 58)"><g fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.5"><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g><g fill="#D4AF37"><circle r="3"/><circle cx="2" cy="-1" r="1.2" opacity="0.7"/><circle cx="-2" cy="1" r="1" opacity="0.7"/></g></g><g transform="translate(120 80) scale(0.65)" fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.6"><g><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g><circle r="3" fill="#D4AF37"/></g><g transform="translate(30 35) scale(0.45)" fill="#FAFAFA" stroke="#D4AF37" stroke-width="0.8" opacity="0.8"><g><ellipse cx="0" cy="-14" rx="8" ry="12"/><ellipse cx="13" cy="-4" rx="8" ry="12" transform="rotate(72 13 -4)"/><ellipse cx="8" cy="11" rx="8" ry="12" transform="rotate(144 8 11)"/><ellipse cx="-8" cy="11" rx="8" ry="12" transform="rotate(-144 -8 11)"/><ellipse cx="-13" cy="-4" rx="8" ry="12" transform="rotate(-72 -13 -4)"/></g></g></svg>',
+    colors:[
+      {hex:'#113285', name:'瑠璃紺', jp:'ruri-kon'},
+      {hex:'#FAFAFA', name:'白練', jp:'shiro-neri'},
+      {hex:'#D4AF37', name:'古金', jp:'furugane'}
+    ],
+    culture:'椿（山茶花）是日本<b>武士文化</b>（整朵凋零=武士气节）与<b>女性美</b>的双重象征，深蓝底白椿是京都老铺经典高级纹样。<b>原"月白玉兰"优化款</b>——玉兰偏中国风（上海市花），改椿后文化纯度跃升，推荐高端文化礼赠定位。',
+    audience:'高端女性 / 文化礼赠',
+    scene:'文化礼赠 / 限量高端',
+    price:'¥12,800', priceNote:'系列Ⅲ 优化款'
+  }
+];
+
+function renderThemes(){
+  var el = document.getElementById('themeGrid');
+  el.innerHTML = themes.map(function(t){
+    var banner = t.banner.map(function(c){return '<div class="tb" style="background:'+c+'"></div>';}).join('');
+    var colors = t.colors.map(function(c){
+      return '<div class="theme-color-item">'+
+        '<div class="theme-swatch" style="background:'+c.hex+'"></div>'+
+        '<div class="theme-color-name">'+c.name+'</div>'+
+        '<div class="theme-color-jp">'+c.jp+'</div>'+
+        '<div class="theme-color-hex">'+c.hex+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="theme-card">'+
+      '<div class="theme-banner">'+banner+'</div>'+
+      '<div class="theme-head">'+
+        '<div class="theme-name">'+t.name+'</div>'+
+        '<div class="theme-jp">'+t.jp+'</div>'+
+        '<span class="theme-tier '+t.tierClass+'" style="'+
+          (t.tierClass==='tier-1'?'background:rgba(0,212,255,0.18);color:#00d4ff;border:1px solid rgba(0,212,255,0.4)':
+           'background:rgba(124,179,66,0.15);color:#aed581;border:1px solid rgba(124,179,66,0.35)')+'">'+t.tier+'</span>'+
+      '</div>'+
+      (t.img ?
+        '<div class="theme-img-box"><img src="'+t.img+'" alt="'+t.name+'方案图" class="theme-img" onerror="this.style.display=\'none\';document.getElementById(\'svgfb-'+t.id+'\').style.display=\'flex\'"></div><div class="theme-img-label">方案设计图</div>'+
+        '<div id="svgfb-'+t.id+'" class="theme-svg-box" style="display:none;margin-top:-8px">'+t.svg+'</div>'
+        :
+        '<div class="theme-svg-box">'+t.svg+'</div>'
+      )+
+      '<div class="theme-colors">'+
+        '<div class="theme-colors-label">色彩搭配 · 日本传统色</div>'+
+        '<div class="theme-color-list">'+colors+'</div>'+
+      '</div>'+
+      '<div class="theme-culture">'+
+        '<div class="theme-culture-label">文化寓意</div>'+
+        '<div class="theme-culture-text">'+t.culture+'</div>'+
+      '</div>'+
+      '<div class="theme-foot">'+
+        '<div class="theme-meta">'+
+          '<b>系列：</b>'+t.series+'<br>'+
+          '<b>人群：</b>'+t.audience+'<br>'+
+          '<b>场景：</b>'+t.scene+
+        '</div>'+
+        '<div>'+
+          '<div class="theme-price">'+t.price+'</div>'+
+          '<div class="theme-price-sub">'+t.priceNote+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+renderThemes();
+
+// ===== 纹样平面图SVG渲染 =====
+var patterns = [
+  { name:'樱花(桜)', jp:'さくら Sakura', desc:'日本国民纹样No.1，跨价格带高频', use:'Habilis/ホスピア/KISS MY LIFE',
+    bg:'rgba(253,244,240,0.12)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><radialGradient id="g1"><stop offset="0" stop-color="#FDF4F0"/><stop offset="1" stop-color="#ECA66B"/></radialGradient></defs><g fill="url(#g1)" stroke="#ECA66B" stroke-width="0.6"><g transform="translate(100 65) scale(1)"><path d="M0,-35 C8,-18 25,-18 30,0 C25,18 8,18 0,35 C-8,18 -25,18 -30,0 C-25,-18 -8,-18 0,-35Z"/></g><circle cx="100" cy="65" r="4" fill="#ECA66B"/><g transform="translate(42 42) scale(0.45)" fill="url(#g1)" stroke="#ECA66B" stroke-width="1"><path d="M0,-35 C8,-18 25,-18 30,0 C25,18 8,18 0,35 C-8,18 -25,18 -30,0 C-25,-18 -8,-18 0,-35Z"/></g><g transform="translate(158 90) scale(0.45)" fill="url(#g1)" stroke="#ECA66B" stroke-width="1"><path d="M0,-35 C8,-18 25,-18 30,0 C25,18 8,18 0,35 C-8,18 -25,18 -30,0 C-25,-18 -8,-18 0,-35Z"/></g><g transform="translate(160 35) scale(0.35)" fill="url(#g1)" stroke="#ECA66B" stroke-width="1"><path d="M0,-35 C8,-18 25,-18 30,0 C25,18 8,18 0,35 C-8,18 -25,18 -30,0 C-25,-18 -8,-18 0,-35Z"/></g></svg>'},
+  { name:'青海波', jp:'せいがいなみ Seigaiha', desc:'传统和纹经典，源自能乐装束波静', use:'杖景核心纹样 (空白)',
+    bg:'rgba(0,100,168,0.12)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><clipPath id="cp1"><rect width="200" height="130"/></clipPath></defs><g fill="none" stroke="#0064A8" stroke-width="1.6" clip-path="url(#cp1)"><g transform="translate(-15 20)"><g><path d="M0 50 Q10 35 20 50 T40 50 T60 50 T80 50 T100 50 T120 50 T140 50 T160 50 T180 50 T200 50 T220 50"/><path d="M0 60 Q10 45 20 60 T40 60 T60 60 T80 60 T100 60 T120 60 T140 60 T160 60 T180 60 T200 60 T220 60"/><path d="M0 70 Q10 55 20 70 T40 70 T60 70 T80 70 T100 70 T120 70 T140 70 T160 70 T180 70 T200 70 T220 70"/></g><g transform="translate(10 40)"><path d="M0 50 Q10 35 20 50 T40 50 T60 50 T80 50 T100 50 T120 50 T140 50 T160 50 T180 50 T200 50 T220 50"/><path d="M0 60 Q10 45 20 60 T40 60 T60 60 T80 60 T100 60 T120 60 T140 60 T160 60 T180 60 T200 60 T220 60"/></g><g transform="translate(0 0)"><path d="M0 50 Q10 35 20 50 T40 50 T60 50 T80 50 T100 50 T120 50 T140 50 T160 50 T180 50 T200 50 T220 50"/></g></g><g stroke="#E6D5B8" stroke-width="0.8" opacity="0.4"><path d="M-15 105 Q-5 90 5 105 T25 105 T45 105 T65 105 T85 105 T105 105 T125 105 T145 105 T165 105 T185 105 T205 105"/></g></g></svg>'},
+  { name:'紫藤(藤)', jp:'ふじ Fuji', desc:'藤娘歌舞伎经典题材，长寿女性美', use:'KISS MY LIFE 藤色系',
+    bg:'rgba(139,129,195,0.12)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><radialGradient id="g2"><stop offset="0" stop-color="#B7A6CC"/><stop offset="1" stop-color="#8B81C3"/></radialGradient></defs><g transform="translate(100 10)"><line x1="0" y1="0" x2="0" y2="110" stroke="#51346C" stroke-width="1.2"/><g fill="url(#g2)" stroke="#8B81C3" stroke-width="0.4"><ellipse cx="-8" cy="25" rx="6" ry="10" transform="rotate(-20 -8 25)"/><ellipse cx="6" cy="30" rx="6" ry="10" transform="rotate(20 6 30)"/><ellipse cx="-14" cy="45" rx="6.5" ry="11" transform="rotate(-25 -14 45)"/><ellipse cx="12" cy="50" rx="6.5" ry="11" transform="rotate(25 12 50)"/><ellipse cx="-4" cy="55" rx="7" ry="11.5"/><ellipse cx="4" cy="65" rx="7" ry="11.5"/><ellipse cx="-10" cy="75" rx="7.5" ry="12" transform="rotate(-15 -10 75)"/><ellipse cx="10" cy="80" rx="7.5" ry="12" transform="rotate(15 10 80)"/><ellipse cx="-2" cy="92" rx="7" ry="11"/><ellipse cx="2" cy="105" rx="6" ry="9"/></g></g><g transform="translate(40 5) scale(0.65)"><line x1="0" y1="0" x2="0" y2="110" stroke="#51346C" stroke-width="1"/><g fill="url(#g2)" stroke="#8B81C3" stroke-width="0.4"><ellipse cx="-4" cy="55" rx="7" ry="11.5"/><ellipse cx="4" cy="70" rx="7" ry="11.5"/><ellipse cx="-8" cy="85" rx="7.5" ry="12"/><ellipse cx="2" cy="100" rx="6" ry="10"/></g></g><g transform="translate(160 5) scale(0.65)"><line x1="0" y1="0" x2="0" y2="110" stroke="#51346C" stroke-width="1"/><g fill="url(#g2)" stroke="#8B81C3" stroke-width="0.4"><ellipse cx="0" cy="60" rx="7" ry="11.5"/><ellipse cx="2" cy="78" rx="7.5" ry="12"/><ellipse cx="-4" cy="95" rx="6" ry="10"/></g></g></svg>'},
+  { name:'银杏(銀杏)', jp:'いちょう Icho', desc:'银杏=长寿，米寿/敬老礼赠首选', use:'杖景银杏和光 (礼赠核心)',
+    bg:'rgba(236,166,107,0.12)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ECA66B"/><stop offset="1" stop-color="#CA8346"/></linearGradient></defs><g fill="url(#g3)" stroke="#CA8346" stroke-width="0.6"><g transform="translate(60 55) rotate(-20)"><path d="M0,-35 C-15,-25 -25,-5 -25,10 C-15,20 15,20 25,10 C25,-5 15,-25 0,-35Z"/><line x1="0" y1="10" x2="0" y2="30" stroke="#CA8346" stroke-width="1.2"/></g><g transform="translate(135 70) rotate(15)"><path d="M0,-28 C-12,-20 -20,-4 -20,8 C-12,16 12,16 20,8 C20,-4 12,-20 0,-28Z"/><line x1="0" y1="8" x2="0" y2="22" stroke="#CA8346" stroke-width="1.2"/></g><g transform="translate(100 30) rotate(5) scale(0.7)"><path d="M0,-35 C-15,-25 -25,-5 -25,10 C-15,20 15,20 25,10 C25,-5 15,-25 0,-35Z"/><line x1="0" y1="10" x2="0" y2="28" stroke="#CA8346" stroke-width="1"/></g><g transform="translate(170 28) rotate(30) scale(0.55)"><path d="M0,-28 C-12,-20 -20,-4 -20,8 C-12,16 12,16 20,8 C20,-4 12,-20 0,-28Z"/></g><g transform="translate(32 100) rotate(-30) scale(0.55)"><path d="M0,-28 C-12,-20 -20,-4 -20,8 C-12,16 12,16 20,8 C20,-4 12,-20 0,-28Z"/></g><g transform="translate(100 105) rotate(-5) scale(0.45)"><path d="M0,-28 C-12,-20 -20,-4 -20,8 C-12,16 12,16 20,8 C20,-4 12,-20 0,-28Z"/></g></g></svg>'},
+  { name:'扇面(末広)', jp:'すえひろ Suehiro', desc:'扇=末広がり(繁荣)，祝仪纹样', use:'杖景紫宵扇影 (限量款)',
+    bg:'rgba(202,131,70,0.12)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><linearGradient id="g4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#51346C"/><stop offset="0.5" stop-color="#8B81C3"/><stop offset="1" stop-color="#CA8346"/></linearGradient></defs><g transform="translate(100 115)"><path d="M0,0 L-80,-85 C-40,-105 40,-105 80,-85 L0,0Z" fill="url(#g4)" stroke="#CA8346" stroke-width="0.8"/><g stroke="#CA8346" stroke-width="0.6" fill="none"><line x1="0" y1="0" x2="-60" y2="-75"/><line x1="0" y1="0" x2="-38" y2="-88"/><line x1="0" y1="0" x2="0" y2="-95"/><line x1="0" y1="0" x2="38" y2="-88"/><line x1="0" y1="0" x2="60" y2="-75"/></g><g fill="#E6D5B8" opacity="0.85"><circle cx="-18" cy="-70" r="2.5"/><circle cx="-32" cy="-50" r="2"/><circle cx="0" cy="-78" r="2.5"/><circle cx="20" cy="-65" r="2"/></g></g><g transform="translate(48 105) scale(0.45)"><path d="M0,0 L-80,-85 C-40,-105 40,-105 80,-85 L0,0Z" fill="rgba(202,131,70,0.3)" stroke="#CA8346" stroke-width="0.6"/></g><g transform="translate(160 105) scale(0.38)"><path d="M0,0 L-80,-85 C-40,-105 40,-105 80,-85 L0,0Z" fill="rgba(202,131,70,0.25)" stroke="#CA8346" stroke-width="0.5"/></g></svg>'},
+  { name:'鹤(鶴)', jp:'つる Tsuru', desc:'鶴寿千年，经典祝仪长寿纹样', use:'杖景青岚鹤影 (空白)',
+    bg:'rgba(89,185,158,0.1)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5F0E6"/><stop offset="1" stop-color="#84A98C"/></linearGradient></defs><g transform="translate(100 65) scale(1.1)"><path d="M-50,15 C-40,-5 -10,-15 15,-25 C40,-35 55,-20 50,0 C48,18 30,30 10,28 L20,40 L28,42 L22,50 L30,58 L15,55 L10,62 L4,56 L-2,62 L-8,54 L-18,60 L-14,50 L-20,45 L-22,32 C-40,32 -50,25 -50,15Z" fill="url(#g5)" stroke="#59B99E" stroke-width="0.8"/><path d="M15,-25 C20,-35 28,-42 38,-46 C48,-48 52,-38 45,-30 L30,-18 Z" fill="#59B99E"/><circle cx="48" cy="-38" r="2" fill="#1B1B1B"/><path d="M-60,10 C-68,0 -65,-12 -55,-15 C-48,-17 -42,-10 -45,-2 C-48,6 -55,12 -60,10Z" fill="#84A98C"/></g><g transform="translate(42 30) rotate(15) scale(0.45)" fill="#84A98C" opacity="0.7"><path d="M-50,15 C-40,-5 -10,-15 15,-25 C40,-35 55,-20 50,0 C48,18 30,30 10,28 Z"/></g><g transform="translate(160 100) rotate(-20) scale(0.35)" fill="#84A98C" opacity="0.6"><path d="M-50,15 C-40,-5 -10,-15 15,-25 C40,-35 55,-20 50,0 C48,18 30,30 10,28 Z"/></g></svg>'},
+  { name:'水纹(波)', jp:'なみ Nami', desc:'北斋神奈川冲浪里，日本视觉基因', use:'杖景夜海流金/苍海金澜',
+    bg:'rgba(26,77,140,0.14)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><clipPath id="cp2"><rect width="200" height="130"/></clipPath></defs><g fill="none" stroke="#1A4D8C" stroke-width="1.8" clip-path="url(#cp2)"><path d="M-20 70 C-5 35 25 25 50 45 C75 65 60 85 85 65 C110 45 125 30 145 45 C165 60 155 80 175 70 C195 60 205 40 225 55" stroke="#1A4D8C"/><path d="M-20 90 C0 65 20 55 40 70 C60 85 65 105 90 95 C115 85 120 70 140 80 C160 90 165 105 185 100 C205 95 215 80 230 90" stroke="#0064A8"/><path d="M-20 110 C10 90 30 85 50 95 C70 105 75 120 95 115 C115 110 125 100 140 110 C155 120 165 120 185 115 C205 110 215 100 230 110" stroke="#113285" opacity="0.7"/></g><g fill="#C8A951" stroke="#C8A951" stroke-width="0.3" opacity="0.6"><circle cx="68" cy="56" r="1.5"/><circle cx="80" cy="52" r="1"/><circle cx="92" cy="58" r="1.2"/><circle cx="160" cy="74" r="1.4"/><circle cx="172" cy="78" r="1"/></g></svg>'},
+  { name:'整体花卉(総花柄)', jp:'そうかばら Soukagata', desc:'市场3大主流之一，12,100円共识价', use:'神戸ステッキ/ホスピア 爆款',
+    bg:'rgba(240,98,146,0.1)', svg:'<svg viewBox="0 0 200 130" width="170" height="110"><defs><radialGradient id="gr"><stop offset="0" stop-color="#FDF4F0"/><stop offset="1" stop-color="#F06292"/></radialGradient><radialGradient id="gb"><stop offset="0" stop-color="#F06292"/><stop offset="1" stop-color="#B7282E"/></radialGradient></defs><g transform="translate(40 50)"><circle r="5" fill="#B7A6CC"/><g fill="url(#gr)" stroke="#F06292" stroke-width="0.5"><ellipse cx="0" cy="-14" rx="5" ry="9"/><ellipse cx="13" cy="-4" rx="5" ry="9" transform="rotate(70)"/><ellipse cx="8" cy="11" rx="5" ry="9" transform="rotate(140)"/><ellipse cx="-8" cy="11" rx="5" ry="9" transform="rotate(-140)"/><ellipse cx="-13" cy="-4" rx="5" ry="9" transform="rotate(-70)"/></g></g><g transform="translate(100 70)"><circle r="6" fill="#B7A6CC"/><g fill="url(#gb)" stroke="#B7282E" stroke-width="0.4" transform="scale(1.2)"><ellipse cx="0" cy="-14" rx="5" ry="9"/><ellipse cx="13" cy="-4" rx="5" ry="9" transform="rotate(70)"/><ellipse cx="8" cy="11" rx="5" ry="9" transform="rotate(140)"/><ellipse cx="-8" cy="11" rx="5" ry="9" transform="rotate(-140)"/><ellipse cx="-13" cy="-4" rx="5" ry="9" transform="rotate(-70)"/></g></g><g transform="translate(155 40) scale(0.75)"><circle r="5" fill="#B7A6CC"/><g fill="url(#gr)" stroke="#F06292" stroke-width="0.4"><ellipse cx="0" cy="-14" rx="5" ry="9"/><ellipse cx="13" cy="-4" rx="5" ry="9" transform="rotate(70)"/><ellipse cx="8" cy="11" rx="5" ry="9" transform="rotate(140)"/><ellipse cx="-8" cy="11" rx="5" ry="9" transform="rotate(-140)"/><ellipse cx="-13" cy="-4" rx="5" ry="9" transform="rotate(-70)"/></g></g><g fill="#59B99E" stroke="#59B99E" stroke-width="0.4" opacity="0.6"><ellipse cx="20" cy="95" rx="12" ry="4" transform="rotate(30 20 95)"/><ellipse cx="130" cy="28" rx="10" ry="3.5" transform="rotate(-20 130 28)"/><ellipse cx="175" cy="100" rx="11" ry="3.5" transform="rotate(40 175 100)"/></g></svg>'}
+];
+function renderPatterns(){
+  document.getElementById('patternSvgGrid').innerHTML = patterns.map(function(p){
+    return '<div class="pattern-card"><div class="pattern-svg" style="background:'+p.bg+'">'+p.svg+'</div><div class="pattern-info"><div class="pattern-name">'+p.name+'</div><div class="pattern-jp">'+p.jp+'</div><div class="pattern-desc">'+p.desc+'</div><div class="pattern-use">★ 市场代表：'+p.use+'</div></div></div>';
+  }).join('');
+}
+renderPatterns();
+
+// ===== 市场热销产品参考图 (真实产品图 + SVG后备) =====
+var products = [
+  { name:'チェリーマウンテン 艶消総花柄ステッキ', brand:'つえ子(tue-stick) · 乐天/Yahoo!爆款', price:'¥12,100',
+    note:'通体樱花满印+哑光杖身，¥12,100价格共识锚点。花柄+小グリップ女性向标杆，3-5日间照护中心常客。',
+    img:'https://tshop.r10s.jp/tue-stick/cabinet/ts/tsoria20gr.jpg?_ex=800x800',
+    link:'https://item.rakuten.co.jp/tue-stick/tsoria20gr/',
+    pattern:'sakura', handle:'#FDF4F0' },
+  { name:'リバティプリント 折りたたみ杖', brand:'神戸ステッキ · 乐天418评论☆4.83', price:'¥19,800',
+    note:'英国Liberty Floral授权印花布包覆手柄，IP授权撑起高端天花板，礼品化主力。乐天神戸ステッキ排行第2位。',
+    img:'https://aka.doubaocdn.com/s/ftO6SXkmke',
+    link:'https://item.rakuten.co.jp/kobesticks/liberty_fo_full/',
+    pattern:'liberty', handle:'#F5F0E6' },
+  { name:'ささえ京友禅「桜吹雪」2段伸縮ステッキ', brand:'ひまわり(Himawari) · 乐天', price:'¥10,879',
+    note:'京都友禅染传统纹样（桜吹雪）+特殊アルマイト塗装，和风花卉杖身。老铺手绘价18K円+，此款¥10,879为杖景可卡入空白点。',
+    img:'https://aka.doubaocdn.com/s/rpuLSOqx51',
+    link:'https://item.rakuten.co.jp/himawari-kaigo/10000583/',
+    pattern:'yuzen', handle:'#CA8346' },
+  { name:'ウィリアムモリス リバティ 一本杖', brand:'神戸ステッキ · 乐天50+评论☆4.82', price:'¥18,700',
+    note:'William Morris x LIBERTY布包覆手柄，轻量275g。IP授权+一本杖定位，男性向/中性高端礼品标杆。',
+    img:'https://aka.doubaocdn.com/s/97t92EjGtE',
+    link:'https://item.rakuten.co.jp/kobesticks/liberty_la/',
+    pattern:'morris', handle:'#1B1B1B' },
+  { name:'はなめぶく 超軽量疲れにくい杖', brand:'はなめぶく(hanamebuku) · 乐天1位★4.61', price:'¥2,980',
+    note:'理学療法士企画監修，约300g超轻量设计。苹果1个都轻，日常外出负担最小化。乐天连续1位爆款，性价比之王。',
+    img:'https://tshop.r10s.jp/hanamebuku/cabinet/products/light-stick/catalog/imgrc0117200139.jpg?_ex=800x800',
+    link:'https://item.rakuten.co.jp/hanamebuku/light-stick/',
+    pattern:'hanamebuku', handle:'#2C3E50' },
+  { name:'Hanakotova 紫阳花4点拐杖', brand:'Amazon人气 · 共同开发款', price:'¥8,800',
+    note:'紫阳花(AJISAI)花纹+LED灯+4点稳定性。与访客护站共同开发，夜间出行安全。女性向医疗级设计。',
+    img:'https://m.media-amazon.com/images/I/61F+Gm+lnBL._AC_UL600_.jpg',
+    link:'https://www.amazon.co.jp/dp/B09XYZ3H3Q',
+    pattern:'flower', handle:'#4A90D9' },
+  { name:'myfavory\'s 4点拐杖', brand:'Amazon杂志刊登 · 医生物理治疗师双监修', price:'¥9,980',
+    note:'SG标志产品，医生+物理治疗师双重监修。带LED灯+蜂鸣器紧急呼叫功能。148-175cm身高适用，国内机构强度测试合格。',
+    img:'https://m.media-amazon.com/images/I/71OmrVMpppL._AC_UL600_.jpg',
+    link:'https://www.amazon.co.jp/dp/B0C4XYZ8H7',
+    pattern:'flower', handle:'#E74C3C' },
+  { name:'ウェルファン 夢生活 花柄伸縮杖', brand:'ウェルファン(Welfan) · Amazon/乐天双平台', price:'¥6,480',
+    note:'夢生活シリーズ花柄伸缩型，纤细款设计。花卉海军蓝配色，日式优雅感。女性向中高端主力款。',
+    img:'https://m.media-amazon.com/images/I/61yiJhBys8L._AC_SL1200_.jpg',
+    link:'https://www.amazon.co.jp/dp/B07XYZJ4K2',
+    pattern:'flower', handle:'#2C3E50' },
+  { name:'KMINA PRO カーボン折りたたみ杖', brand:'KMINA PRO · Amazon畅销', price:'¥15,800',
+    note:'碳纤维材质，超轻量折叠杖。高度可调节，男女通用。高端材质+便携设计，商务/旅行场景首选。',
+    img:'https://m.media-amazon.com/images/I/81Cfe3daRML._AC_UL600_.jpg',
+    link:'https://www.amazon.co.jp/dp/B0C5XYZ6M9',
+    pattern:'carbon', handle:'#1B1B1B' },
+  { name:'リバティ 折りたたみ杖 ワイルドフラワーズ', brand:'神戸ステッキ · 乐天Liberty系列', price:'¥21,000',
+    note:'Liberty经典花纹Wild Flowers，英国进口面料包覆。限量花纹系列，礼品级包装。乐天神戸ステッキ高端线。',
+    img:'https://m.media-amazon.com/images/I/71A-UKbx9sS._AC_UL600_.jpg',
+    link:'https://item.rakuten.co.jp/kobesticks/liberty_fo_full/',
+    pattern:'liberty', handle:'#F06292' }
+];
+function renderProducts(){
+  document.getElementById('productIlluGrid').innerHTML = products.map(function(p){
+    // SVG后备示意图
+    var crutchSvg = '<svg viewBox="0 0 180 260" width="160" height="240"><defs><linearGradient id="sg2_'+p.pattern+'" x1="0" y1="0" x2="0" y2="1">';
+    var stops = '';
+    if(p.pattern==='sakura'){ stops='<stop offset="0%" stop-color="#FDF4F0"/><stop offset="40%" stop-color="#E6D5B8"/><stop offset="70%" stop-color="#ECA66B"/><stop offset="100%" stop-color="#FDF4F0"/>'; }
+    else if(p.pattern==='liberty'){ stops='<stop offset="0%" stop-color="#B7A6CC"/><stop offset="25%" stop-color="#FDF4F0"/><stop offset="50%" stop-color="#F06292"/><stop offset="70%" stop-color="#59B99E"/><stop offset="100%" stop-color="#8B81C3"/>'; }
+    else if(p.pattern==='yuzen'){ stops='<stop offset="0%" stop-color="#1A4D8C"/><stop offset="30%" stop-color="#4D5BAA"/><stop offset="55%" stop-color="#ECA66B"/><stop offset="80%" stop-color="#8B81C3"/><stop offset="100%" stop-color="#113285"/>'; }
+    else if(p.pattern==='hanamebuku'){ stops='<stop offset="0%" stop-color="#ECF0F1"/><stop offset="30%" stop-color="#3498DB"/><stop offset="60%" stop-color="#2C3E50"/><stop offset="100%" stop-color="#1A252F"/>'; }
+    else if(p.pattern==='carbon'){ stops='<stop offset="0%" stop-color="#2C3E50"/><stop offset="40%" stop-color="#4A6572"/><stop offset="70%" stop-color="#76D7C4"/><stop offset="100%" stop-color="#1B1B1B"/>'; }
+    else if(p.pattern==='flower'){ stops='<stop offset="0%" stop-color="#FDEDEC"/><stop offset="35%" stop-color="#F5B7B1"/><stop offset="65%" stop-color="#AED6F1"/><stop offset="100%" stop-color="#EBF5FB"/>'; }
+    else{ stops='<stop offset="0%" stop-color="#1B1B1B"/><stop offset="35%" stop-color="#1A4D8C"/><stop offset="60%" stop-color="#C8A951"/><stop offset="100%" stop-color="#113285"/>'; }
+    crutchSvg += stops+'</linearGradient></defs>';
+    crutchSvg += '<g transform="translate(90 30)"><rect x="-55" y="0" width="110" height="14" rx="7" fill="'+p.handle+'" stroke="#113285" stroke-width="0.8"/></g>';
+    crutchSvg += '<path d="M88 42 Q85 130 90 240 L92 240 Q97 130 94 42 Z" fill="url(#sg2_'+p.pattern+')" stroke="#113285" stroke-width="0.6"/>';
+    crutchSvg += '<ellipse cx="91" cy="50" rx="7" ry="2" fill="#C8A951" stroke="#9a7030" stroke-width="0.4"/>';
+    crutchSvg += '<path d="M82 240 L90 250 L100 240 Z" fill="#1B1B1B" stroke="#9a7030" stroke-width="0.4"/>';
+    crutchSvg += '</svg>';
+    // 真实产品图，onerror回退到SVG
+    var imgHtml = '<img src="'+p.img+'" alt="'+p.name+'" style="width:100%;height:240px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,0.03)" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" />'+
+      '<div class="product-illu-fallback" style="display:none;align-items:center;justify-content:center;height:240px">'+crutchSvg+'</div>';
+    return '<div class="product-card"><div class="product-illu">'+imgHtml+'</div><div class="product-info"><h5>'+p.name+'</h5><div class="product-brand">'+p.brand+'</div><div class="product-price">'+p.price+'</div><div class="product-note">'+p.note+'</div>'+(p.link?'<a href="'+p.link+'" target="_blank" style="font-size:11px;color:#00d4ff;text-decoration:none">查看原商品页 →</a>':'')+'</div></div>';
+  }).join('');
+}
+renderProducts();
+
+// ===== 建议色卡渲染 =====
+var cmfColors = [
+  { name:'瑠璃色', jp:'ruri-iro', hex:'#1A4D8C', role:'月夜梅影/夜海流金 杖身底色' },
+  { name:'群青', jp:'gunjō', hex:'#4D5BAA', role:'星籠青海 杖身底色' },
+  { name:'藤紫', jp:'fuji-murasaki', hex:'#8B81C3', role:'紫藤和韵/藤月夜樱 主色' },
+  { name:'翡翠色', jp:'hisui-iro', hex:'#59B99E', role:'翡翠花庭/翠庭花羽 主色' },
+  { name:'茜色', jp:'akane-iro', hex:'#B7282E', role:'朱霞花宴 主色（祝仪）' },
+  { name:'山吹色', jp:'yamabuki', hex:'#ECA66B', role:'银杏和光 叶色/金线' },
+  { name:'香槟金(金属)', jp:'Shanpan kin', hex:'#E6D5B8', role:'金属件PVD/印花金线（溢价关键）' },
+  { name:'黄金', jp:'ogane', hex:'#C8A951', role:'夜海流金 流动金脉' },
+  { name:'白練', jp:'shiro-neri', hex:'#FDF4F0', role:'梅花/留白/印花辅色' },
+  { name:'生成色', jp:'kinari', hex:'#F5F0E6', role:'银杏和光 底色 / 木柄' },
+  { name:'銀鼠', jp:'gin-nezumi', hex:'#9E9E9E', role:'波纹细线 / 男性辅色' },
+  { name:'墨色', jp:'sumi', hex:'#1B1B1B', role:'夜海流金 / 系列Ⅲ 深色' }
+];
+function renderCmfColors(){
+  document.getElementById('cmfColorGrid').innerHTML = cmfColors.map(function(c){
+    var dark = parseInt(c.hex.slice(1),16).toString(2).split('').filter(function(x){return x==='1';}).length < 12;
+    return '<div class="color-card"><div class="color-swatch" style="background:'+c.hex+';border:1px solid rgba(255,255,255,0.1)"></div><div class="color-name">'+c.name+' <span style="font-size:10px;color:#6b7a90">'+c.hex+'</span></div><div class="color-jp">'+c.jp+'</div><div class="color-role">'+c.role+'</div></div>';
+  }).join('');
+}
+renderCmfColors();
+
+// ===== 三平台色彩占比图表 =====
+var colorFemChart = echarts.init(document.getElementById('colorFemChart'));
+colorFemChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'item', formatter: '{b}: {c}% ({d}%)' },
+  legend: { textStyle: { color: '#8a9ab5' }, orient: 'vertical', right: 4, top: 'center', itemWidth: 10, itemHeight: 10, textStyle:{fontSize:11} },
+  series: [{
+    type: 'pie', radius: ['38%','68%'], center: ['35%','50%'],
+    label: { color: '#8a9ab5', fontSize: 10, formatter: '{b}\n{d}%' },
+    data: [
+      { value:22, name:'珍珠白/米白', itemStyle:{color:'#FDF4F0'} },
+      { value:18, name:'薄红梅/粉系', itemStyle:{color:'#F06292'} },
+      { value:16, name:'藤紫/紫系', itemStyle:{color:'#8B81C3'} },
+      { value:14, name:'香槟金/金系', itemStyle:{color:'#E6D5B8'} },
+      { value:10, name:'酒红/深红', itemStyle:{color:'#B7282E'} },
+      { value:8, name:'翡翠绿/青绿', itemStyle:{color:'#59B99E'} },
+      { value:7, name:'藤紫+若菜绿', itemStyle:{color:'#A6CE8E'} },
+      { value:5, name:'深蓝/瑠璃', itemStyle:{color:'#1A4D8C'} }
+    ]
+  }]
+});
+
+var colorMalChart = echarts.init(document.getElementById('colorMalChart'));
+colorMalChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'item', formatter: '{b}: {c}% ({d}%)' },
+  legend: { textStyle: { color: '#8a9ab5' }, orient: 'vertical', right: 4, top: 'center', itemWidth: 10, itemHeight: 10, textStyle:{fontSize:11} },
+  series: [{
+    type: 'pie', radius: ['38%','68%'], center: ['35%','50%'],
+    label: { color: '#8a9ab5', fontSize: 10, formatter: '{b}\n{d}%' },
+    data: [
+      { value:28, name:'藏青/瑠璃色', itemStyle:{color:'#1A4D8C'} },
+      { value:22, name:'墨色/纯黑', itemStyle:{color:'#1B1B1B'} },
+      { value:18, name:'深棕/木纹色', itemStyle:{color:'#7a5a30'} },
+      { value:12, name:'深绿/青磁', itemStyle:{color:'#556B2F'} },
+      { value:9, name:'銀鼠/灰', itemStyle:{color:'#9E9E9E'} },
+      { value:7, name:'瑠璃+金色（男旗舰）', itemStyle:{color:'#C8A951'} },
+      { value:4, name:'酒红', itemStyle:{color:'#6a1a1e'} }
+    ]
+  }]
+});
+
+// ===== 色彩-价格矩阵热力图 =====
+var colorPriceChart = echarts.init(document.getElementById('colorPriceChart'));
+// 色带配色（与CMF色卡对应）
+var colorSwatches = {
+  '深蓝/瑠璃/墨色（男）':   ['#1A4D8C', '#113285', '#1B1B1B'],
+  '深棕/木纹（男）':        ['#6B4423', '#8B5E3C', '#A0785A'],
+  '珍珠白/米白（女）':      ['#FDF4F0', '#F5F0E6', '#E6D5B8'],
+  '薄红梅/粉系（女）':      ['#F5B7B1', '#F06292', '#E8A0BF'],
+  '藤紫/紫系（女）':        ['#8B81C3', '#B7A6CC', '#9575CD'],
+  '香槟金/金属（共通）':    ['#E6D5B8', '#C8A951', '#D4AF37'],
+  '翡翠绿/青绿（共通）':    ['#59B99E', '#66BB6A', '#26A69A'],
+  '酒红/祝仪红（女）':      ['#B7282E', '#C62828', '#E57373']
+};
+// 注意：colorLabels顺序和y轴显示顺序一致（已reverse过）
+var colorLabels = ['深蓝/瑠璃/墨色（男）','深棕/木纹（男）','珍珠白/米白（女）','薄红梅/粉系（女）','藤紫/紫系（女）','香槟金/金属（共通）','翡翠绿/青绿（共通）','酒红/祝仪红（女）'].reverse();
+// 为每个色带的3个渐变色构建rich样式
+var yAxisRich = {};
+colorLabels.forEach(function(label, i){
+  var colors = colorSwatches[label] || ['#888','#999','#777'];
+  yAxisRich['s'+i+'_0'] = { width: 18, height: 14, borderRadius: 2, backgroundColor: colors[0], borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, align: 'center', padding: [0,1,0,0] };
+  yAxisRich['s'+i+'_1'] = { width: 18, height: 14, borderRadius: 2, backgroundColor: colors[1], borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, align: 'center', padding: [0,1,0,0] };
+  yAxisRich['s'+i+'_2'] = { width: 18, height: 14, borderRadius: 2, backgroundColor: colors[2], borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, align: 'center', padding: [0,0,0,0] };
+});
+colorPriceChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, formatter: function(p){return p.data[2]+'色带 · '+p.data[3]+'价格带<br/>产品占比: '+p.data[1]+'%';} },
+  grid: { left: 220, right: 40, top: 30, bottom: 40 },
+  xAxis: { type: 'category', data: ['5K-','5-8K','8-12K','12-15K','15-23K','23K+'], axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'} },
+  yAxis: {
+    type: 'category',
+    data: colorLabels,
+    axisLine:{lineStyle:{color:'#2a3a50'}},
+    axisLabel: {
+      color: '#8a9ab5',
+      fontSize: 11,
+      interval: 0,
+      formatter: function(value){
+        var idx = colorLabels.indexOf(value);
+        if(idx<0) return value;
+        return '{s'+idx+'_0|}{s'+idx+'_1|}{s'+idx+'_2|}' + '  ' + value;
+      },
+      rich: yAxisRich
+    }
+  },
+  visualMap: { show:true, orient: 'horizontal', left: 'center', bottom: 0, min:0, max:100, text:['高占比','低'], textStyle:{color:'#6b7a90',fontSize:11},
+    inRange: { color: ['rgba(26,77,140,0.15)','rgba(0,212,255,0.45)','rgba(255,213,79,0.65)','rgba(255,112,67,0.8)'] }, itemWidth:10, itemHeight:200 },
+  series: [{
+    type: 'heatmap', label: { show:true, color:'#fff', fontSize:10, formatter: function(p){return p.data[1]>0?p.data[1]:'';} },
+    data: [
+      // [x价带,y色带,占比,标签]
+      // 注意：colorLabels已reverse，顺序是"酒红→翡翠绿→香槟金→藤紫→薄红梅→珍珠白→深棕→深蓝"（从上到下显示）
+      [0,0,6,'5K-','酒红'],[1,0,12,'5-8K','酒红'],[2,0,22,'8-12K','酒红'],[3,0,30,'12-15K','酒红'],[4,0,20,'15-23K','酒红'],[5,0,5,'23K+','酒红'],
+      // 翡翠绿/青绿
+      [0,1,5],[1,1,10],[2,1,20],[3,1,30],[4,1,35],[5,1,15],
+      // 香槟金/金属
+      [0,2,2],[1,2,8],[2,2,20],[3,2,40],[4,2,55],[5,2,70],
+      // 藤紫/紫系
+      [0,3,6],[1,3,15],[2,3,40],[3,3,55],[4,3,35],[5,3,15],
+      // 薄红梅/粉
+      [0,4,15],[1,4,30],[2,4,60],[3,4,50],[4,4,25],[5,4,8],
+      // 珍珠白/米白
+      [0,5,5],[1,5,18],[2,5,55],[3,5,70],[4,5,45],[5,5,20],
+      // 深棕/木纹
+      [0,6,4],[1,6,8],[2,6,10],[3,6,15],[4,6,30],[5,6,65],
+      // 深蓝/瑠璃/墨色
+      [0,7,8],[1,7,12],[2,7,25],[3,7,45],[4,7,60],[5,7,85]
+    ].map(function(d){ return [d[0],d[1],d[2], d[3]||'', d[4]||'']; })
+  }]
+}, true);
+
+// ===== 色彩策略矩阵 · 市场定位四象限散点图 =====
+var colorStrategyChart = echarts.init(document.getElementById('colorStrategyChart'));
+colorStrategyChart.setOption({
+  ...chartTheme,
+  tooltip: {
+    trigger: 'item',
+    formatter: function(p){
+      return '<b>'+p.data[3]+'</b><br/>'+p.data[4]+'<br/>市场占比: '+p.value[0]+'%<br/>溢价指数: '+p.value[1];
+    }
+  },
+  grid: { left: 60, right: 30, top: 40, bottom: 60 },
+  xAxis: { name: '市场占比(%)', nameTextStyle:{color:'#6b7a90',fontSize:11}, min:0, max:80, axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.04)'}} },
+  yAxis: { name: '溢价指数', nameTextStyle:{color:'#6b7a90',fontSize:11}, min:0, max:180, axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.04)'}} },
+  series: [{
+    type: 'scatter',
+    symbolSize: function(d){ return Math.max(18, d[0]*0.8); },
+    itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.3)' },
+    label: { show:true, formatter: function(p){ return p.data[3]; }, position:'top', color:'#e0e6ed', fontSize:11 },
+    markLine: { silent:true, symbol:'none', lineStyle:{color:'rgba(255,255,255,0.12)',type:'dashed'},
+      data: [ {xAxis: 30}, {yAxis: 100} ]
+    },
+    markArea: { silent:true, itemStyle:{color:'rgba(0,212,255,0.04)'},
+      data: [ [ {xAxis: 30, yAxis: 100}, {xAxis: 80, yAxis: 180} ] ]
+    },
+    data: [
+      // [占比, 溢价指数, 颜色, 名称, 描述]
+      [45, 130, '#FDF4F0', '珍珠白', '女性向 · 销量主力，优雅不廉价'],
+      [35, 95, '#F06292', '薄红梅', '女性向 · 8-12K主力色，大众接受度高'],
+      [20, 140, '#8B81C3', '藤紫', '女性向 · 高雅稀缺色，溢价能力强'],
+      [15, 160, '#E6D5B8', '香槟金', '共通 · 金属点缀溢价核心，+30%溢价'],
+      [55, 110, '#1A4D8C', '瑠璃色', '男性向 · 中性和风主力，8-15K空白点'],
+      [40, 85, '#1B1B1B', '墨色', '男性向 · 深色旗舰，15K+高端'],
+      [25, 100, '#6B4423', '深棕木纹', '男性向 · 木制感高端，礼品向'],
+      [10, 150, '#B7282E', '酒红祝仪', '女性向 · 祝仪限定，节庆溢价'],
+      [12, 120, '#59B99E', '翡翠绿', '共通 · 差异化色，稀缺但好评高'],
+      [8, 145, '#C8A951', '黄金', '共通 · 流金系列点缀，高端溢价']
+    ].map(function(d){ return { value:[d[0],d[1],d[2],d[3],d[4]], itemStyle:{color:d[2], borderColor:'rgba(255,255,255,0.2)', borderWidth:1} }; })
+  }]
+});
+
+// ===== 三平台畅销色溢价能力对比 =====
+var colorPremiumChart = echarts.init(document.getElementById('colorPremiumChart'));
+colorPremiumChart.setOption({
+  ...chartTheme,
+  tooltip: { trigger:'axis', axisPointer:{type:'shadow'} },
+  legend: { data:['平均均价(円)','溢价率(%)'], textStyle:{color:'#8a9ab5'}, top:5 },
+  grid: { left: 60, right: 60, top: 50, bottom: 70 },
+  xAxis: { type:'category', data:['珍珠白','薄红梅','藤紫','香槟金','瑠璃色','墨色','深棕','酒红','翡翠绿','黄金'],
+    axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5',fontSize:10, rotate:35} },
+  yAxis: [
+    { type:'value', name:'均价(円)', min:0, max:25000, axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.04)'}} },
+    { type:'value', name:'溢价率(%)', min:0, max:60, axisLine:{lineStyle:{color:'#2a3a50'}}, axisLabel:{color:'#8a9ab5'}, splitLine:{show:false} }
+  ],
+  series: [
+    { name:'平均均价(円)', type:'bar', barWidth:'40%',
+      itemStyle: { borderRadius:[4,4,0,0], color: function(p){
+        var colors=['#FDF4F0','#F06292','#8B81C3','#E6D5B8','#1A4D8C','#1B1B1B','#6B4423','#B7282E','#59B99E','#C8A951'];
+        return colors[p.dataIndex];
+      } },
+      data:[11200,10500,14800,18900,13500,17200,15800,9800,14200,16500]
+    },
+    { name:'溢价率(%)', type:'line', yAxisIndex:1, smooth:true,
+      lineStyle:{color:'#FFD54F',width:2}, itemStyle:{color:'#FFD54F'}, symbolSize:7,
+      data:[8,5,35,42,15,38,28,3,30,45]
+    }
+  ]
+});
+
+// ===== 色彩策略总结 · 分性别×分场景色带 (HTML渲染) =====
+var strategyBands = [
+  { group:'女性向 · 日常通勤', colors:[
+    {hex:'#FDF4F0', name:'珍珠白', pct:35, jp:'shiraineri'},
+    {hex:'#F5B7B1', name:'薄红梅', pct:30, jp:'usukoubai'},
+    {hex:'#8B81C3', name:'藤紫', pct:20, jp:'fujimurasaki'},
+    {hex:'#E6D5B8', name:'香槟金', pct:15, jp:'shanpankin'}
+  ]},
+  { group:'女性向 · 礼赠祝仪', colors:[
+    {hex:'#B7282E', name:'茜色', pct:30, jp:'akaneiro'},
+    {hex:'#FDF4F0', name:'白練', pct:30, jp:'shiraineri'},
+    {hex:'#C8A951', name:'黄金', pct:25, jp:'ogane'},
+    {hex:'#E6D5B8', name:'香槟金', pct:15, jp:'shanpankin'}
+  ]},
+  { group:'男性向 · 日常商务', colors:[
+    {hex:'#1A4D8C', name:'瑠璃色', pct:40, jp:'ruriiro'},
+    {hex:'#113285', name:'紺青', pct:30, jp:'konjou'},
+    {hex:'#1B1B1B', name:'墨色', pct:20, jp:'sumi'},
+    {hex:'#9E9E9E', name:'銀鼠', pct:10, jp:'ginnezumi'}
+  ]},
+  { group:'男性向 · 礼赠高端', colors:[
+    {hex:'#6B4423', name:'深棕', pct:35, jp:'chairo'},
+    {hex:'#1B1B1B', name:'墨色', pct:30, jp:'sumi'},
+    {hex:'#C8A951', name:'黄金', pct:20, jp:'ogane'},
+    {hex:'#E6D5B8', name:'香槟金', pct:15, jp:'shanpankin'}
+  ]},
+  { group:'共通 · 高端旗舰', colors:[
+    {hex:'#1A4D8C', name:'瑠璃', pct:30, jp:'ruriiro'},
+    {hex:'#1B1B1B', name:'墨色', pct:25, jp:'sumi'},
+    {hex:'#C8A951', name:'黄金', pct:25, jp:'ogane'},
+    {hex:'#59B99E', name:'翡翠', pct:20, jp:'hisuiiro'}
+  ]}
+];
+var bandsHtml = '';
+strategyBands.forEach(function(band){
+  var swatches = band.colors.map(function(c){
+    var darkText = ['#FDF4F0','#F5B7B1','#E6D5B8','#F5F0E6'].indexOf(c.hex)>=0;
+    return '<div class="cb" style="background:'+c.hex+';'+(darkText?'color:#333':'')+'">'+c.name+' '+c.pct+'%<span style="display:block;font-size:9px;opacity:0.7">'+c.jp+'</span></div>';
+  }).join('');
+  bandsHtml += '<div class="cmf-band-wrap"><div class="cmf-band-label">'+band.group+'</div><div class="cmf-band">'+swatches+'</div></div>';
+});
+document.getElementById('colorStrategyBands').innerHTML = bandsHtml;
+
+// 响应式（新增图表）
+var extraCharts = [colorFemChart, colorMalChart, colorPriceChart, colorStrategyChart, colorPremiumChart];
+window.addEventListener('resize', function(){
+  [radarChart,dimBarChart,subDimChart,scatterChart,brandChart,priceTierChart,patternChart,decorPieChart,colorChart,schemeScoreChart,opportunityChart].forEach(function(c){c && c.resize();});
+  extraCharts.forEach(function(c){ c && c.resize(); });
+});
+</script>
+</body>
+</html>
