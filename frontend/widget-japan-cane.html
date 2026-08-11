@@ -215,6 +215,52 @@
   .theme-price { font-size: 22px; color: #ffd54f; font-weight: 700; text-align: right; }
   .theme-price-sub { font-size: 10px; color: #6b7a90; margin-top: 2px; }
 
+  /* 10 方案落地规划 */
+  .roadmap-banner {
+    background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,179,66,0.06) 100%);
+    border: 1px solid rgba(0,212,255,0.18); border-radius: 14px; padding: 22px 26px; margin-bottom: 28px;
+  }
+  .roadmap-banner h4 { font-size: 16px; color: #00d4ff; margin-bottom: 8px; letter-spacing: 1px; }
+  .roadmap-banner p { font-size: 13px; color: #b0bdd0; line-height: 1.7; }
+  .roadmap-banner p b { color: #fff; }
+  .roadmap-img-wrap {
+    background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;
+    padding: 22px; margin-bottom: 28px;
+  }
+  .roadmap-img-title { font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .roadmap-img-title .tag { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 12px; background: rgba(255,183,77,0.15); color: #ffb74d; letter-spacing: 1px; }
+  .roadmap-main-img { width: 100%; border-radius: 12px; display: block; }
+  .swatch-grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 18px; }
+  @media (max-width: 768px) { .swatch-grid-7 { grid-template-columns: repeat(2, 1fr); } }
+  .swatch-7-item { text-align: center; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 6px; border: 1px solid rgba(255,255,255,0.05); }
+  .swatch-7-color { height: 48px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.08); }
+  .swatch-7-name { font-size: 12px; color: #fff; font-weight: 600; }
+  .swatch-7-jp { font-size: 10px; color: #00d4ff; margin-top: 2px; }
+  .swatch-7-hex { font-size: 9px; color: #6b7a90; margin-top: 2px; }
+  .swatch-7-role { font-size: 10px; color: #ffb74d; margin-top: 5px; line-height: 1.4; }
+  .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 18px; margin-bottom: 24px; }
+  .process-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,212,255,0.1); border-radius: 14px; padding: 18px; position: relative; }
+  .process-step { position: absolute; top: -12px; left: 18px; background: linear-gradient(135deg, #00d4ff, #22d3ee); color: #0a0f1a; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 12px; letter-spacing: 1px; }
+  .process-title { font-size: 15px; color: #fff; font-weight: 600; margin-top: 8px; margin-bottom: 8px; }
+  .process-detail { font-size: 12px; color: #8a9ab5; line-height: 1.7; }
+  .process-detail b { color: #c0cad8; }
+  .process-cost { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 11px; color: #6b7a90; }
+  .process-cost b { color: #ffd54f; }
+  .launch-timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 18px; }
+  .launch-phase { background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%); border: 1px solid rgba(0,212,255,0.1); border-radius: 14px; padding: 18px; border-left: 4px solid #00d4ff; }
+  .launch-phase.phase-2 { border-left-color: #aed581; }
+  .launch-phase.phase-3 { border-left-color: #ffb74d; }
+  .launch-phase-label { font-size: 11px; color: #00d4ff; letter-spacing: 2px; margin-bottom: 6px; }
+  .launch-phase.phase-2 .launch-phase-label { color: #aed581; }
+  .launch-phase.phase-3 .launch-phase-label { color: #ffb74d; }
+  .launch-phase-title { font-size: 15px; color: #fff; font-weight: 600; margin-bottom: 6px; }
+  .launch-phase-list { list-style: none; font-size: 12px; color: #8a9ab5; line-height: 1.7; }
+  .launch-phase-list li { padding: 3px 0 3px 14px; position: relative; }
+  .launch-phase-list li::before { content: "▸"; position: absolute; left: 0; color: #00d4ff; }
+  .launch-phase.phase-2 .launch-phase-list li::before { color: #aed581; }
+  .launch-phase.phase-3 .launch-phase-list li::before { color: #ffb74d; }
+  .launch-phase-list li b { color: #e0e6ed; }
+
   .footer { padding: 60px 0 40px; text-align: center; color: #4a5a70; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
   .footer b { color: #6b7a90; }
 </style>
@@ -618,6 +664,148 @@
     </div>
 
     <div class="theme-grid" id="themeGrid"></div>
+  </section>
+
+  <!-- 10 方案落地规划 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <div>
+        <div class="section-title">方案落地规划 · 月夜梅影系列</div>
+        <div class="section-desc">首发系列工艺路径 · 7色阳极氧化 · UV打印花朵纹样 · 三阶段上市节奏</div>
+      </div>
+    </div>
+
+    <div class="roadmap-banner">
+      <h4>首发策略 · 月夜梅影系列先行</h4>
+      <p>以<b>「月夜梅影」文化匹配度最高分(9.5)系列</b>作为首发旗舰，验证市场接受度。采用<b>「阳极氧化7色杖身 + 第一截UV打印梅花纹样」</b>工艺路径——杖身先通过阳极氧化工艺批量生成7款基础色（樱花粉/玫瑰金/酒红/翡翠绿/香槟金/瑠璃色/藤紫），再在第一截位置进行UV打印，将白色梅花图案精准印于杖身。同一款纹样共享一套打印模具，7色共享同一供应链，<b>大幅降低SKU成本与备库风险</b>。</p>
+    </div>
+
+    <!-- 多色图 -->
+    <div class="roadmap-img-wrap">
+      <div class="roadmap-img-title">
+        月夜梅影系列 · 7色杖身 + 统一UV打印梅花纹样
+        <span class="tag">首发款 · 7 SKU 共用纹样模具</span>
+      </div>
+      <img class="roadmap-main-img" src="images/schemes/tsukiyo-multicolor.png" alt="月夜梅影系列多色图"
+           onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex');">
+      <div style="display:none;height:300px;background:rgba(0,0,0,0.3);border-radius:10px;align-items:center;justify-content:center;color:#6b7a90;font-size:13px;border:1px dashed rgba(255,255,255,0.1)">
+        图片加载失败 · 请确认 images/schemes/tsukiyo-multicolor.png 存在
+      </div>
+
+      <!-- 7色色卡 -->
+      <div class="swatch-grid-7" id="swatchGrid7"></div>
+    </div>
+
+    <!-- 工艺路径 -->
+    <div class="insight-card" style="margin-bottom:14px">
+      <h4>工艺路径 · 7色杖身 + UV打印</h4>
+      <p>工艺分两步，<b>第一步阳极氧化生成7色基础杖身</b>（成熟铝合金表面处理工艺，精度可控），<b>第二步在第一截进行UV平板打印</b>，将白色梅花图案+香槟金蕊高精度直接打印至杖身曲面。同纹样7色共享一套打印定位治具，无需重复开模。</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="process-step">STEP 01</div>
+        <div class="process-title">铝合金杖身 · 阳极氧化着色</div>
+        <div class="process-detail">
+          采用<b>6061/7075铝合金细管</b>，三段式伸缩结构。<br>
+          表面<b>硬质阳极氧化（Type Ⅲ）</b>，膜厚15-25μm，耐磨耐候。<br>
+          7色通过<b>电解着色/染料浸渍</b>实现批次一致性控制：<br>
+          · 樱花粉 #F5B7C1 · 有机染料浸渍<br>
+          · 玫瑰金 #E8A4A4 · 电解着色+封孔<br>
+          · 酒红 #B22222 · 有机染料浸渍<br>
+          · 翡翠绿 #1F8A6A · 电解着色<br>
+          · 香槟金 #E6D5B8 · 电解着色<br>
+          · 瑠璃色 #1A4D8C · 有机染料浸渍<br>
+          · 藤紫 #8B81C3 · 有机染料浸渍
+        </div>
+        <div class="process-cost">参考成本 · 杖身 <b>¥18-28 / 支</b>（7色同价，批量价）</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step">STEP 02</div>
+        <div class="process-title">第一截杖身 · UV曲面打印梅花</div>
+        <div class="process-detail">
+          <b>UV平板打印机 + 曲面治具</b>，定位精度 ±0.1mm。<br>
+          图案为<b>白色五瓣梅花 + 香槟金蕊 + 淡金枝</b>（与09章月夜梅影主题统一）。<br>
+          打印区域：第一截杖身中段，高度约140mm，环绕宽度30mm。<br>
+          墨水：<b>进口LED-UV固化墨水</b>，附着力ISO等级0（最高），耐酒精/耐摩擦/耐日光。<br>
+          <b>7色共用同一图案与同一治具</b>，无需更换模具，换色即印。
+        </div>
+        <div class="process-cost">参考成本 · UV打印 <b>¥6-12 / 支</b>（7色同价）</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step">STEP 03</div>
+        <div class="process-title">手柄 · 亚克力内嵌 + 同色配色</div>
+        <div class="process-detail">
+          <b>珠光亚克力手柄</b>与杖身7色逐一配色：<br>
+          · 粉杖→粉珠光亚克力 &nbsp;· 绿杖→绿珠光<br>
+          · 金杖→金珠光 &nbsp;· 蓝杖→蓝珠光 &nbsp;· 紫杖→紫珠光<br>
+          手柄内部可嵌<b>金箔/樱花封入物</b>（高端款升级）。<br>
+          手柄与杖身接口处配<b>黄铜装饰环</b>（H62黄铜，IP18K金电镀）。<br>
+          手绳采用<b>同色PU皮绳</b>，带金属调节扣。
+        </div>
+        <div class="process-cost">参考成本 · 手柄+环+绳 <b>¥25-40 / 套</b>（7色对应配色）</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-step">STEP 04</div>
+        <div class="process-title">品控 · SG认证准备</div>
+        <div class="process-detail">
+          杖身强度测试：<b>JIS T 8203 拐杖标准</b>，静载荷100kg 1min无变形。<br>
+          UV打印层附着力：<b>百格测试（ISO 2409）等级0</b>，无脱落。<br>
+          阳极氧化膜厚：<b>涡流测厚仪抽检</b>，≥15μm。<br>
+          色差控制：<b>ΔE ≤ 1.5</b>（分光仪每批次抽检）。<br>
+          申请<b>SG标志认证</b>（产品安全协会），8K円+硬门槛，竞争对手普及率80%+。
+        </div>
+        <div class="process-cost">SG认证费用 <b>¥30-50万円</b>（一次性）</div>
+      </div>
+    </div>
+
+    <!-- 上市节奏 -->
+    <div class="insight-card" style="margin-bottom:14px">
+      <h4>上市节奏 · 三阶段推进</h4>
+      <p>以<b>月夜梅影系列7色</b>为首发核心，验证市场反馈后逐步追加星籠青海（中性男款）、银杏和光（礼赠款）等其他主题。</p>
+    </div>
+
+    <div class="launch-timeline">
+      <div class="launch-phase">
+        <div class="launch-phase-label">PHASE 01 · 第1-3月</div>
+        <div class="launch-phase-title">首发验证 · 月夜梅影3色</div>
+        <ul class="launch-phase-list">
+          <li>首批上市 <b>樱花粉 / 香槟金 / 瑠璃色</b> 3色</li>
+          <li>月产 <b>500支</b>，测试3色受众比例</li>
+          <li>乐天「おしゃれ杖専門店」+ Amazon JP 双渠道</li>
+          <li>收集评论，验证女性/男性色偏好分布</li>
+          <li>礼赠包装（敬老之日特别款）小批量测试</li>
+        </ul>
+      </div>
+
+      <div class="launch-phase phase-2">
+        <div class="launch-phase-label">PHASE 02 · 第4-6月</div>
+        <div class="launch-phase-title">扩色扩款 · 7色配齐 + 中性款</div>
+        <ul class="launch-phase-list">
+          <li>追加 <b>玫瑰金 / 酒红 / 翡翠绿 / 藤紫</b> 4色</li>
+          <li>月产 <b>1500支</b>，实现7色齐备</li>
+          <li>同步上架 <b>星籠青海（男款青海波）</b> 瑠璃/墨色 2色</li>
+          <li>申请 <b>SG认证</b> 完成，进入乐天高端位</li>
+          <li>Yahoo!购物渠道开拓，覆盖老年用户</li>
+        </ul>
+      </div>
+
+      <div class="launch-phase phase-3">
+        <div class="launch-phase-label">PHASE 03 · 第7-12月</div>
+        <div class="launch-phase-title">全系列铺开 · 礼赠体系成熟</div>
+        <ul class="launch-phase-list">
+          <li>追加 <b>银杏和光（礼赠款）</b> 深棕木纹 + 金黄银杏</li>
+          <li>月产 <b>3000支</b>，覆盖6大主题全系列</li>
+          <li>敬老之日 / 母之日 / 米寿 <b>限定礼盒</b> 上市</li>
+          <li>IP联名（Hello Kitty/Disney）洽谈，冲击2万円+带</li>
+          <li>品牌知名度达到行业前15，目标复购率 ≥25%</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <div class="footer">
@@ -1087,6 +1275,30 @@ function renderThemes(){
   }).join('');
 }
 renderThemes();
+
+// ===== 10 月夜梅影7色色卡渲染 =====
+var tsukiyoColors7 = [
+  { hex:'#F5B7C1', name:'樱花粉', jp:'sakura-iro', role:'女性 · 母之日礼赠 · 首发色①' },
+  { hex:'#E8A4A4', name:'玫瑰金', jp:'rose-gold', role:'女性 · 轻奢日常 · PHASE2追加' },
+  { hex:'#B22222', name:'酒红', jp:'aka-shu', role:'女性 · 祝仪限定 · 长寿祝色' },
+  { hex:'#1F8A6A', name:'翡翠绿', jp:'hisui-iro', role:'中性 · 差异化 · 稀缺高好评' },
+  { hex:'#E6D5B8', name:'香槟金', jp:'shampagne', role:'男女通用 · 金属溢价 · 首发色②' },
+  { hex:'#1A4D8C', name:'瑠璃色', jp:'ruri-iro', role:'男性 · 中性主力 · 首发色③' },
+  { hex:'#8B81C3', name:'藤紫', jp:'fuji-murasaki', role:'女性 · 高雅稀缺 · 高端溢价' }
+];
+(function renderSwatch7(){
+  var el = document.getElementById('swatchGrid7');
+  if(!el) return;
+  el.innerHTML = tsukiyoColors7.map(function(c){
+    return '<div class="swatch-7-item">'+
+      '<div class="swatch-7-color" style="background:'+c.hex+'"></div>'+
+      '<div class="swatch-7-name">'+c.name+'</div>'+
+      '<div class="swatch-7-jp">'+c.jp+'</div>'+
+      '<div class="swatch-7-hex">'+c.hex+'</div>'+
+      '<div class="swatch-7-role">'+c.role+'</div>'+
+    '</div>';
+  }).join('');
+})();
 
 // ===== 纹样平面图SVG渲染 =====
 var patterns = [
