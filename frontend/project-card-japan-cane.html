@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目卡片预览 · 杖景调研</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+    background: #0a0f1a;
+    color: #e0e6ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  /* ===== 项目卡片（适配个人作品集暗色工业风） ===== */
+  .ai-project-card {
+    width: 100%;
+    max-width: 440px;
+    background: linear-gradient(180deg, rgba(20,30,50,0.6) 0%, rgba(15,22,35,0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+  }
+  .ai-project-card:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(56, 189, 248, 0.1);
+  }
+
+  /* 卡片顶部图 */
+  .card-cover {
+    height: 200px;
+    background: radial-gradient(ellipse at 30% 50%, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(100, 60, 180, 0.08) 0%, transparent 50%),
+                #0d1421;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+  }
+  .card-cover-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .card-cover-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 4px 12px;
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 20px;
+    font-size: 10px;
+    color: #38BDF8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .card-cover-icon {
+    position: relative;
+    z-index: 1;
+    font-size: 48px;
+    color: rgba(56, 189, 248, 0.3);
+  }
+
+  /* 卡片内容 */
+  .card-body { padding: 24px; }
+  .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  .card-subtitle {
+    font-size: 12px;
+    color: #38BDF8;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #8a9ab5;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .card-desc b { color: #c0cad8; }
+
+  /* 标签 */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .card-tag {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: rgba(56, 189, 248, 0.08);
+    color: #38BDF8;
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    letter-spacing: 0.5px;
+  }
+  .card-tag.alt {
+    background: rgba(34, 211, 238, 0.06);
+    color: #22D3EE;
+    border-color: rgba(34, 211, 238, 0.15);
+  }
+
+  /* 数据亮点 */
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 14px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .card-stat { text-align: center; }
+  .card-stat-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: #38BDF8;
+    line-height: 1;
+  }
+  .card-stat-label {
+    font-size: 9px;
+    color: #6b7a90;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  /* 底部链接 */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .card-link {
+    font-size: 13px;
+    color: #38BDF8;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.3s;
+  }
+  .card-link:hover { gap: 10px; }
+  .card-date {
+    font-size: 11px;
+    color: #4a5a70;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 项目卡片（复制此区块到作品集网站） ===== -->
+<div class="ai-project-card" onclick="window.open('https://yfy1115955678-design.github.io/product-research-agent/widget-japan-cane.html','_blank')">
+
+  <!-- 顶部封面 -->
+  <div class="card-cover">
+    <svg class="card-cover-svg" viewBox="0 0 440 200" preserveAspectRatio="xMidYMid slice">
+      <!-- 雷达图装饰 -->
+      <g transform="translate(220,100)" opacity="0.25">
+        <polygon points="0,-60 52,-30 52,30 0,60 -52,30 -52,-30" fill="none" stroke="#38BDF8" stroke-width="1"/>
+        <polygon points="0,-45 39,-22 39,22 0,45 -39,22 -39,-22" fill="none" stroke="#38BDF8" stroke-width="1"/>
+        <polygon points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" fill="none" stroke="#38BDF8" stroke-width="1"/>
+        <line x1="0" y1="-60" x2="0" y2="60" stroke="#38BDF8" stroke-width="0.5"/>
+        <line x1="-52" y1="0" x2="52" y2="0" stroke="#38BDF8" stroke-width="0.5"/>
+        <line x1="-45" y1="-26" x2="45" y2="26" stroke="#38BDF8" stroke-width="0.5"/>
+        <line x1="45" y1="-26" x2="-45" y2="26" stroke="#38BDF8" stroke-width="0.5"/>
+        <!-- 数据多边形 -->
+        <polygon points="0,-55 48,-28 44,25 0,50 -35,20 -40,-23" fill="rgba(56,189,248,0.12)" stroke="#38BDF8" stroke-width="1.5"/>
+      </g>
+      <!-- 拐杖简笔图标 -->
+      <g transform="translate(80,100)" opacity="0.15">
+        <path d="M0,-50 Q0,-55 5,-55 L5,-50 L8,-50 L8,40 L0,40 Z" fill="#38BDF8"/>
+        <ellipse cx="4" cy="-48" rx="10" ry="6" fill="none" stroke="#38BDF8" stroke-width="2"/>
+      </g>
+      <!-- 梅花装饰 -->
+      <g transform="translate(360,50)" opacity="0.2">
+        <circle cx="0" cy="-8" r="5" fill="#38BDF8"/>
+        <circle cx="8" cy="-3" r="5" fill="#38BDF8"/>
+        <circle cx="5" cy="7" r="5" fill="#38BDF8"/>
+        <circle cx="-5" cy="7" r="5" fill="#38BDF8"/>
+        <circle cx="-8" cy="-3" r="5" fill="#38BDF8"/>
+        <circle cx="0" cy="0" r="3" fill="#0a0f1a"/>
+      </g>
+    </svg>
+    <span class="card-cover-badge">AI · MARKET RESEARCH</span>
+    <span class="card-cover-icon">◆</span>
+  </div>
+
+  <!-- 内容 -->
+  <div class="card-body">
+    <div class="card-title">杖景 · 日本拐杖市场调研</div>
+    <div class="card-subtitle">JAPAN CANE MARKET · DESIGN REVIEW</div>
+    <div class="card-desc">
+      面向日本中高端市场的铝合金精品拐杖品牌调研。整合 <b>Amazon日本站 / 乐天 / Yahoo!购物</b> 三平台数据，运用 AI 智能体进行 <b>6维度竞品分析、16款方案文化匹配度评审、CMF色彩策略</b> 及方案落地规划。
+    </div>
+
+    <div class="card-tags">
+      <span class="card-tag">AI 智能体调研</span>
+      <span class="card-tag alt">三平台数据采集</span>
+      <span class="card-tag">6维度分析</span>
+      <span class="card-tag alt">CMF色彩策略</span>
+      <span class="card-tag">ECharts可视化</span>
+    </div>
+
+    <div class="card-stats">
+      <div class="card-stat">
+        <div class="card-stat-val">3</div>
+        <div class="card-stat-label">调研平台</div>
+      </div>
+      <div class="card-stat">
+        <div class="card-stat-val">80</div>
+        <div class="card-stat-label">采集竞品</div>
+      </div>
+      <div class="card-stat">
+        <div class="card-stat-val">16</div>
+        <div class="card-stat-label">方案评审</div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <a class="card-link" href="https://yfy1115955678-design.github.io/product-research-agent/widget-japan-cane.html" target="_blank">
+        查看调研报告 →
+      </a>
+      <span class="card-date">2026.08</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
