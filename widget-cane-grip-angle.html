@@ -639,6 +639,156 @@
     </div>
   </section>
 
+  <!-- 09 握把关键尺寸 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <div>
+        <div class="section-title">握把关键尺寸（人体工效基准）</div>
+        <div class="section-desc">补充：角度之外决定握感的硬尺寸 —— 握把直径 / 握距 / 手部百分位</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="value">25-32 mm</div><div class="label">握把成品直径（含包胶）</div><div class="sub">1in 杖身 = 25.4mm，包胶后增粗</div></div>
+      <div class="stat-card"><div class="value">2.5-3.5 in</div><div class="label">掌托握距最优区间</div><div class="sub">64-89mm（康奈尔人因）</div></div>
+      <div class="stat-card"><div class="value">≥4 in</div><div class="label">握把长度</div><div class="sub">容纳四指；掌托型取 5-6in</div></div>
+      <div class="stat-card"><div class="value">68-92 mm</div><div class="label">手宽覆盖区间</div><div class="sub">女性 P5 ~ 男性 P95 百分位</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>握把直径设计区间（按人群）</h4>
+        <div id="gripChart" class="chart"></div>
+      </div>
+      <div class="chart-wrap">
+        <h4>核心尺寸速查</h4>
+        <table class="data-table" style="margin:0">
+          <thead><tr><th>尺寸项</th><th>建议值</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>握把成品直径</td><td class="hl-cyan">25-32mm</td><td>健康手取 25-28；舒适型 28-32</td></tr>
+            <tr><td>关节炎/握力弱人群</td><td class="hl-cyan">32-35mm</td><td>泡棉/TPE 加粗，降峰值压强</td></tr>
+            <tr><td>掌托握距</td><td class="hl-cyan">64-89mm</td><td>超出区间握力与稳定性下降</td></tr>
+            <tr><td>握把长度</td><td class="hl-cyan">100-150mm</td><td>≥100mm 容四指；掌托型取长值</td></tr>
+            <tr><td>杖身管径</td><td class="hl-cyan">22.2 / 25.4mm</td><td>1in=25.4mm 为美标常见值</td></tr>
+            <tr><td>手宽覆盖</td><td class="hl-cyan">P5女68 - P95男92mm</td><td>据此定直径/握距上下限</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 掌面压力分布与验证 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <div>
+        <div class="section-title">掌面压力分布与验证</div>
+        <div class="section-desc">补充：角度落到曲面后，承压区分布与验证流程才决定真实舒适度</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>右手掌面承压区示意（仰视）</h4>
+        <div class="ac-svg" style="background:rgba(0,0,0,0.25);border-radius:10px;padding:12px 0">
+          <svg viewBox="0 0 340 250" xmlns="http://www.w3.org/2000/svg">
+            <!-- 手指 -->
+            <g fill="#3a6a90" stroke="#8fb3d9" stroke-width="1.5">
+              <rect x="90"  y="35" width="34" height="85" rx="17"/>
+              <rect x="130" y="25" width="36" height="95" rx="18"/>
+              <rect x="172" y="35" width="34" height="85" rx="17"/>
+              <rect x="212" y="48" width="30" height="72" rx="15"/>
+            </g>
+            <!-- 手掌主体 -->
+            <path d="M90 115 Q90 80 125 80 L207 80 Q242 80 242 115 L242 175 Q242 210 205 210 L127 210 Q90 210 90 175 Z" fill="#2a4a6a" stroke="#5b7ca3" stroke-width="1.5"/>
+            <!-- 拇指 -->
+            <path d="M90 130 Q60 128 52 152 Q44 182 68 188 Q88 192 92 172 Z" fill="#3a6a90" stroke="#8fb3d9" stroke-width="1.5"/>
+            <!-- 承压区 -->
+            <ellipse cx="112" cy="185" rx="32" ry="24" fill="rgba(255,82,82,0.45)" stroke="#ff8a80" stroke-width="1.5"/>
+            <ellipse cx="222" cy="185" rx="28" ry="22" fill="rgba(255,82,82,0.45)" stroke="#ff8a80" stroke-width="1.5"/>
+            <ellipse cx="166" cy="170" rx="34" ry="18" fill="rgba(0,212,255,0.35)" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <!-- 标注 -->
+            <text x="96" y="20" fill="#c0cad8" font-size="10">指槽 / 握持区</text>
+            <text x="74" y="240" fill="#ff8a80" font-size="11">大鱼际 · 承压</text>
+            <text x="198" y="240" fill="#ff8a80" font-size="11">小鱼际 · 承压</text>
+            <text x="118" y="152" fill="#00d4ff" font-size="11">中央掌弓（低压凹面）</text>
+          </svg>
+        </div>
+        <div class="legend-row" style="justify-content:flex-start;padding:4px 6px">
+          <span class="legend-item"><span class="legend-dot" style="background:#ff8a80"></span>承压区（痛觉不敏感）</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#00d4ff"></span>避压区（正中神经/血管）</span>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <h4>从图纸到成品的验证流程</h4>
+        <ul class="rec-list">
+          <li><span class="step-num">1</span><b>3D 打样</b>—— 先验证掌托面与 19°±5° 基准线对齐，角尺/三坐标测量</li>
+          <li><span class="step-num">2</span><b>5-10 人握持实测</b>（目标人群）—— 量腕伸/尺偏角，确认落在中立位附近</li>
+          <li><span class="step-num">3</span><b>压力映射</b>（Tekscan / FlexiForce）—— 看峰值压强是否集中在鱼际、掌弓是否避开受压</li>
+          <li><span class="step-num">4</span><b>迭代复测</b>—— 调掌托曲率 / 握把直径 / 偏移角，直至峰值压强与腕角双达标</li>
+        </ul>
+        <div class="insight-card" style="margin-top:14px">
+          <h4>两条必须守住的边界</h4>
+          <p>① 承压设计给<span class="highlight">大鱼际 + 小鱼际</span>，中央掌弓保持凹面不承压（避开正中神经）；② 纹理可防滑，但<span class="highlight">避免深槽/脊状纹路</span>压伤神经与血管（康奈尔：textured 可以，contoured 不行）。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 法规与测试硬门槛 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <div>
+        <div class="section-title">法规与测试硬门槛</div>
+        <div class="section-desc">补充：角度无强制值，但结构测试是合规硬约束 —— 设计自由在角度，约束在结构</div>
+      </div>
+    </div>
+    <table class="data-table" style="margin-bottom:20px">
+      <thead><tr><th>合规/测试项</th><th>要求</th><th>对设计的影响</th></tr></thead>
+      <tbody>
+        <tr><td>FDA 分类</td><td class="hl-cyan">21 CFR 890.3940 一类器械（510(k)豁免）</td><td>无角度强制值 → 角度是设计自由度</td></tr>
+        <tr><td>承重静载测试</td><td class="hl-cyan">典型 250lb（113kg）垂直静载不失效</td><td>决定柄芯/杖身结构与材料选型</td></tr>
+        <tr><td>倾斜稳定性</td><td class="hl-cyan">约 10° 倾斜面站立稳定</td><td>影响四脚底座与重心设计</td></tr>
+        <tr><td>杖尖标准</td><td class="hl-cyan">ISO 24415 系列（接触面 + 摩擦测试）</td><td>杖尖材质、直径与表面处理</td></tr>
+        <tr><td>表面与清洁</td><td class="hl-cyan">防滑 + 可清洁（医疗环境）</td><td>纹理设计、抗菌涂层可选</td></tr>
+        <tr><td>医保编码</td><td class="hl-cyan">HCPCS E0100（标准杖）/ E0105（四脚杖）</td><td>影响报销路径与产品线定义</td></tr>
+      </tbody>
+    </table>
+    <div class="insight-card">
+      <h4>设计自由度在哪，约束在哪</h4>
+      <p><span class="highlight">角度、曲面、材质、颜色</span>——无合规强制，可以放开做差异化；<span class="highlight">静载强度、稳定性、杖尖摩擦</span>——硬性测试，做不好直接出局。立项时优先把这 3 项测试排进验证计划。</p>
+    </div>
+  </section>
+
+  <!-- 12 数据可信度标注 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <div>
+        <div class="section-title">数据可信度标注</div>
+        <div class="section-desc">所有数值分级：哪些可直接用、哪些要打折扣、哪些仅供参考</div>
+      </div>
+    </div>
+    <table class="data-table" style="margin-bottom:20px">
+      <thead><tr><th>数据</th><th>分级</th><th>使用建议</th></tr></thead>
+      <tbody>
+        <tr><td>偏移前倾 15-20°（≤30°）</td><td><span class="tag green">🟢 有实证</span></td><td>直接作设计参数</td></tr>
+        <tr><td>19°±5° 腕中立位基准</td><td><span class="tag green">🟢 研究引用</span></td><td>作基准起点，实测校准</td></tr>
+        <tr><td>肘屈 15-30°</td><td><span class="tag green">🟢 行业标准</span></td><td>直接使用</td></tr>
+        <tr><td>E0100 / FDA 一类 / 250-300lb / 29-39in</td><td><span class="tag green">🟢 官方/市场规格</span></td><td>直接使用</td></tr>
+        <tr><td>偏移柄消除力矩臂</td><td><span class="tag green">🟢 物理原理</span></td><td>直接使用（方向确定）</td></tr>
+        <tr><td>"减少 50% 腕部拉力"</td><td><span class="tag warn">🟡 厂商宣传</span></td><td>实测约 6.6%，只作文案</td></tr>
+        <tr><td>"尺偏&gt;30° → 负荷 6 倍"</td><td><span class="tag warn">🟡 无直接出处</span></td><td>定性成立，数值勿引用</td></tr>
+        <tr><td>"72% 长期用户手/腕不适"</td><td><span class="tag warn">🟡 来源不明</span></td><td>谨慎引用</td></tr>
+        <tr><td>"疲劳降低 40-60%"</td><td><span class="tag warn">🟡 厂商宣称</span></td><td>只作文案</td></tr>
+        <tr><td>市场占比 / 投资分布</td><td><span class="tag danger">🔴 第三方报告</span></td><td>仅作背景参考</td></tr>
+      </tbody>
+    </table>
+    <div class="insight-card">
+      <h4>结论</h4>
+      <p>这份资料的<span class="highlight">设计框架与角度原则约六成可直接落地</span>；具体数字约四成要打折扣——用前先分清"研究结论"与"营销话术"。设计文档引用时建议只写本页 🟢 级数据，🟡/🔴 级用于内部参考与汇报背景。</p>
+    </div>
+  </section>
+
   <div class="footer">
     <p><b>拐杖手柄 · 握感角度设计维度可视化</b></p>
     <p style="margin-top:8px">数据来源：美国市场在售产品调研与人因工程文献（Emmanuel 1980 · 康奈尔人因实验室 · OT研究）&nbsp;|&nbsp; 调研日期：2026.08.10 &nbsp;|&nbsp; 输出风格沿用产品调研智能体</p>
@@ -769,9 +919,32 @@ investChart.setOption({
   ]
 });
 
+// 5. 握把直径设计区间
+var gripChart = echarts.init(document.getElementById('gripChart'));
+gripChart.setOption({
+  ...chartTheme,
+  tooltip: { ...chartTheme.tooltip, trigger: 'item', formatter: function(p){ return p.name + ': ' + p.value[0] + '-' + p.value[1] + 'mm'; } },
+  grid: { left: 110, right: 70, top: 20, bottom: 30 },
+  xAxis: { type: 'value', min: 20, max: 40, axisLine: { lineStyle: { color: '#2a3a50' } }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.03)' } }, axisLabel: { color: '#6b7a90', formatter: '{value}mm' } },
+  yAxis: { type: 'category', data: ['精细操控型','通用舒适型','关节炎/握力弱','重型支撑款'], axisLine: { lineStyle: { color: '#2a3a50' } }, axisLabel: { color: '#8a9ab5', fontSize: 12 } },
+  series: [{
+    type: 'bar',
+    data: [[25, 28], [28, 32], [32, 35], [30, 34]],
+    barWidth: 16,
+    itemStyle: { color: 'rgba(0,212,255,0.55)', borderRadius: 3 },
+    label: { show: true, position: 'right', color: '#8a9ab5', formatter: function(p){ return p.value[0] + '-' + p.value[1] + 'mm'; } },
+    markLine: {
+      silent: true, symbol: 'none',
+      lineStyle: { color: '#ffd54f', type: 'dashed', width: 1.5 },
+      label: { color: '#ffd54f', fontSize: 11, position: 'insideEndTop' },
+      data: [{ xAxis: 25.4, label: { formatter: '1in 杖身' } }]
+    }
+  }]
+});
+
 // 响应式
 window.addEventListener('resize', function(){
-  [handleRadarChart, materialChart, trendChart, investChart].forEach(function(c){ c && c.resize(); });
+  [handleRadarChart, materialChart, trendChart, investChart, gripChart].forEach(function(c){ c && c.resize(); });
 });
 </script>
 </body>

@@ -193,8 +193,8 @@
   .theme-jp { font-size: 11px; color: #00d4ff; margin-top: 3px; letter-spacing: 2px; }
   .theme-tier { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-top: 8px; letter-spacing: 1px; }
   .theme-svg-box { height: 110px; margin: 6px 20px 12px; border-radius: 10px; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.04); }
-  .theme-img-box { height: 300px; margin: 6px 20px 12px; border-radius: 10px; overflow: hidden; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.06); }
-  .theme-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+  .theme-img-box { aspect-ratio: 1 / 1; margin: 6px 20px 12px; border-radius: 10px; overflow: hidden; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.06); }
+  .theme-img { width: 100%; height: 100%; object-fit: cover; }
   .theme-svg-fallback { height: 110px; display: flex; align-items: center; justify-content: center; }
   .theme-img-label { font-size: 10px; color: #6b7a90; text-align: center; margin-top: 4px; letter-spacing: 1px; }
   .theme-colors { padding: 0 20px 14px; }
@@ -1130,7 +1130,7 @@ var schemes = {
     { name:'月夜梅影', series:'系列Ⅰ · 亚克力手柄', tags:['梅花','深海蓝','形象款'], score:9.5, color:'#00d4ff', note:'梅+月夜+深海蓝金，文化认同最高。梅在日本象征高洁早春，"月夜梅"契合物哀美学。' },
     { name:'星籠青海', series:'系列Ⅰ · 亚克力手柄', tags:['青海波','中性款','男性市场'], score:9.5, color:'#00d4ff', note:'青海波现代化+几何网格，唯一中性款覆盖男性市场。青海波源自能乐装束寓意好运连绵。' },
     { name:'银杏和光', series:'系列Ⅱ · 木手柄', tags:['银杏','长寿','礼赠款'], score:9.0, color:'#00d4ff', note:'银杏象征长寿，PERFECT for敬老/米寿礼赠场景。秋日温暖色，送礼首选。' },
-    { name:'夜海流金', series:'系列Ⅱ · 木手柄', tags:['水纹','深色旗舰','男女通用'], score:9.0, color:'#00d4ff', note:'夜海+流动金脉，深色旗舰。可对标近江一文字琵琶瑠璃定位，商业接受度最高。' }
+    { name:'夜海流金', series:'系列Ⅱ · 亚克力手柄', tags:['水纹','深色旗舰','男女通用'], score:9.0, color:'#00d4ff', note:'夜海+流动金脉，深色旗舰。可对标近江一文字琵琶瑠璃定位，商业接受度最高。' }
   ],
   tier2: [
     { name:'藤月夜樱', series:'系列Ⅰ · 亚克力手柄', tags:['夜樱','藤紫','浪漫'], score:9.0, color:'#aed581', note:'藤+夜樱组合有辨识度。"夜桜"是日本特有赏夜樱文化。注意樱花主题市场已饱和，靠夜桜意境差异化。' },
@@ -1191,7 +1191,7 @@ var themes = [
   },
   {
     name:'星籠青海', jp:'ほしかごせいがいなみ Hoshikago Seigainami',
-    id:'02', img:'images/schemes/theme-02-seigaiha.png',
+    id:'02', img:'images/schemes/seigaiha-1.0.png',
     tier:'第一梯队 · 中性空白', tierClass:'tier-1',
     series:'系列Ⅰ · 铝合金杖身 + 亚克力内嵌手柄',
     banner:['#1A4D8C','#B0BEC5','#C8A951'],
@@ -1208,7 +1208,7 @@ var themes = [
   },
   {
     name:'银杏和光', jp:'いちょうわこう Ichou Wakou',
-    id:'03', img:'images/schemes/theme-03-ginkgo.png',
+    id:'03', img:'images/schemes/ginkgo-1.0.png',
     tier:'第一梯队 · 礼赠核心', tierClass:'tier-1',
     series:'系列Ⅱ · 铝合金细管 + 木手柄',
     banner:['#6B4423','#D4A537','#7CB342'],
@@ -1225,9 +1225,9 @@ var themes = [
   },
   {
     name:'夜海流金', jp:'よるうみりゅうきん Yoru Umi Ryukin',
-    id:'04', img:'images/schemes/theme-04-night-sea.png',
+    id:'04', img:'images/schemes/night-sea-1.0.png',
     tier:'第一梯队 · 深色旗舰', tierClass:'tier-1',
-    series:'系列Ⅱ · 铝合金细管 + 木手柄',
+    series:'系列Ⅱ · 铝合金细管 + 亚克力手柄',
     banner:['#1B1B1B','#1A4D8C','#C8A951'],
     svg:'<svg viewBox="0 0 200 110" width="180" height="100"><rect width="200" height="110" fill="#0a0a0a"/><g fill="none" stroke-width="1.6"><path d="M-10 50 C10 20 30 15 50 35 C70 55 55 75 80 55 C105 35 120 20 140 35 C160 50 150 70 170 60 C190 50 200 30 220 45" stroke="#1A4D8C"/><path d="M-10 72 C10 50 25 45 45 60 C65 75 70 90 95 80 C120 70 125 55 145 65 C165 75 170 88 190 85 C210 82 220 70 230 78" stroke="#113285"/><path d="M-10 92 C15 75 35 72 55 82 C75 92 80 102 100 98 C120 94 130 85 145 92 C160 99 170 100 185 96 C205 92 215 85 230 92" stroke="#1A4D8C" opacity="0.6"/></g><g stroke="#C8A951" stroke-width="0.8" fill="none" opacity="0.7"><path d="M-10 55 C10 25 30 20 50 40 C70 60 55 80 80 60 C105 40 120 25 140 40 C160 55 150 75 170 65 C190 55 200 35 220 50"/><path d="M-10 77 C10 55 25 50 45 65 C65 80 70 95 95 85 C120 75 125 60 145 70 C165 80 170 93 190 90 C210 87 220 75 230 83"/></g><g fill="#C8A951" opacity="0.85"><circle cx="65" cy="48" r="1.5"/><circle cx="78" cy="44" r="1"/><circle cx="92" cy="50" r="1.2"/><circle cx="155" cy="68" r="1.3"/><circle cx="168" cy="72" r="1"/></g></svg>',
     colors:[
@@ -1298,7 +1298,7 @@ function renderThemes(){
            'background:rgba(124,179,66,0.15);color:#aed581;border:1px solid rgba(124,179,66,0.35)')+'">'+t.tier+'</span>'+
       '</div>'+
       (t.img ?
-        '<div class="theme-img-box"><img src="'+t.img+'" alt="'+t.name+'方案图" class="theme-img" onerror="this.style.display=\'none\';document.getElementById(\'svgfb-'+t.id+'\').style.display=\'flex\'"></div><div class="theme-img-label">方案设计图</div>'+
+        '<div class="theme-img-box"><img src="'+t.img+'?v=20260812b" alt="'+t.name+'方案图" class="theme-img" onerror="this.style.display=\'none\';document.getElementById(\'svgfb-'+t.id+'\').style.display=\'flex\'"></div><div class="theme-img-label">方案设计图</div>'+
         '<div id="svgfb-'+t.id+'" class="theme-svg-box" style="display:none;margin-top:-8px">'+t.svg+'</div>'
         :
         '<div class="theme-svg-box">'+t.svg+'</div>'
