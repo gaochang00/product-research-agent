@@ -279,6 +279,183 @@
 
   .footer { padding: 60px 0 40px; text-align: center; color: #4a5a70; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
   .footer b { color: #6b7a90; }
+
+  /* 11 月夜梅影系列 · 新配色探索 */
+  .explore-intro-old-marker { display: none; }
+  .explore-intro {
+    background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,90,180,0.06) 100%);
+    border: 1px solid rgba(0,212,255,0.18); border-radius: 14px; padding: 24px 28px; margin-bottom: 32px;
+  }
+  .explore-intro h4 { font-size: 16px; color: #00d4ff; margin-bottom: 8px; letter-spacing: 1px; }
+  .explore-intro p { font-size: 13px; color: #b0bdd0; line-height: 1.7; }
+  .explore-intro .priority-tag {
+    display: inline-block; padding: 4px 12px; background: rgba(255,213,79,0.15);
+    border: 1px solid rgba(255,213,79,0.4); border-radius: 12px;
+    font-size: 11px; color: #ffd54f; margin-top: 10px; letter-spacing: 1px;
+  }
+
+  .dimension-block {
+    background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%);
+    border: 1px solid rgba(0,212,255,0.12); border-radius: 16px; padding: 24px 26px; margin-bottom: 20px;
+  }
+  .dim-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid rgba(0,212,255,0.1); }
+  .dim-num {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(0,212,255,0.05) 100%);
+    border: 1px solid rgba(0,212,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #00d4ff;
+  }
+  .dim-title-wrap { flex: 1; }
+  .dim-title { font-size: 17px; color: #fff; font-weight: 600; }
+  .dim-subtitle { font-size: 12px; color: #6b7a90; margin-top: 2px; letter-spacing: 1px; }
+  .dim-priority { font-size: 11px; padding: 4px 10px; border-radius: 12px; letter-spacing: 1px; font-weight: 600; }
+  .dim-priority.p5 { background: rgba(0,212,255,0.18); color: #00d4ff; border: 1px solid rgba(0,212,255,0.4); }
+  .dim-priority.p4 { background: rgba(124,179,66,0.15); color: #aed581; border: 1px solid rgba(124,179,66,0.35); }
+  .dim-priority.p3 { background: rgba(255,183,77,0.15); color: #ffb74d; border: 1px solid rgba(255,183,77,0.35); }
+
+  .swatch-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 14px; }
+  .swatch-card {
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden; transition: border-color 0.3s;
+  }
+  .swatch-card:hover { border-color: rgba(0,212,255,0.35); }
+  .swatch-body { height: 80px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .swatch-body::after {
+    content: attr(data-hex); position: absolute; bottom: 6px; right: 8px;
+    font-size: 9px; color: rgba(255,255,255,0.7); letter-spacing: 0.5px;
+    background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px;
+  }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-name { font-size: 13px; color: #fff; font-weight: 600; }
+  .swatch-jp { font-size: 10px; color: #00d4ff; margin-top: 2px; letter-spacing: 0.5px; }
+  .swatch-desc { font-size: 11px; color: #8a9ab5; margin-top: 6px; line-height: 1.5; }
+  .swatch-tag {
+    display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,213,79,0.12); color: #ffd54f; margin-top: 6px; letter-spacing: 0.5px;
+  }
+
+  .recommend-banner {
+    background: linear-gradient(135deg, rgba(255,213,79,0.1) 0%, rgba(0,212,255,0.06) 100%);
+    border: 1px solid rgba(255,213,79,0.3); border-radius: 14px; padding: 22px 26px; margin-top: 28px;
+  }
+  .recommend-banner h4 { font-size: 16px; color: #ffd54f; margin-bottom: 12px; letter-spacing: 1px; }
+  .recommend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px; }
+  .recommend-card {
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,213,79,0.2); border-radius: 12px; padding: 16px;
+  }
+  .recommend-card.featured { border-color: rgba(255,213,79,0.5); background: rgba(255,213,79,0.05); }
+  .recommend-name { font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 4px; }
+  .recommend-jp { font-size: 10px; color: #00d4ff; letter-spacing: 1px; }
+  .recommend-desc { font-size: 11px; color: #b0bdd0; margin-top: 8px; line-height: 1.6; }
+  .recommend-palette { display: flex; gap: 4px; margin-top: 10px; }
+  .recommend-palette .rp { flex: 1; height: 24px; border-radius: 4px; }
+
+  /* 12 月夜梅影系列 · 实拍新配色筛选与落地建议 */
+  .step-block {
+    background: linear-gradient(180deg, rgba(20,30,50,0.5) 0%, rgba(15,22,35,0.7) 100%);
+    border: 1px solid rgba(0,212,255,0.12); border-radius: 16px; padding: 28px 30px; margin-bottom: 24px;
+  }
+  .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid rgba(0,212,255,0.1); }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.25) 0%, rgba(0,212,255,0.05) 100%);
+    border: 1px solid rgba(0,212,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: #00d4ff; letter-spacing: 1px;
+  }
+  .step-title-wrap { flex: 1; }
+  .step-title { font-size: 18px; color: #fff; font-weight: 600; }
+  .step-subtitle { font-size: 12px; color: #6b7a90; margin-top: 3px; letter-spacing: 1px; }
+
+  .color-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+  }
+  .color-card {
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column;
+  }
+  .color-card:hover { border-color: rgba(0,212,255,0.45); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,212,255,0.12); }
+  .color-card .img-wrap {
+    width: 100%; aspect-ratio: 1 / 3; background: #1a1a1a; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .color-card .img-wrap img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; display: block; }
+  .color-card .img-wrap img.fit-cover { object-fit: cover; object-position: center; }
+  .color-card .img-wrap img.error { display: none; }
+  .color-card .img-wrap::after {
+    content: '图片加载失败'; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #c00; font-size: 11px; background: rgba(255,200,200,0.1);
+  }
+  .color-card.has-img .img-wrap::after { display: none; }
+  .color-card .info { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .color-card .name-row { display: flex; align-items: center; gap: 8px; }
+  .color-card .idx { font-size: 10px; color: #6b7a90; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; }
+  .color-card .name { font-size: 13px; color: #fff; font-weight: 600; flex: 1; }
+  .color-card .jp { font-size: 10px; color: #00d4ff; letter-spacing: 0.5px; }
+  .color-card .hex-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .color-card .swatch-dot { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); }
+  .color-card .hex-text { font-size: 10px; color: #8a9ab5; font-family: monospace; }
+  .color-card .scene-tag {
+    font-size: 9px; padding: 3px 8px; border-radius: 4px; align-self: flex-start;
+    background: rgba(0,212,255,0.12); color: #00d4ff; letter-spacing: 0.5px; margin-top: 4px;
+  }
+  .step-note {
+    margin-top: 18px; padding: 12px 16px; background: rgba(255,213,79,0.06);
+    border: 1px solid rgba(255,213,79,0.2); border-radius: 10px;
+    font-size: 11px; line-height: 1.7;
+  }
+
+  .theme-group {
+    background: rgba(0,0,0,0.25); border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 14px; padding: 22px 24px; margin-bottom: 18px;
+  }
+  .theme-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed rgba(0,212,255,0.15); }
+  .theme-icon {
+    width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: #fff;
+  }
+  .theme-title { font-size: 16px; color: #fff; font-weight: 600; flex: 1; }
+  .theme-meta { font-size: 11px; color: #8a9ab5; letter-spacing: 1px; }
+  .theme-desc { font-size: 12px; color: #b0bdd0; line-height: 1.7; margin-bottom: 14px; }
+  .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+
+  .final-recommend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .final-card {
+    background: rgba(0,0,0,0.3); border-radius: 14px; overflow: hidden;
+    transition: all 0.3s; display: flex; flex-direction: column;
+  }
+  .final-card.tier-1 { border: 2px solid rgba(255,213,79,0.6); background: linear-gradient(180deg, rgba(255,213,79,0.08) 0%, rgba(0,0,0,0.4) 100%); }
+  .final-card.tier-2 { border: 1px solid rgba(0,212,255,0.4); background: linear-gradient(180deg, rgba(0,212,255,0.05) 0%, rgba(0,0,0,0.4) 100%); }
+  .final-card.tier-3 { border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); }
+  .final-card .img-wrap { width: 100%; aspect-ratio: 1 / 3; background: #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+  .final-card .img-wrap img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; display: block; }
+  .final-card .img-wrap img.fit-cover { object-fit: cover; object-position: center; }
+  .final-card .img-wrap img.error { display: none; }
+  .final-card .img-wrap::after {
+    content: '图片加载失败'; display: flex; align-items: center; justify-content: center;
+    color: #c00; font-size: 11px; height: 100%; background: rgba(255,200,200,0.1);
+  }
+  .final-card.has-img .img-wrap::after { display: none; }
+  .final-card .body { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .final-card .tier-badge {
+    display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 12px;
+    align-self: flex-start; letter-spacing: 1px; font-weight: 600;
+  }
+  .final-card.tier-1 .tier-badge { background: rgba(255,213,79,0.18); color: #ffd54f; border: 1px solid rgba(255,213,79,0.5); }
+  .final-card.tier-2 .tier-badge { background: rgba(0,212,255,0.15); color: #00d4ff; border: 1px solid rgba(0,212,255,0.4); }
+  .final-card.tier-3 .tier-badge { background: rgba(255,255,255,0.06); color: #8a9ab5; border: 1px solid rgba(255,255,255,0.15); }
+  .final-card .name { font-size: 15px; color: #fff; font-weight: 600; }
+  .final-card .jp { font-size: 11px; color: #00d4ff; letter-spacing: 0.5px; }
+  .final-card .reason { font-size: 12px; color: #b0bdd0; line-height: 1.7; margin-top: 4px; }
+  .final-card .scenario { font-size: 11px; color: #8a9ab5; margin-top: 6px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.08); }
+
+  .final-summary {
+    margin-top: 24px; padding: 22px 26px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,90,180,0.06) 100%);
+    border: 1px solid rgba(0,212,255,0.2); border-radius: 14px;
+  }
 </style>
 </head>
 <body>
@@ -863,6 +1040,684 @@
           <li>IP联名（Hello Kitty/Disney）洽谈，冲击2万円+带</li>
           <li>品牌知名度达到行业前15，目标复购率 ≥25%</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 月夜梅影系列 · 新配色探索 -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div>
+        <div class="section-title">月夜梅影系列 · 新配色探索</div>
+        <div class="section-desc">8维度拓展方向 · 覆盖季節/品种/时辰/美学/工艺/传统色/人群/场景</div>
+      </div>
+    </div>
+
+    <div class="explore-intro">
+      <h4>探索背景</h4>
+      <p>月夜梅影系列（系列Ⅰ · 铝合金杖身+亚克力内嵌手柄）现有7款配色，工艺路径为<b style="color:#00d4ff">先阳极氧化多色杖身→UV打印梅花纹样</b>。计划从现有7款中选取2-3款落地，同时探索该系列其他配色方案。以下8个维度提供系统化拓展方向，每维度附具体色卡与传统色名溯源。</p>
+      <span class="priority-tag">★★★★★ 高优先级：利休灰系 / 还暦朱色款 / 蓝染系深色款</span>
+    </div>
+
+    <!-- 维度1 · 月相流转 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">1</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">月相流转 · 同一夜空不同月相</div>
+          <div class="dim-subtitle">月相变化直接改变夜色底色 · 品牌基因延伸</div>
+        </div>
+        <span class="dim-priority p5">★★★★★</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#0F1A3C" style="background:#0F1A3C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">新月</div>
+            <div class="swatch-jp">しんげつ Shingetsu</div>
+            <div class="swatch-desc">月隐于夜，最深紺瑠璃。银白梅浮于深渊。</div>
+            <span class="swatch-tag">男性向·幽玄</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:#1A4D8C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">上弦月（现有款）</div>
+            <div class="swatch-jp">かぎづき Kagizuki</div>
+            <div class="swatch-desc">月始生，幽蓝瑠璃。白梅经典款。</div>
+            <span class="swatch-tag">品牌形象款</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#D4DCE8" style="background:#D4DCE8"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">满月（★推荐新增）</div>
+            <div class="swatch-jp">まんげつ Mangetsu</div>
+            <div class="swatch-desc">月光满洒月白底，红梅点睛。祝仪礼赠首选。</div>
+            <span class="swatch-tag">礼赠·祝仪</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#3A4A5C" style="background:#3A4A5C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">十六夜</div>
+            <div class="swatch-jp">いざよい Izayoi</div>
+            <div class="swatch-desc">略过盈，藤煤竹暖夜。山吹色梅。</div>
+            <span class="swatch-tag">中性·暖调</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#4A3D2A" style="background:#4A3D2A"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">下弦月</div>
+            <div class="swatch-jp">かげづき Kagezuki</div>
+            <div class="swatch-desc">月将隐，黎明前空五倍子色。白梅余韵。</div>
+            <span class="swatch-tag">男性向·黎明</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度2 · 梅花品种谱系 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">2</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">梅花品种谱系 · 同一月夜不同梅</div>
+          <div class="dim-subtitle">日本梅花品种丰富 · 花色差异延展整个系列</div>
+        </div>
+        <span class="dim-priority p5">★★★★★</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:linear-gradient(135deg,#1A4D8C 0%,#1A4D8C 100%);position:relative">
+            <span style="position:absolute;font-size:24px;color:#FDF4F0">❀</span>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">白梅（现有款）</div>
+            <div class="swatch-jp">はくばい Hakubai</div>
+            <div class="swatch-desc">深海蓝杖身+纯白梅花。月夜梅影经典。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B1B1B" style="background:linear-gradient(135deg,#1B1B1B 0%,#1B1B1B 100%);position:relative">
+            <span style="position:absolute;font-size:24px;color:#C8553D">❀</span>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">紅梅墨色（★推荐新增）</div>
+            <div class="swatch-jp">こうばい Kōbai</div>
+            <div class="swatch-desc">墨色杖身+紅梅。"墨に紅梅"浮世绘经典，男女通吃。</div>
+            <span class="swatch-tag">浮世绘经典</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#0F1A3C" style="background:linear-gradient(135deg,#0F1A3C 0%,#0F1A3C 100%);position:relative">
+            <span style="position:absolute;font-size:24px;color:#8C2A2A">❀</span>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">寒紅梅</div>
+            <div class="swatch-jp">かんこうばい Kankōbai</div>
+            <div class="swatch-desc">紺瑠璃最深底+浓红寒梅。冬季祝仪。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#ECA66B" style="background:linear-gradient(135deg,#ECA66B 0%,#ECA66B 100%);position:relative">
+            <span style="position:absolute;font-size:24px;color:#F5F0E6">❀</span>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">腊梅山吹</div>
+            <div class="swatch-jp">ろうばい Rōbai</div>
+            <div class="swatch-desc">山吹色杖身+蜡黄梅。秋日温暖礼赠。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#8B81C3" style="background:linear-gradient(135deg,#8B81C3 0%,#8B81C3 100%);position:relative">
+            <span style="position:absolute;font-size:24px;color:#F8C8D0">❀</span>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">枝垂梅</div>
+            <div class="swatch-jp">しだれうめ Shidareume</div>
+            <div class="swatch-desc">藤紫杖身+浅粉垂梅。浪漫优雅女性向。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度3 · 时辰流转 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">3</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">时辰流转 · 同一梅树不同时辰</div>
+          <div class="dim-subtitle">从暮到夜到黎明 · 色彩完全不同</div>
+        </div>
+        <span class="dim-priority p4">★★★★☆</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#4A3A4C" style="background:#4A3A4C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">夕暮れ</div>
+            <div class="swatch-jp">ゆうぐれ Yūgure</div>
+            <div class="swatch-desc">黄昏逢魔时，紫梅浮影。物哀美学。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#2A3A6C" style="background:#2A3A6C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">宵</div>
+            <div class="swatch-jp">よい Yoi</div>
+            <div class="swatch-desc">夜初上，紺藍底+白梅。幽蓝过渡。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:#1A4D8C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">真夜中（现有款）</div>
+            <div class="swatch-jp">まよなか Mayonaka</div>
+            <div class="swatch-desc">深夜瑠璃底+白梅。品牌基因款。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B1B1B" style="background:#1B1B1B"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">丑満</div>
+            <div class="swatch-jp">うしみつどき Ushimitsudoki</div>
+            <div class="swatch-desc">最深夜墨色+银梅。幽玄极致。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#0F1A3C" style="background:#0F1A3C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">有明（★推荐新增）</div>
+            <div class="swatch-jp">ありあけ Ariake</div>
+            <div class="swatch-desc">黎明前紺瑠璃+薄紅梅。"有明の梅"和歌经典。</div>
+            <span class="swatch-tag">和歌意象</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#F8C8D0" style="background:#F8C8D0"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">曙</div>
+            <div class="swatch-jp">あけぼの Akebono</div>
+            <div class="swatch-desc">破晓霞桜底+白梅。最柔美女性向。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度4 · 季节与梅花状态 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">4</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">季节与梅花状态 · 从冬至春</div>
+          <div class="dim-subtitle">梅从雪中到飘落 · 不同阶段色彩不同</div>
+        </div>
+        <span class="dim-priority p4">★★★★☆</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:#1A4D8C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">雪中梅（现有款）</div>
+            <div class="swatch-jp">せっちゅうばい Setchūbai</div>
+            <div class="swatch-desc">踏雪寻梅，深海蓝底+白梅。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#88B8A8" style="background:#88B8A8"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">早春初梅</div>
+            <div class="swatch-jp">そうしゅん Sōshun</div>
+            <div class="swatch-desc">青磁色底+薄紅梅。初绽清新。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#B7282E" style="background:#B7282E"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">盛梅</div>
+            <div class="swatch-jp">せいばい Seibai</div>
+            <div class="swatch-desc">茜色底+浓红梅。满开祝仪最强。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#E8D5C4" style="background:#E8D5C4"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">散り梅（★推荐新增）</div>
+            <div class="swatch-jp">ちりばい Chiribai</div>
+            <div class="swatch-desc">珠色底+白梅飘落纹样。物哀极致。</div>
+            <span class="swatch-tag">物哀·差异化</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#88C4B8" style="background:#88C4B8"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">梅雨梅</div>
+            <div class="swatch-jp">つゆばい Tuyubai</div>
+            <div class="swatch-desc">浅葱底+白梅。梅雨季青湿感。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#ECA66B" style="background:#ECA66B"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">実梅</div>
+            <div class="swatch-jp">みうめ Miume</div>
+            <div class="swatch-desc">山吹色底+黄绿梅。结梅子时。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度5 · 日本美学意境 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">5</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">日本美学意境 · 幽玄/物哀/侘寂/雅/粋</div>
+          <div class="dim-subtitle">不同美学对应不同色温饱和度 · 高端缺口</div>
+        </div>
+        <span class="dim-priority p5">★★★★★</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#0F1A3C" style="background:#0F1A3C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">幽玄</div>
+            <div class="swatch-jp">ゆうげん Yūgen</div>
+            <div class="swatch-desc">紺瑠璃+银梅。深邃神秘低饱和。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#4A3A4C" style="background:#4A3A4C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">物哀</div>
+            <div class="swatch-jp">もののあわれ Mono no aware</div>
+            <div class="swatch-desc">逢魔时+紫梅。凋零之美。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#8C8478" style="background:#8C8478"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">侘寂（★强烈推荐）</div>
+            <div class="swatch-jp">わびさび Wabi-sabi</div>
+            <div class="swatch-desc">利休灰+白梅。朴素寂静，高端极简缺口。</div>
+            <span class="swatch-tag">高端·缺口</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#8B81C3" style="background:#8B81C3"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">雅</div>
+            <div class="swatch-jp">みやび Miyabi</div>
+            <div class="swatch-desc">藤紫+白梅+金线。公家优雅。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B1B1B" style="background:#1B1B1B"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">粋</div>
+            <div class="swatch-jp">いき Iki</div>
+            <div class="swatch-desc">墨色+紅梅。洒脱洗练一点红。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度6 · 亚克力内嵌手柄工艺 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">6</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">亚克力内嵌手柄 · 光影工艺表现</div>
+          <div class="dim-subtitle">系列Ⅰ独有工艺优势 · 光影层次溢价</div>
+        </div>
+        <span class="dim-priority p4">★★★★☆</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:linear-gradient(135deg,#1A4D8C 0%,#C8A951 50%,#1A4D8C 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">透明白+金箔片</div>
+            <div class="swatch-jp">きんぱく Kinpaku</div>
+            <div class="swatch-desc">亚克力内嵌金箔，月光洒落感。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1A4D8C" style="background:linear-gradient(135deg,#0F1A3C 0%,#1A4D8C 50%,#88C4B8 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">渐变蓝亚克力</div>
+            <div class="swatch-jp">グラデーション Guradēshon</div>
+            <div class="swatch-desc">双色注塑，夜空延伸到手柄。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B1B1B" style="background:linear-gradient(135deg,#1B1B1B 0%,#FDF4F0 50%,#1B1B1B 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">珠光白亚克力</div>
+            <div class="swatch-jp">ぱーる Pearl</div>
+            <div class="swatch-desc">珠光粉注塑，月光凝聚感。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#ECA66B" style="background:linear-gradient(135deg,#ECA66B 0%,#8B5A2B 50%,#ECA66B 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">内嵌干梅枝（★推荐）</div>
+            <div class="swatch-jp">うめのえ Ume-no-e</div>
+            <div class="swatch-desc">真梅枝封存亚克力。职人手作溢价最高。</div>
+            <span class="swatch-tag">工艺溢价</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#0F1A3C" style="background:linear-gradient(135deg,#0F1A3C 0%,#C0C8D0 50%,#0F1A3C 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">内嵌银线梅花</div>
+            <div class="swatch-jp">ぎんせん Gin-sen</div>
+            <div class="swatch-desc">银线镶嵌亚克力，琳派风格。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度7 · 日本传统色月夜谱系 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">7</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">日本传统色 · 月夜谱系</div>
+          <div class="dim-subtitle">系统梳理月/夜/梅相关传统色 · 填补现有色系空白</div>
+        </div>
+        <span class="dim-priority p5">★★★★★</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#D4DCE8" style="background:#D4DCE8"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">月白</div>
+            <div class="swatch-jp">げっぱく Geppaku</div>
+            <div class="swatch-desc">月光银白，满月款底色。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#B8C4D0" style="background:#B8C4D0"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">月影</div>
+            <div class="swatch-jp">つきかげ Tsukikage</div>
+            <div class="swatch-desc">月影灰蓝，中性过渡。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#2A3A5C" style="background:#2A3A5C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">月夜野</div>
+            <div class="swatch-jp">つきよの Tsukiyono</div>
+            <div class="swatch-desc">月夜原野深蓝。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#C0C8D0" style="background:#C0C8D0"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">月光银</div>
+            <div class="swatch-jp">げっこうぎん Gekkōgin</div>
+            <div class="swatch-desc">银灰月光色。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#2A6E8C" style="background:#2A6E8C"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">露草色（★推荐）</div>
+            <div class="swatch-jp">つゆくさいろ Tsuyakusa-iro</div>
+            <div class="swatch-desc">夜空泛青，补全蓝色系过渡。</div>
+            <span class="swatch-tag">蓝色系过渡</span>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B2A52" style="background:#1B2A52"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">紺青</div>
+            <div class="swatch-jp">こんじむ Konjō</div>
+            <div class="swatch-desc">深紺蓝，男性向深色家族。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 维度8 · 目标人群与场景细分 -->
+    <div class="dimension-block">
+      <div class="dim-header">
+        <div class="dim-num">8</div>
+        <div class="dim-title-wrap">
+          <div class="dim-title">目标人群与场景细分</div>
+          <div class="dim-subtitle">补全人群×场景交叉矩阵空白</div>
+        </div>
+        <span class="dim-priority p3">★★★☆☆</span>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#8B81C3" style="background:#8B81C3"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">女性自用·优雅</div>
+            <div class="swatch-jp">ふじむらさき Fuji-murasaki</div>
+            <div class="swatch-desc">藤紫+白梅。女性首选。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#1B1B1B" style="background:#1B1B1B"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">男性自用·内敛</div>
+            <div class="swatch-jp">すみ Sumi</div>
+            <div class="swatch-desc">墨色+紅梅。男性向最深色缺口。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#D4DCE8" style="background:#D4DCE8"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">礼赠·祝仪</div>
+            <div class="swatch-jp">まんげつ Mangetsu</div>
+            <div class="swatch-desc">月白+紅梅。满月圆满祝仪。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#ECA66B" style="background:#ECA66B"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">礼赠·长寿</div>
+            <div class="swatch-jp">やまぶき Yamabuki</div>
+            <div class="swatch-desc">山吹色+白梅。长寿首选。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#8C8478" style="background:#8C8478"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">高端旗舰</div>
+            <div class="swatch-jp">りきゅうねずみ Rikyū-nezumi</div>
+            <div class="swatch-desc">利休灰+白梅。高端极简缺口。</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-body" data-hex="#ECA66B" style="background:linear-gradient(135deg,#ECA66B 0%,#8B5A2B 100%)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">限量工艺款</div>
+            <div class="swatch-jp">うめのえ Ume-no-e</div>
+            <div class="swatch-desc">山吹+干梅枝封存。工艺溢价。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 落地推荐 -->
+    <div class="recommend-banner">
+      <h4>★ 落地推荐 · 从7款选2-3款 + 新配色开发优先级</h4>
+      <p style="font-size:13px;color:#b0bdd0;line-height:1.7;margin-bottom:10px">基于市场验证度+差异化+人群覆盖三维度评估，建议如下组合：</p>
+      <div class="recommend-grid">
+        <div class="recommend-card featured">
+          <div class="recommend-name">月夜梅影（现有款·保留）</div>
+          <div class="recommend-jp">つきよのうめがげ Tsukiyo no Umekage</div>
+          <div class="recommend-desc">瑠璃色+白梅。品牌基因款，女性向形象首选，文化匹配度9.5。</div>
+          <div class="recommend-palette">
+            <div class="rp" style="background:#1A4D8C"></div>
+            <div class="rp" style="background:#FDF4F0"></div>
+            <div class="rp" style="background:#E6D5B8"></div>
+          </div>
+        </div>
+        <div class="recommend-card featured">
+          <div class="recommend-name">墨に紅梅（★新增·强烈推荐）</div>
+          <div class="recommend-jp">すみにこうばい Sumi ni Kōbai</div>
+          <div class="recommend-desc">墨色+紅梅。浮世绘经典构图，男女通吃，差异化最强。填补男性向缺口。</div>
+          <div class="recommend-palette">
+            <div class="rp" style="background:#1B1B1B"></div>
+            <div class="rp" style="background:#C8553D"></div>
+            <div class="rp" style="background:#C8A951"></div>
+          </div>
+        </div>
+        <div class="recommend-card featured">
+          <div class="recommend-name">侘寂の白梅（★新增·高端缺口）</div>
+          <div class="recommend-jp">わびさびのしらうめ Wabi-sabi no Shiratsume</div>
+          <div class="recommend-desc">利休灰+白梅。与现有7款（偏蓝紫绿）完全区隔，卡高端极简缺口，溢价能力最强。</div>
+          <div class="recommend-palette">
+            <div class="rp" style="background:#8C8478"></div>
+            <div class="rp" style="background:#FDF4F0"></div>
+            <div class="rp" style="background:#E6D5B8"></div>
+          </div>
+        </div>
+        <div class="recommend-card">
+          <div class="recommend-name">満月の紅梅（备选）</div>
+          <div class="recommend-jp">まんげつのこうばい Mangetsu no Kōbai</div>
+          <div class="recommend-desc">月白+紅梅。礼赠祝仪首选，如选第3款优先此款。</div>
+          <div class="recommend-palette">
+            <div class="rp" style="background:#D4DCE8"></div>
+            <div class="rp" style="background:#C8553D"></div>
+            <div class="rp" style="background:#C8A951"></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#6b7a90;margin-top:16px;line-height:1.7">
+        <b style="color:#ffd54f">开发优先级建议：</b><br>
+        第一优先（立即开发）：利休灰系（侘寂款） / 墨に紅梅（浮世绘款） / 还暦朱色款（礼赠年龄节点）<br>
+        第二优先（验证后扩展）：満月紅梅款 / 露草色款（蓝系过渡） / 内嵌干梅枝（工艺溢价）<br>
+        第三优先（限量文化款）：有明薄紅梅 / 散り梅珠色 / 月相渐变款
+      </p>
+    </div>
+  </section>
+
+  <!-- 12 月夜梅影系列 · 实拍新配色筛选与落地建议 -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">12</div>
+      <div>
+        <div class="section-title">月夜梅影系列 · 实拍新配色筛选与落地建议</div>
+        <div class="section-desc">基于35张AI生成实拍图 · 像素级主色分析 · 三步筛选 · 8大主题分类 · 3款最终落地推荐</div>
+      </div>
+    </div>
+
+    <div class="explore-intro">
+      <h4>分析背景</h4>
+      <p>基于「月夜梅影系列」工艺路径（铝合金阳极氧化杖身+UV打印梅花纹样）生成了 35 张配色方案图。通过 Canvas 像素采样提取每张图主色与辅色，对近似重复配色进行合并去重，最终保留 <b style="color:#00d4ff">19 款独立有效配色</b>，并按色相/情绪归纳为 8 大主题系列。以下分三步展示：① 全部有效配色预览 → ② 主题分类展示 → ③ 最终落地建议。</p>
+      <span class="priority-tag">三步走：展示 → 分类 → 落地</span>
+    </div>
+
+    <!-- 第一步：全部有效配色展示 -->
+    <div class="step-block">
+      <div class="step-header">
+        <div class="step-num">01</div>
+        <div class="step-title-wrap">
+          <div class="step-title">月夜梅影系列 · 独立色相全集</div>
+          <div class="step-subtitle">已合并去除 16 张重复/近似配色 · 保留独立色相差异</div>
+        </div>
+      </div>
+      <div class="color-grid" id="allColorsGrid"></div>
+      <div class="step-note">
+        <b style="color:#ffd54f">合并说明：</b>
+        <span style="color:#8a9ab5">已去除的近似/重复图：#1(粉梅近似)、#3(粉梅近似)、#5(墨绿浅版)、#9(青蓝近似)、#10(青蓝近似)、#12(灰墨近似)、#14(灰墨近似)、#15(嫩绿近似)、#17(橙红近似)、#19(墨色近似)、#21(棕橙近似)、#24(深青完全相同)、#29(红色灰底版)、#31(橙红近似)、#32(米白近似)、#34(明青近似)</span>
+      </div>
+    </div>
+
+    <!-- 第二步：8大主题分类展示 -->
+    <div class="step-block">
+      <div class="step-header">
+        <div class="step-num">02</div>
+        <div class="step-title-wrap">
+          <div class="step-title">8大主题分类展示</div>
+          <div class="step-subtitle">按色相 + 文化意境 + 适用场景三维度归纳</div>
+        </div>
+      </div>
+      <div id="themeGroups"></div>
+    </div>
+
+    <!-- 第三步：最终落地建议 -->
+    <div class="step-block">
+      <div class="step-header">
+        <div class="step-num">03</div>
+        <div class="step-title-wrap">
+          <div class="step-title">最终落地建议配色</div>
+          <div class="step-subtitle">★强烈推荐3款 + ○次选扩展5款 + △储备款4款</div>
+        </div>
+      </div>
+      <div class="final-recommend" id="finalRecommend"></div>
+      <div class="final-summary">
+        <p><b style="color:#ffd54f">开发路径建议：</b></p>
+        <p style="margin-top:8px;color:#b0bdd0;line-height:1.9">
+          <b style="color:#00d4ff">第一阶段（首发验证）</b>：墨に紅梅 + 月下青海波 + 臙脂深紅 三款同时投放，覆盖"浮世绘经典 / 男性市场 / 礼仪祝仪"三场景，验证市场反馈。<br>
+          <b style="color:#00d4ff">第二阶段（季节扩展）</b>：补入 月白青海（春日轻盈） + 山吹色（母之日礼赠） + 紅梅色（女性向祝仪）+ 生成り白（侘寂礼） + 檜皮棕（木质职人感）共 5 款。<br>
+          <b style="color:#00d4ff">第三阶段（限量文化款）</b>：深山苔、鉛白墨梅、夜空瑠璃、えび紫 4 款作为限量文化款按需投产。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第13章节 · 第二批新配色筛选与落地建议 -->
+  <section class="section-block" id="section13" style="max-width:1400px;margin:0 auto 60px;padding:32px 24px;background:rgba(15,22,35,0.5);border-radius:16px;border:1px solid rgba(0,212,255,0.15)">
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:8px">
+      <div class="section-num" style="font-size:48px;font-weight:700;color:rgba(0,212,255,0.18)">13</div>
+      <div>
+        <h2 style="font-size:24px;color:#e0e6ed;margin:0">月夜梅影系列 · 第二批新配色筛选与落地建议</h2>
+        <p style="font-size:13px;color:#6b7a90;margin-top:4px;letter-spacing:1px">15张新增图 → 去重后保留12款 → 7大主题分类 → 9款最终落地建议</p>
+      </div>
+    </div>
+    <p style="color:#b0bdd0;line-height:1.8;font-size:14px;margin:12px 0 24px">
+      基于第一批19款的基础上，第二批新增15张配色图，经过像素级主色提取与拐杖主体颜色分析，去除3张近似/重复图后保留12款独立配色。
+      本批新增配色填补了现有7款首发中<b style="color:#ffd54f">轻奢金色系</b>、<b style="color:#ffd54f">白底深棕系</b>的完全缺位，并对红梅系进行了鲜亮度梯度深化。
+    </p>
+
+    <!-- 第一步：全部12款有效配色展示 -->
+    <div style="margin:32px 0 8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span class="step-num" style="background:linear-gradient(135deg,#00d4ff,#0099cc);color:#0a0f1a;padding:4px 12px;border-radius:6px;font-size:14px;font-weight:700">01</span>
+        <h3 style="font-size:18px;color:#e0e6ed;margin:0">月夜梅影系列 · 第二批色相全集</h3>
+      </div>
+      <p style="color:#8a9ab5;font-size:13px;margin:0 0 16px">15张原图 → 去除3张近似/重复（N3≈N1褐金系合并，N9≈已有#6生成り白，N14≈已有#11鉛白墨梅）→ 保留12款独立配色</p>
+      <div class="color-grid" id="batch2AllGrid"></div>
+    </div>
+
+    <!-- 第二步：7大主题分类展示 -->
+    <div style="margin:40px 0 8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span class="step-num" style="background:linear-gradient(135deg,#00d4ff,#0099cc);color:#0a0f1a;padding:4px 12px;border-radius:6px;font-size:14px;font-weight:700">02</span>
+        <h3 style="font-size:18px;color:#e0e6ed;margin:0">7大主题分类展示</h3>
+      </div>
+      <p style="color:#8a9ab5;font-size:13px;margin:0 0 16px">按色系/场景/市场缺口三个维度归纳为7大主题。★ 标记表示填补现有7款首发中的完全缺位色系。</p>
+      <div id="batch2ThemesGrid"></div>
+    </div>
+
+    <!-- 第三步：最终落地建议 -->
+    <div style="margin:40px 0 8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span class="step-num" style="background:linear-gradient(135deg,#ffd54f,#ffa726);color:#0a0f1a;padding:4px 12px;border-radius:6px;font-size:14px;font-weight:700">03</span>
+        <h3 style="font-size:18px;color:#e0e6ed;margin:0">最终落地建议（9款）</h3>
+      </div>
+      <p style="color:#8a9ab5;font-size:13px;margin:0 0 16px">
+        <span style="color:#ffd54f">★ 强烈推荐2款</span>（填补金色缺位 + 节庆鲜明款） ·
+        <span style="color:#00d4ff">○ 次选扩展3款</span>（金色配对 + 幽玄深化 + 节庆祝仪） ·
+        <span style="color:#8a9ab5">△ 储备款4款</span>（差异化/季节限定/限量高端）
+      </p>
+      <div class="final-recommend" id="batch2Final"></div>
+      <div class="final-summary" style="margin-top:20px">
+        <p><b style="color:#ffd54f">第二批开发路径建议：</b></p>
+        <p style="margin-top:8px;color:#b0bdd0;line-height:1.9">
+          <b style="color:#00d4ff">第二批次阶段（金色系补位）</b>：香槟金梅（N1）+ 鲜红梅（N12）两款优先开发，填补轻奢金色缺位与节庆鲜明度梯度。<br>
+          <b style="color:#00d4ff">第三批次阶段（红梅梯度深化）</b>：玫瑰金梅（N2）+ 暗红梅（N6）+ 朱红梅（N8）三款补入，形成金色系男女配对、墨に紅梅幽玄深化、节庆祝仪刚需款三场景覆盖。<br>
+          <b style="color:#00d4ff">储备阶段（差异化款）</b>：深焦糖（N4）、深棕梅（N7）、暖橙金（N10）、米金高端（N13）四款作为差异化/季节限定/限量高端款按需投产。
+        </p>
       </div>
     </div>
   </section>
@@ -1716,6 +2571,399 @@ window.addEventListener('resize', function(){
   [radarChart,dimBarChart,subDimChart,scatterChart,brandChart,priceTierChart,patternChart,decorPieChart,colorChart,schemeScoreChart,opportunityChart].forEach(function(c){c && c.resize();});
   extraCharts.forEach(function(c){ c && c.resize(); });
 });
+
+// ===== 12 月夜梅影系列 · 实拍新配色筛选与落地建议 =====
+// 19 款独立有效配色数据（基于35张图像素分析后合并去重保留）
+var newColorData = [
+  // 主题 ① 月夜青蓝系
+  { idx:'#7',  file:'ChatGPT Image 2026年8月18日 11_03_18.png', name:'月夜藍', jp:'つきよあい Tsukiyo-ai', hex:'#475877', theme:'A', scene:'男性向中性款', desc:'蓝灰杖身+白梅。月夜最经典中性款。' },
+  { idx:'#18', file:'ChatGPT Image 2026年8月18日 15_57_22 (1).png', name:'月下青海波', jp:'げっかせいがいは Gekka-seigaiha', hex:'#027a82', theme:'A', scene:'幽玄夜色款', desc:'黑底+青蓝梅花。男性市场核心款。', fit:'cover' },
+  { idx:'#23', file:'图片修改需求 (1).png', name:'夜青磁', jp:'やせいじ Yaseiji', hex:'#01667a', theme:'A', scene:'深夜静谧款', desc:'深青杖身+白梅。深夜静谧感。' },
+  { idx:'#27', file:'图片修改需求 (5).png', name:'月白青海', jp:'げっぱくせいこう Goppaku-seikou', hex:'#02c5e0', theme:'A', scene:'春夜轻盈款', desc:'亮湖青杖身+白梅。春夏填补缺位。' },
+  // 主题 ② 森林墨绿系
+  { idx:'#4',  file:'图片修改需求.png', name:'深山苔', jp:'みやまのごけ Miyama-no-koke', hex:'#182421', theme:'B', scene:'幽玄礼赠', desc:'深森林墨绿杖身+白梅。幽玄礼赠。' },
+  { idx:'#22', file:'ChatGPT Image 2026年8月18日 15_57_24 (5).png', name:'若葉萌', jp:'わかばもえ Wakaba-moe', hex:'#859880', theme:'B', scene:'春日祝仪', desc:'嫩绿杖身+白梅。春日祝仪首选。', fit:'cover' },
+  // 主题 ③ 幽玄墨色系
+  { idx:'#11', file:'ChatGPT Image 2026年8月18日 15_37_10 (3).png', name:'鉛白墨梅', jp:'なまりしろすみうめ Namarishiro-sumiume', hex:'#855c5e', theme:'C', scene:'中性沉稳款', desc:'鉛白杖身+棕红梅。中性沉稳。' },
+  { idx:'#13', file:'ChatGPT Image 2026年8月18日 15_45_09 (1).png', name:'夜空瑠璃', jp:'よぞらるり Yozora-ruri', hex:'#011657', theme:'C', scene:'男性向深度款', desc:'鉛白杖身+深蓝瑠璃梅。男性深度款。' },
+  { idx:'#16', file:'ChatGPT Image 2026年8月18日 15_45_11 (5).png', name:'墨に紅梅', jp:'すみにこうばい Sumi-ni-koubai', hex:'#77013a', theme:'C', scene:'浮世绘经典款', desc:'鉛白杖身+酒红梅。浮世绘经典，男女通吃。' },
+  // 主题 ④ 浮世绘红梅系
+  { idx:'#20', file:'ChatGPT Image 2026年8月18日 15_57_23 (3).png', name:'朱色梅', jp:'しゅいろ Shuiro', hex:'#c14a3e', theme:'D', scene:'还暦祝仪', desc:'朱红杖身+白梅。还暦祝仪首选。', fit:'cover' },
+  { idx:'#25', file:'图片修改需求 (3).png', name:'臙脂深紅', jp:'えんじしんく Enji-shinku', hex:'#841825', theme:'D', scene:'长寿祝仪', desc:'深红杖身+白梅。长寿祝仪刚需。' },
+  { idx:'#30', file:'ChatGPT Image 2026年8月18日 16_28_50 (3).png', name:'紅梅色', jp:'こうばいいろ Koubai-iro', hex:'#ba4762', theme:'D', scene:'女性向祝仪', desc:'玫红杖身+白梅。女性向祝仪款。', fit:'cover' },
+  { idx:'#35', file:'拐杖配色设计 (3).png', name:'えび紫', jp:'えびむらさき Ebimurasaki', hex:'#99215b', theme:'D', scene:'神秘贵礼', desc:'紫红杖身+白梅。神秘贵礼款。' },
+  // 主题 ⑤ 温暖礼赠橙金系
+  { idx:'#26', file:'图片修改需求 (4).png', name:'弁柄橙', jp:'べんがら Bengara', hex:'#c43e1a', theme:'E', scene:'秋日温暖礼', desc:'朱橙杖身+白梅。秋日温暖礼赠。' },
+  { idx:'#28', file:'ChatGPT Image 2026年8月18日 16_28_50 (1).png', name:'山吹色', jp:'やまぶきいろ Yamabuki-iro', hex:'#e09d1b', theme:'E', scene:'母之日礼赠', desc:'金黄杖身+白梅。母之日礼赠款。' },
+  { idx:'#33', file:'拐杖配色设计 (1).png', name:'檜皮棕', jp:'ひわだいろ Hiwada-iro', hex:'#654437', theme:'E', scene:'木质职人感', desc:'棕色杖身+白梅。木质职人差异化。' },
+  // 主题 ⑥ 雅致粉梅系
+  { idx:'#2',  file:'ChatGPT Image 2026年8月18日 10_07_35.png', name:'桜色梅', jp:'さくらいろうめ Sakurairo-ume', hex:'#dfbbc0', theme:'F', scene:'女性春日款', desc:'浅粉杖身+白梅。女性春日雅致款。', fit:'cover' },
+  // 主题 ⑦ 米白礼赠系
+  { idx:'#6',  file:'ChatGPT Image 2026年8月18日 10_57_26.png', name:'生成り白', jp:'きなりろ Kinario', hex:'#dbcaba', theme:'G', scene:'侘寂白梅礼', desc:'米白杖身+白梅。侘寂白梅礼。' },
+  // 主题 ⑧ 紫藤夜色系
+  { idx:'#8',  file:'ChatGPT Image 2026年8月18日 11_07_36.png', name:'紫紺藤', jp:'しこんとう Shikon-to', hex:'#452241', theme:'H', scene:'神秘夜藤款', desc:'深紫杖身+白梅。神秘夜藤款。' }
+];
+
+// 主题元数据
+var themeMeta = [
+  { id:'A', icon:'月', color:'#1A4D8C', title:'月夜青蓝系 · 夜色基调', count:4, subtitle:'★品牌基因延伸 · 男性市场核心', desc:'月夜蓝/青蓝系是品牌基因「月夜梅影」的直接延伸，覆盖从中性蓝灰到亮湖青的完整明度梯度。该系满足男性市场对沉稳冷色系的需求，同时呼应「月夜」主题。' },
+  { id:'B', icon:'森', color:'#2D4A3E', title:'森林墨绿系 · 自然意境', count:2, subtitle:'填补自然系空白', desc:'深森林墨绿与嫩绿春日两款覆盖春秋两季自然意境。墨绿款适合幽玄礼赠，嫩绿款填补春日祝仪场景。' },
+  { id:'C', icon:'鉛', color:'#855c5e', title:'幽玄鉛白系 · 白杖深彩梅', count:3, subtitle:'★★浮世绘经典 · 高级感最强', desc:'鉛白杖身+深彩梅花，最具浮世绘意境。墨に紅梅为浮世绘经典题材，夜空瑠璃与鉛白墨梅覆盖男性深度与中性沉稳两个场景。' },
+  { id:'D', icon:'紅', color:'#841825', title:'浮世绘红梅系 · 红色祝仪', count:4, subtitle:'★★还暦/长寿祝仪刚需', desc:'日本礼赠文化中红色为祝仪核心色。该系从朱红到紫红覆盖还暦、长寿、女性向、神秘贵礼四个细分场景。' },
+  { id:'E', icon:'金', color:'#C8A951', title:'温暖礼赠橙金系', count:3, subtitle:'填补礼赠暖色缺位', desc:'朱橙/金黄/棕色三款填补礼赠暖色缺位。山吹色对应母之日礼赠，檜皮棕提供木质职人感差异化。' },
+  { id:'F', icon:'桜', color:'#F5B7B1', title:'雅致粉梅系 · 女性向', count:1, subtitle:'女性春日雅致款', desc:'浅粉杖身是女性向市场核心色，桜色梅对应日本樱花文化，春日女性雅致款唯一选择。' },
+  { id:'G', icon:'白', color:'#E6D5B8', title:'米白礼赠系 · 侘寂', count:1, subtitle:'高端缺口 · 侘寂美学', desc:'米白系是日本高端市场的缺口色，对应侘寂美学与白梅礼，填补现有7款中白色系的缺失。' },
+  { id:'H', icon:'紫', color:'#452241', title:'紫藤夜色系 · 神秘', count:1, subtitle:'神秘夜藤差异化款', desc:'深紫系为差异化色彩，覆盖神秘夜藤意境，适合作为限量文化款投放。' }
+];
+
+// 从图片4个角落提取背景色（图片底色，非杖身色）
+function setBgFromImage(img) {
+  try {
+    var w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) return;
+    var canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    // 取4个角落各10x10区域的平均色作为图片底色
+    var corners = [[0,0],[w-10,0],[0,h-10],[w-10,h-10]];
+    var r=0, g=0, b=0, count=0;
+    corners.forEach(function(pos){
+      var data = ctx.getImageData(pos[0], pos[1], 10, 10).data;
+      for (var i = 0; i < data.length; i += 4) {
+        r += data[i]; g += data[i+1]; b += data[i+2]; count++;
+      }
+    });
+    r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
+    var lum = (r + g + b) / 3;
+    // 黑底图（4角接近纯黑）：改用图片中心区域的杖身主色，使留白与杖身视觉协调
+    if (lum < 15) {
+      // 扫描图片中心区域（水平30%-70%，垂直20%-80%），找出现频率最高的非黑非白颜色
+      var hist = {};
+      var x0 = Math.round(w*0.3), x1 = Math.round(w*0.7);
+      var y0 = Math.round(h*0.2), y1 = Math.round(h*0.8);
+      for (var yy = y0; yy < y1; yy += Math.max(1, Math.round(h/50))) {
+        for (var xx = x0; xx < x1; xx += Math.max(1, Math.round(w/50))) {
+          var d = ctx.getImageData(xx, yy, 1, 1).data;
+          var rr = d[0], gg = d[1], bb = d[2];
+          var ll = (rr + gg + bb) / 3;
+          // 跳过纯黑（背景）和接近白色（高光）
+          if (ll < 20 || ll > 230) continue;
+          // 量化到 16 级以聚合相似色
+          var key = (rr>>4) + ',' + (gg>>4) + ',' + (bb>>4);
+          hist[key] = (hist[key] || 0) + 1;
+        }
+      }
+      // 取出现频率最高的颜色作为杖身主色
+      var maxKey = '', maxCnt = 0;
+      for (var k in hist) {
+        if (hist[k] > maxCnt) { maxCnt = hist[k]; maxKey = k; }
+      }
+      if (maxKey) {
+        var parts = maxKey.split(',');
+        r = parseInt(parts[0]) << 4;
+        g = parseInt(parts[1]) << 4;
+        b = parseInt(parts[2]) << 4;
+      }
+    }
+    img.parentElement.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+  } catch(e) {
+    // canvas 读取失败时保持默认背景色
+  }
+}
+
+// 第一步：渲染全部19款有效配色
+function renderAllColors() {
+  var html = '';
+  newColorData.forEach(function(c) {
+    var fileEnc = encodeURIComponent(c.file);
+    var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+    html += '<div class="color-card" data-theme="'+c.theme+'">' +
+      '<div class="img-wrap">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+      '</div>' +
+      '<div class="info">' +
+        '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
+        '<div class="jp">'+c.jp+'</div>' +
+        '<div class="hex-row"><span class="swatch-dot" style="background:'+c.hex+'"></span><span class="hex-text">'+c.hex+'</span></div>' +
+        '<span class="scene-tag">'+c.scene+'</span>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('allColorsGrid').innerHTML = html;
+}
+
+// 第二步：渲染8大主题分类
+function renderThemeGroups() {
+  var html = '';
+  themeMeta.forEach(function(t) {
+    var colors = newColorData.filter(function(c){ return c.theme === t.id; });
+    var cardsHtml = '';
+    colors.forEach(function(c) {
+      var fileEnc = encodeURIComponent(c.file);
+      var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+      cardsHtml += '<div class="color-card">' +
+        '<div class="img-wrap">' +
+          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '</div>' +
+        '<div class="info">' +
+          '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
+          '<div class="jp">'+c.jp+'</div>' +
+          '<div class="hex-row"><span class="swatch-dot" style="background:'+c.hex+'"></span><span class="hex-text">'+c.hex+' · '+c.scene+'</span></div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '<div class="theme-group">' +
+      '<div class="theme-header">' +
+        '<div class="theme-icon" style="background:'+t.color+'">'+t.icon+'</div>' +
+        '<div class="theme-title">'+t.title+'</div>' +
+        '<div class="theme-meta">'+t.count+'款</div>' +
+      '</div>' +
+      '<div style="font-size:11px;color:#8a9ab5;letter-spacing:1px;margin-bottom:8px">'+t.subtitle+'</div>' +
+      '<div class="theme-desc">'+t.desc+'</div>' +
+      '<div class="theme-grid">'+cardsHtml+'</div>' +
+    '</div>';
+  });
+  document.getElementById('themeGroups').innerHTML = html;
+}
+
+// 第三步：渲染最终落地建议
+var finalRecommendData = [
+  // ★强烈推荐3款
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'#16', file:'ChatGPT Image 2026年8月18日 15_45_11 (5).png',
+    name:'墨に紅梅', jp:'すみにこうばい Sumi-ni-koubai', hex:'#7c1b3f',
+    reason:'浮世绘经典题材，黑底+酒红梅对比强烈，男女通吃。覆盖"浮世绘经典"文化叙事，文化匹配度最高。',
+    scenario:'场景：男性向+女性向共通 / 浮世绘礼赠 / 文化款旗舰' },
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'#18', file:'ChatGPT Image 2026年8月18日 15_57_22 (1).png',
+    name:'月下青海波', jp:'げっかせいがいは Gekka-seigaiha', hex:'#027a82', fit:'cover',
+    reason:'品牌基因「月夜梅影」直接延伸。黑底+青蓝梅花呼应青海波纹样，男性市场核心款，填补现有7款中男性深度款缺位。',
+    scenario:'场景：男性市场核心 / 品牌基因延伸 / 夜色基调' },
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'#25', file:'图片修改需求 (3).png',
+    name:'臙脂深紅', jp:'えんじしんく Enji-shinku', hex:'#841825',
+    reason:'日本礼赠文化中红色为祝仪核心色。深红对应还暦（60岁）与长寿祝仪，覆盖中老年礼赠刚需场景。',
+    scenario:'场景：还暦祝仪 / 长寿祝仪 / 中老年礼赠刚需' },
+
+  // ○次选扩展5款
+  { tier:2, tierLabel:'○ 次选扩展 · 验证后投放', idx:'#27', file:'图片修改需求 (5).png',
+    name:'月白青海', jp:'げっぱくせいこう Goppaku-seikou', hex:'#02c5e0',
+    reason:'亮湖青为春日轻盈款，填补现有7款中春夏缺位。配合春季母亲节/女儿节营销节点。',
+    scenario:'场景：春日轻盈 / 春季节日礼赠' },
+  { tier:2, tierLabel:'○ 次选扩展 · 验证后投放', idx:'#28', file:'ChatGPT Image 2026年8月18日 16_28_50 (1).png',
+    name:'山吹色', jp:'やまぶきいろ Yamabuki-iro', hex:'#e09d1b', fit:'cover',
+    reason:'山吹色（金黄色）对应母之日礼赠，填补礼赠暖色缺位。日本传统色认知度高。',
+    scenario:'场景：母之日礼赠 / 温暖礼赠款' },
+  { tier:2, tierLabel:'○ 次选扩展 · 验证后投放', idx:'#30', file:'ChatGPT Image 2026年8月18日 16_28_50 (3).png',
+    name:'紅梅色', jp:'こうばいいろ Koubai-iro', hex:'#ba4762', fit:'cover',
+    reason:'玫红为女性向祝仪款，与深红款形成女性/中性的红系双线布局。',
+    scenario:'场景：女性向祝仪 / 红系双线布局' },
+  { tier:2, tierLabel:'○ 次选扩展 · 验证后投放', idx:'#6', file:'ChatGPT Image 2026年8月18日 10_57_26.png',
+    name:'生成り白', jp:'きなりろ Kinario', hex:'#dbcaba',
+    reason:'米白系为日本高端市场缺口色，对应侘寂美学与白梅礼，填补现有7款中白色系缺失。',
+    scenario:'场景：侘寂白梅礼 / 高端缺口' },
+  { tier:2, tierLabel:'○ 次选扩展 · 验证后投放', idx:'#33', file:'拐杖配色设计 (1).png',
+    name:'檜皮棕', jp:'ひわだいろ Hiwada-iro', hex:'#654437',
+    reason:'棕色提供木质职人感差异化，呼应日本「木制拐杖」传统认知，与其他金属色形成对比。',
+    scenario:'场景：木质职人感 / 差异化' },
+
+  // △储备款4款
+  { tier:3, tierLabel:'△ 储备款 · 限量按需', idx:'#4', file:'图片修改需求.png',
+    name:'深山苔', jp:'みやまのごけ Miyama-no-koke', hex:'#182421',
+    reason:'深森林墨绿为幽玄礼赠款，作为限量文化款按需投产。',
+    scenario:'场景：幽玄礼赠 / 限量文化款' },
+  { tier:3, tierLabel:'△ 储备款 · 限量按需', idx:'#11', file:'ChatGPT Image 2026年8月18日 15_37_10 (3).png',
+    name:'鉛白墨梅', jp:'なまりしろすみうめ Namarishiro-sumiume', hex:'#4b4a4a',
+    reason:'灰墨+棕红梅为中性沉稳款，作为限量文化款按需投产。',
+    scenario:'场景：中性沉稳 / 限量文化款' },
+  { tier:3, tierLabel:'△ 储备款 · 限量按需', idx:'#13', file:'ChatGPT Image 2026年8月18日 15_45_09 (1).png',
+    name:'夜空瑠璃', jp:'よぞらるり Yozora-ruri', hex:'#576079',
+    reason:'黑底+宝蓝梅花为男性深度款，作为限量文化款按需投产。',
+    scenario:'场景：男性向深度 / 限量文化款' },
+  { tier:3, tierLabel:'△ 储备款 · 限量按需', idx:'#35', file:'拐杖配色设计 (3).png',
+    name:'えび紫', jp:'えびむらさき Ebimurasaki', hex:'#99215b',
+    reason:'紫红为神秘贵礼款，作为限量文化款按需投产。',
+    scenario:'场景：神秘贵礼 / 限量文化款' }
+];
+
+function renderFinalRecommend() {
+  var html = '';
+  finalRecommendData.forEach(function(c) {
+    var fileEnc = encodeURIComponent(c.file);
+    var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+    html += '<div class="final-card tier-'+c.tier+'">' +
+      '<div class="img-wrap">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+      '</div>' +
+      '<div class="body">' +
+        '<span class="tier-badge">'+c.tierLabel+' · '+c.idx+'</span>' +
+        '<div class="name">'+c.name+'</div>' +
+        '<div class="jp">'+c.jp+'</div>' +
+        '<div class="hex-row" style="display:flex;align-items:center;gap:6px;margin-top:2px">' +
+          '<span class="swatch-dot" style="width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);background:'+c.hex+'"></span>' +
+          '<span style="font-size:10px;color:#8a9ab5;font-family:monospace">'+c.hex+'</span>' +
+        '</div>' +
+        '<div class="reason">'+c.reason+'</div>' +
+        '<div class="scenario">'+c.scenario+'</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('finalRecommend').innerHTML = html;
+}
+
+// 执行渲染
+renderAllColors();
+renderThemeGroups();
+renderFinalRecommend();
+
+// ========== 第13章节 · 第二批新配色筛选与落地建议 ==========
+var batch2Data = [
+  { idx:'N1', file:'拐杖配色设计 (7).png', name:'香槟金梅', jp:'しゃんぱんきんばい Shanpan-kinbai', hex:'#D1B496', theme:'P1', scene:'高端礼赠款', desc:'米白底+香槟金杖身。填补现有7款中轻奢金色缺位。', fit:'cover' },
+  { idx:'N2', file:'拐杖配色设计 (6).png', name:'玫瑰金梅', jp:'ばらかねんばい Bara-kinbai', hex:'#D1AEA0', theme:'P1', scene:'女性轻奢款', desc:'米白底+玫瑰金。女性高端礼赠市场核心款。', fit:'cover' },
+  { idx:'N4', file:'拐杖配色设计 (4).png', name:'深焦糖', jp:'こがらいろ Kogara-iro', hex:'#9F6A3A', theme:'P2', scene:'复古文艺款', desc:'米白底+深焦糖棕。复古文艺中年市场。', fit:'cover' },
+  { idx:'N5', file:'ChatGPT Image 2026年8月19日 11_21_21 (4).png', name:'褐红梅', jp:'かっこうばい Kakkou-bai', hex:'#6E3321', theme:'P3', scene:'幽玄秋色款', desc:'黑底+深红褐梅。秋日幽玄意境。' },
+  { idx:'N6', file:'ChatGPT Image 2026年8月19日 11_21_21 (3).png', name:'暗红梅', jp:'あんこうばい Ankou-bai', hex:'#5A1C1E', theme:'P3', scene:'幽玄深色款', desc:'黑底+暗红梅。墨に紅梅的更深沉版本。' },
+  { idx:'N7', file:'ChatGPT Image 2026年8月19日 11_21_20 (2).png', name:'深棕梅', jp:'しんぽうばい Shimpou-bai', hex:'#582F18', theme:'P3', scene:'幽玄秋色款', desc:'黑底+深棕梅。秋日禅意款。' },
+  { idx:'N8', file:'ChatGPT Image 2026年8月19日 11_21_19 (1).png', name:'朱红梅', jp:'しゅこうばい Shukou-bai', hex:'#9C3726', theme:'P4', scene:'节庆祝仪款', desc:'浅灰底+朱红梅。节庆祝仪刚需款。' },
+  { idx:'N10', file:'ChatGPT Image 2026年8月19日 11_21_01 (3).png', name:'暖橙金', jp:'だんとうきん Dantou-kin', hex:'#CC956A', theme:'P5', scene:'温暖礼赠款', desc:'浅灰底+暖橙金。温暖礼赠市场。' },
+  { idx:'N11', file:'ChatGPT Image 2026年8月19日 11_21_00 (2).png', name:'浅胭脂', jp:'あさえんじ Asa-enji', hex:'#BA827B', theme:'P6', scene:'女性雅致款', desc:'黑底+浅胭脂。女性雅致夜色款。' },
+  { idx:'N12', file:'ChatGPT Image 2026年8月19日 11_21_00 (1).png', name:'鲜红梅', jp:'せんこうばい Senkou-bai', hex:'#BA4740', theme:'P6', scene:'节庆鲜明款', desc:'黑底+鲜红梅。节庆鲜明款，比墨に紅梅更亮眼。' },
+  { idx:'N13', file:'高端拐杖配色设计 (2).png', name:'米金高端', jp:'こがねこうたん Kogane-koutan', hex:'#E2DCCD', theme:'P1', scene:'超高端礼赠款', desc:'米白底+米金高端。超高端礼赠市场。' },
+  { idx:'N15', file:'高端拐杖配色设计.png', name:'银灰现代', jp:'ぎんかい Ginkai', hex:'#B3B3B3', theme:'P7', scene:'现代极简款', desc:'浅灰底+银灰。现代极简风格。' }
+];
+
+var batch2Themes = [
+  { id:'P1', icon:'金', color:'#D1B496', title:'高端米金礼赠系 · 轻奢', count:3, subtitle:'轻奢金色 · 高端市场缺位', desc:'米金系是现有7款完全缺失的色系，对应日本高端礼赠市场与轻奢美学，填补金色空白。' },
+  { id:'P2', icon:'焦', color:'#9F6A3A', title:'白底深棕系 · 复古', count:1, subtitle:'复古文艺 · 中年市场', desc:'深焦糖棕对应日本复古文艺审美，覆盖中年男性复古市场。' },
+  { id:'P3', icon:'幽', color:'#582F18', title:'黑底红褐梅系 · 幽玄', count:3, subtitle:'秋日幽玄 · 禅意深化', desc:'黑底红褐梅是墨に紅梅的幽玄延伸，覆盖秋日禅意市场。' },
+  { id:'P4', icon:'朱', color:'#9C3726', title:'灰底朱红梅系 · 节庆', count:1, subtitle:'节庆祝仪 · 鲜明款', desc:'朱红对应日本节庆祝仪色彩，是还暦/长寿场景的鲜明款。' },
+  { id:'P5', icon:'暖', color:'#CC956A', title:'灰底暖橙金系 · 温暖', count:1, subtitle:'温暖礼赠 · 差异化款', desc:'暖橙金是差异化色彩，覆盖温暖礼赠场景。' },
+  { id:'P6', icon:'红', color:'#BA4740', title:'黑底红梅系 · 鲜明', count:2, subtitle:'节庆鲜明 · 视觉冲击', desc:'黑底红梅是节庆鲜明款，比墨に紅梅更亮眼，视觉冲击力强。' },
+  { id:'P7', icon:'银', color:'#B3B3B3', title:'银灰现代系 · 极简', count:1, subtitle:'现代极简 · 差异化款', desc:'银灰现代系覆盖极简主义市场，差异化色彩款。' }
+];
+
+var batch2Final = [
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'N1', file:'拐杖配色设计 (7).png',
+    name:'香槟金梅', jp:'しゃんぱんきんばい Shanpan-kinbai', hex:'#D1B496', fit:'cover',
+    reason:'填补现有7款中轻奢金色完全缺位。米白底+香槟金杖身，对应日本高端礼赠市场与轻奢美学，女性/银发族高端款核心。',
+    scenario:'场景：高端礼赠 / 轻奢美学 / 银发族礼盒' },
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'N12', file:'ChatGPT Image 2026年8月19日 11_21_00 (1).png',
+    name:'鲜红梅', jp:'せんこうばい Senkou-bai', hex:'#BA4740',
+    reason:'黑底+鲜红梅，比墨に紅梅更鲜明亮眼。节庆/祝仪场景强化款，视觉冲击力强，填补现有红梅系的鲜亮度梯度。',
+    scenario:'场景：节庆祝仪 / 视觉冲击 / 还暦鲜明款' },
+  { tier:2, tierLabel:'○ 次选扩展 · 优先开发', idx:'N2', file:'拐杖配色设计 (6).png',
+    name:'玫瑰金梅', jp:'ばらかねんばい Bara-kinbai', hex:'#D1AEA0', fit:'cover',
+    reason:'米白底+玫瑰金，女性轻奢礼赠市场核心款，与N1形成金色系男女款配对。',
+    scenario:'场景：女性轻奢 / 礼赠配对 / 玫瑰金美学' },
+  { tier:2, tierLabel:'○ 次选扩展 · 优先开发', idx:'N6', file:'ChatGPT Image 2026年8月19日 11_21_21 (3).png',
+    name:'暗红梅', jp:'あんこうばい Ankou-bai', hex:'#5A1C1E',
+    reason:'黑底+暗红，墨に紅梅的更深沉版本。覆盖幽玄深色市场，男女通吃。',
+    scenario:'场景：幽玄深色 / 禅意延伸 / 男女通吃' },
+  { tier:2, tierLabel:'○ 次选扩展 · 优先开发', idx:'N8', file:'ChatGPT Image 2026年8月19日 11_21_19 (1).png',
+    name:'朱红梅', jp:'しゅこうばい Shukou-bai', hex:'#9C3726',
+    reason:'灰底+朱红，节庆祝仪刚需款。朱红色对应日本传统节庆色彩。',
+    scenario:'场景：节庆祝仪 / 传统色彩 / 鲜明款' },
+  { tier:3, tierLabel:'△ 储备款 · 观望开发', idx:'N4', file:'拐杖配色设计 (4).png',
+    name:'深焦糖', jp:'こがらいろ Kogara-iro', hex:'#9F6A3A', fit:'cover',
+    reason:'米白底+深焦糖棕，复古文艺中年市场。差异化色彩，储备款。',
+    scenario:'场景：复古文艺 / 中年市场 / 差异化' },
+  { tier:3, tierLabel:'△ 储备款 · 观望开发', idx:'N7', file:'ChatGPT Image 2026年8月19日 11_21_20 (2).png',
+    name:'深棕梅', jp:'しんぽうばい Shimpou-bai', hex:'#582F18',
+    reason:'黑底+深棕梅，秋日禅意款。储备款，可作季节限定投放。',
+    scenario:'场景：秋日禅意 / 季节限定 / 储备' },
+  { tier:3, tierLabel:'△ 储备款 · 观望开发', idx:'N10', file:'ChatGPT Image 2026年8月19日 11_21_01 (3).png',
+    name:'暖橙金', jp:'だんとうきん Dantou-kin', hex:'#CC956A',
+    reason:'灰底+暖橙金，温暖礼赠市场差异化款。储备款。',
+    scenario:'场景：温暖礼赠 / 差异化 / 储备' },
+  { tier:3, tierLabel:'△ 储备款 · 观望开发', idx:'N13', file:'高端拐杖配色设计 (2).png',
+    name:'米金高端', jp:'こがねこうたん Kogane-koutan', hex:'#E2DCCD',
+    reason:'米白底+米金高端，超高端礼赠市场。储备款，可作限量高端款投放。',
+    scenario:'场景：超高端礼赠 / 限量款 / 储备' }
+];
+
+// 渲染第二批：第一步全部12款
+function renderBatch2All() {
+  var html = '';
+  batch2Data.forEach(function(c) {
+    var fileEnc = encodeURIComponent(c.file);
+    var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+    html += '<div class="color-card" data-theme="'+c.theme+'">' +
+      '<div class="img-wrap">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+      '</div>' +
+      '<div class="info">' +
+        '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
+        '<div class="jp">'+c.jp+'</div>' +
+        '<div class="hex-row"><span class="swatch-dot" style="background:'+c.hex+'"></span><span class="hex-text">'+c.hex+'</span></div>' +
+        '<span class="scene-tag">'+c.scene+'</span>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('batch2AllGrid').innerHTML = html;
+}
+
+// 渲染第二批：第二步主题分类
+function renderBatch2Themes() {
+  var html = '';
+  batch2Themes.forEach(function(t) {
+    var colors = batch2Data.filter(function(c){ return c.theme === t.id; });
+    var cardsHtml = '';
+    colors.forEach(function(c) {
+      var fileEnc = encodeURIComponent(c.file);
+      var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+      cardsHtml += '<div class="color-card">' +
+        '<div class="img-wrap">' +
+          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '</div>' +
+        '<div class="info">' +
+          '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
+          '<div class="jp">'+c.jp+'</div>' +
+          '<div class="hex-row"><span class="swatch-dot" style="background:'+c.hex+'"></span><span class="hex-text">'+c.hex+' · '+c.scene+'</span></div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '<div class="theme-block">' +
+      '<div class="theme-header">' +
+        '<div class="theme-icon" style="background:'+t.color+'">'+t.icon+'</div>' +
+        '<div class="theme-title-wrap">' +
+          '<div class="theme-title">'+t.title+'</div>' +
+          '<div class="theme-subtitle">'+t.subtitle+' · '+t.count+'款</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="theme-desc">'+t.desc+'</div>' +
+      '<div class="color-grid">'+cardsHtml+'</div>' +
+    '</div>';
+  });
+  document.getElementById('batch2ThemesGrid').innerHTML = html;
+}
+
+// 渲染第二批：第三步最终建议
+function renderBatch2Final() {
+  var html = '';
+  batch2Final.forEach(function(c) {
+    var fileEnc = encodeURIComponent(c.file);
+    var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
+    html += '<div class="final-card tier-'+c.tier+'">' +
+      '<div class="img-wrap">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+      '</div>' +
+      '<div class="body">' +
+        '<span class="tier-badge">'+c.tierLabel+' · '+c.idx+'</span>' +
+        '<div class="name">'+c.name+'</div>' +
+        '<div class="jp">'+c.jp+'</div>' +
+        '<div class="hex-row" style="display:flex;align-items:center;gap:6px;margin-top:2px">' +
+          '<span class="swatch-dot" style="width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);background:'+c.hex+'"></span>' +
+          '<span style="font-size:10px;color:#8a9ab5;font-family:monospace">'+c.hex+'</span>' +
+        '</div>' +
+        '<div class="reason">'+c.reason+'</div>' +
+        '<div class="scenario">'+c.scenario+'</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('batch2Final').innerHTML = html;
+}
+
+renderBatch2All();
+renderBatch2Themes();
+renderBatch2Final();
 </script>
 </body>
 </html>
