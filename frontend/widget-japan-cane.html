@@ -1648,19 +1648,18 @@
     <div style="margin:40px 0 8px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
         <span class="step-num" style="background:linear-gradient(135deg,#ffd54f,#ffa726);color:#0a0f1a;padding:4px 12px;border-radius:6px;font-size:14px;font-weight:700">03</span>
-        <h3 style="font-size:18px;color:#e0e6ed;margin:0">最终落地建议（9款）</h3>
+        <h3 style="font-size:18px;color:#e0e6ed;margin:0">最终落地建议（10款）</h3>
       </div>
       <p style="color:#8a9ab5;font-size:13px;margin:0 0 16px">
-        <span style="color:#ffd54f">★ 强烈推荐2款</span>（填补金色缺位 + 节庆鲜明款） ·
+        <span style="color:#ffd54f">★ 强烈推荐3款</span>（填补金色缺位 + 节庆旗舰 + 节庆鲜明） ·
         <span style="color:#00d4ff">○ 次选扩展3款</span>（金色配对 + 幽玄深化 + 节庆祝仪） ·
-        <span style="color:#8a9ab5">△ 储备款4款</span>（差异化/季节限定/限量高端）
-      </p>
+        <span style="color:#8a9ab5">△ 储备款4款</span>（差异化/季节限定/限量高端）</p>
       <div class="final-recommend" id="batch2Final"></div>
       <div class="final-summary" style="margin-top:20px">
         <p><b style="color:#ffd54f">第二批开发路径建议：</b></p>
         <p style="margin-top:8px;color:#b0bdd0;line-height:1.9">
-          <b style="color:#00d4ff">第二批次阶段（金色系补位）</b>：香槟金梅（N1）+ 鲜红梅（N12）两款优先开发，填补轻奢金色缺位与节庆鲜明度梯度。<br>
-          <b style="color:#00d4ff">第三批次阶段（红梅梯度深化）</b>：玫瑰金梅（N2）+ 暗红梅（N6）+ 朱红梅（N8）三款补入，形成金色系男女配对、墨に紅梅幽玄深化、节庆祝仪刚需款三场景覆盖。<br>
+          <b style="color:#00d4ff">第二批次阶段（金色系+旗舰红梅）</b>：香槟金梅（N1）+ 極紅梅（N12B）两款优先开发，填补轻奢金色缺位与节庆视觉旗舰款。<br>
+          <b style="color:#00d4ff">第三批次阶段（红梅梯度深化）</b>：鲜红梅（N12）+ 玫瑰金梅（N2）+ 暗红梅（N6）+ 朱红梅（N8）四款补入，形成节庆鲜明梯度、金色系男女配对、墨に紅梅幽玄深化、节庆祝仪刚需款四场景覆盖。<br>
           <b style="color:#00d4ff">储备阶段（差异化款）</b>：深焦糖（N4）、深棕梅（N7）、暖橙金（N10）、米金高端（N13）四款作为差异化/季节限定/限量高端款按需投产。
         </p>
       </div>
@@ -2561,11 +2560,14 @@ var themeMeta = [
   { id:'H', icon:'紫', color:'#452241', title:'紫藤夜色系 · 神秘', count:1, subtitle:'神秘夜藤差异化款', desc:'深紫系为差异化色彩，覆盖神秘夜藤意境，适合作为限量文化款投放。' }
 ];
 
-// 从图片4个角落提取背景色（图片底色，非杖身色）
+// 从图片4个角落提取底色作为容器背景色
+// 黑底图：把图片中纯黑像素变透明，容器背景色透出来
+// 白底图：直接用4角底色作为容器背景色
 function setBgFromImage(img) {
   try {
     var w = img.naturalWidth, h = img.naturalHeight;
     if (!w || !h) return;
+    if (img.dataset.processed === '1') return;
     var canvas = document.createElement('canvas');
     canvas.width = w; canvas.height = h;
     var ctx = canvas.getContext('2d');
@@ -2581,36 +2583,21 @@ function setBgFromImage(img) {
     });
     r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
     var lum = (r + g + b) / 3;
-    // 黑底图（4角接近纯黑）：改用图片中心区域的杖身主色，使留白与杖身视觉协调
+    // 黑底图（4角亮度<15）：把纯黑像素变透明，让容器背景色（图片底色）透出来
     if (lum < 15) {
-      // 扫描图片中心区域（水平30%-70%，垂直20%-80%），找出现频率最高的非黑非白颜色
-      var hist = {};
-      var x0 = Math.round(w*0.3), x1 = Math.round(w*0.7);
-      var y0 = Math.round(h*0.2), y1 = Math.round(h*0.8);
-      for (var yy = y0; yy < y1; yy += Math.max(1, Math.round(h/50))) {
-        for (var xx = x0; xx < x1; xx += Math.max(1, Math.round(w/50))) {
-          var d = ctx.getImageData(xx, yy, 1, 1).data;
-          var rr = d[0], gg = d[1], bb = d[2];
-          var ll = (rr + gg + bb) / 3;
-          // 跳过纯黑（背景）和接近白色（高光）
-          if (ll < 20 || ll > 230) continue;
-          // 量化到 16 级以聚合相似色
-          var key = (rr>>4) + ',' + (gg>>4) + ',' + (bb>>4);
-          hist[key] = (hist[key] || 0) + 1;
+      var imgData = ctx.getImageData(0, 0, w, h);
+      var px = imgData.data;
+      for (var i = 0; i < px.length; i += 4) {
+        var pxLum = (px[i] + px[i+1] + px[i+2]) / 3;
+        if (pxLum < 12) {
+          px[i+3] = 0; // alpha 设为 0（透明）
         }
       }
-      // 取出现频率最高的颜色作为杖身主色
-      var maxKey = '', maxCnt = 0;
-      for (var k in hist) {
-        if (hist[k] > maxCnt) { maxCnt = hist[k]; maxKey = k; }
-      }
-      if (maxKey) {
-        var parts = maxKey.split(',');
-        r = parseInt(parts[0]) << 4;
-        g = parseInt(parts[1]) << 4;
-        b = parseInt(parts[2]) << 4;
-      }
+      ctx.putImageData(imgData, 0, 0);
+      img.dataset.processed = '1';
+      img.src = canvas.toDataURL();
     }
+    // 容器背景色始终用图片底色（4角平均色）
     img.parentElement.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
   } catch(e) {
     // canvas 读取失败时保持默认背景色
@@ -2771,6 +2758,7 @@ var batch2Data = [
   { idx:'N10', file:'ChatGPT Image 2026年8月19日 11_21_01 (3).png', name:'暖橙金', jp:'だんとうきん Dantou-kin', hex:'#CC956A', theme:'P5', scene:'温暖礼赠款', desc:'浅灰底+暖橙金。温暖礼赠市场。' },
   { idx:'N11', file:'ChatGPT Image 2026年8月19日 11_21_00 (2).png', name:'浅胭脂', jp:'あさえんじ Asa-enji', hex:'#BA827B', theme:'P6', scene:'女性雅致款', desc:'黑底+浅胭脂。女性雅致夜色款。' },
   { idx:'N12', file:'ChatGPT Image 2026年8月19日 11_21_00 (1).png', name:'鲜红梅', jp:'せんこうばい Senkou-bai', hex:'#BA4740', theme:'P6', scene:'节庆鲜明款', desc:'黑底+鲜红梅。节庆鲜明款，比墨に紅梅更亮眼。' },
+  { idx:'N12B', file:'ChatGPT Image 2026年8月20日 10_00_49.png', name:'極紅梅', jp:'ごくこうばい Goku-koubai', hex:'#E4002B', theme:'P6', scene:'节庆旗舰款', desc:'黑底+極鮮紅梅。梅花更饱满鲜艳，节庆视觉旗舰款。' },
   { idx:'N13', file:'高端拐杖配色设计 (2).png', name:'米金高端', jp:'こがねこうたん Kogane-koutan', hex:'#E2DCCD', theme:'P1', scene:'超高端礼赠款', desc:'米白底+米金高端。超高端礼赠市场。' },
   { idx:'N15', file:'高端拐杖配色设计.png', name:'银灰现代', jp:'ぎんかい Ginkai', hex:'#B3B3B3', theme:'P7', scene:'现代极简款', desc:'浅灰底+银灰。现代极简风格。' }
 ];
@@ -2781,7 +2769,7 @@ var batch2Themes = [
   { id:'P3', icon:'幽', color:'#582F18', title:'黑底红褐梅系 · 幽玄', count:3, subtitle:'秋日幽玄 · 禅意深化', desc:'黑底红褐梅是墨に紅梅的幽玄延伸，覆盖秋日禅意市场。' },
   { id:'P4', icon:'朱', color:'#9C3726', title:'灰底朱红梅系 · 节庆', count:1, subtitle:'节庆祝仪 · 鲜明款', desc:'朱红对应日本节庆祝仪色彩，是还暦/长寿场景的鲜明款。' },
   { id:'P5', icon:'暖', color:'#CC956A', title:'灰底暖橙金系 · 温暖', count:1, subtitle:'温暖礼赠 · 差异化款', desc:'暖橙金是差异化色彩，覆盖温暖礼赠场景。' },
-  { id:'P6', icon:'红', color:'#BA4740', title:'黑底红梅系 · 鲜明', count:2, subtitle:'节庆鲜明 · 视觉冲击', desc:'黑底红梅是节庆鲜明款，比墨に紅梅更亮眼，视觉冲击力强。' },
+  { id:'P6', icon:'红', color:'#E4002B', title:'黑底红梅系 · 鲜明', count:3, subtitle:'节庆鲜明 · 视觉冲击', desc:'黑底红梅是节庆鲜明款，比墨に紅梅更亮眼。極紅梅为旗舰款，梅花更饱满鲜艳。' },
   { id:'P7', icon:'银', color:'#B3B3B3', title:'银灰现代系 · 极简', count:1, subtitle:'现代极简 · 差异化款', desc:'银灰现代系覆盖极简主义市场，差异化色彩款。' }
 ];
 
@@ -2790,6 +2778,10 @@ var batch2Final = [
     name:'香槟金梅', jp:'しゃんぱんきんばい Shanpan-kinbai', hex:'#D1B496', fit:'cover',
     reason:'填补现有7款中轻奢金色完全缺位。米白底+香槟金杖身，对应日本高端礼赠市场与轻奢美学，女性/银发族高端款核心。',
     scenario:'场景：高端礼赠 / 轻奢美学 / 银发族礼盒' },
+  { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'N12B', file:'ChatGPT Image 2026年8月20日 10_00_49.png',
+    name:'極紅梅', jp:'ごくこうばい Goku-koubai', hex:'#E4002B',
+    reason:'黑底+極鮮紅梅，梅花饱满鲜艳，节庆视觉旗舰款。比墨に紅梅/鲜红梅更有冲击力，是还暦/长寿/节庆的顶级选择。',
+    scenario:'场景：节庆祝仪 / 视觉旗舰 / 还暦顶级款' },
   { tier:1, tierLabel:'★ 强烈推荐 · 立即开发', idx:'N12', file:'ChatGPT Image 2026年8月19日 11_21_00 (1).png',
     name:'鲜红梅', jp:'せんこうばい Senkou-bai', hex:'#BA4740',
     reason:'黑底+鲜红梅，比墨に紅梅更鲜明亮眼。节庆/祝仪场景强化款，视觉冲击力强，填补现有红梅系的鲜亮度梯度。',
