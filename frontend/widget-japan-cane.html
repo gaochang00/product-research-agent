@@ -2583,22 +2583,26 @@ function setBgFromImage(img) {
     });
     r = Math.round(r/count); g = Math.round(g/count); b = Math.round(b/count);
     var lum = (r + g + b) / 3;
-    // 黑底图（4角亮度<15）：把纯黑像素变透明，让容器背景色（图片底色）透出来
-    if (lum < 15) {
-      var imgData = ctx.getImageData(0, 0, w, h);
-      var px = imgData.data;
-      for (var i = 0; i < px.length; i += 4) {
-        var pxLum = (px[i] + px[i+1] + px[i+2]) / 3;
-        if (pxLum < 12) {
-          px[i+3] = 0; // alpha 设为 0（透明）
-        }
-      }
-      ctx.putImageData(imgData, 0, 0);
-      img.dataset.processed = '1';
-      img.src = canvas.toDataURL();
-    }
-    // 容器背景色始终用图片底色（4角平均色）
+    // 容器背景色始终用图片底色（4角平均色）— 移到前面确保始终执行
     img.parentElement.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    // 黑底图（4角亮度<15）：把纯黑像素变透明，让容器背景色透出来
+    if (lum < 15) {
+      try {
+        var imgData = ctx.getImageData(0, 0, w, h);
+        var px = imgData.data;
+        for (var i = 0; i < px.length; i += 4) {
+          var pxLum = (px[i] + px[i+1] + px[i+2]) / 3;
+          if (pxLum < 12) {
+            px[i+3] = 0; // alpha 设为 0（透明）
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        img.dataset.processed = '1';
+        img.src = canvas.toDataURL();
+      } catch(e2) {
+        // canvas 被 CORS 污染，无法处理像素，保持原图不变
+      }
+    }
   } catch(e) {
     // canvas 读取失败时保持默认背景色
   }
@@ -2612,7 +2616,7 @@ function renderAllColors() {
     var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
     html += '<div class="color-card" data-theme="'+c.theme+'">' +
       '<div class="img-wrap">' +
-        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
       '</div>' +
       '<div class="info">' +
         '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
@@ -2636,7 +2640,7 @@ function renderThemeGroups() {
       var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
       cardsHtml += '<div class="color-card">' +
         '<div class="img-wrap">' +
-          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
         '</div>' +
         '<div class="info">' +
           '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
@@ -2723,7 +2727,7 @@ function renderFinalRecommend() {
     var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
     html += '<div class="final-card tier-'+c.tier+'">' +
       '<div class="img-wrap">' +
-        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
       '</div>' +
       '<div class="body">' +
         '<span class="tier-badge">'+c.tierLabel+' · '+c.idx+'</span>' +
@@ -2824,7 +2828,7 @@ function renderBatch2All() {
     var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
     html += '<div class="color-card" data-theme="'+c.theme+'">' +
       '<div class="img-wrap">' +
-        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
       '</div>' +
       '<div class="info">' +
         '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
@@ -2848,7 +2852,7 @@ function renderBatch2Themes() {
       var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
       cardsHtml += '<div class="color-card">' +
         '<div class="img-wrap">' +
-          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+          '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
         '</div>' +
         '<div class="info">' +
           '<div class="name-row"><span class="idx">'+c.idx+'</span><span class="name">'+c.name+'</span></div>' +
@@ -2880,7 +2884,7 @@ function renderBatch2Final() {
     var fitClass = c.fit === 'cover' ? ' fit-cover' : '';
     html += '<div class="final-card tier-'+c.tier+'">' +
       '<div class="img-wrap">' +
-        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
+        '<img class="'+fitClass.trim()+'" src="images/schemes/'+fileEnc+'?v=20260820" alt="'+c.name+'" onerror="this.classList.add(\'error\');this.parentElement.parentElement.classList.remove(\'has-img\')" onload="this.parentElement.parentElement.classList.add(\'has-img\');setBgFromImage(this)">' +
       '</div>' +
       '<div class="body">' +
         '<span class="tier-badge">'+c.tierLabel+' · '+c.idx+'</span>' +

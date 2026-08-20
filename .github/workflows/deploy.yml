@@ -32,8 +32,6 @@ jobs:
           cp widget-cane-grip-angle.html _site/widget-cane-grip-angle.html
           cp widget-design-research-alignment.html _site/widget-design-research-alignment.html
           cp frontend/widget-design-research-alignment.html _site/widget-design-research-alignment.html 2>/dev/null || true
-          echo "schemes_count=$(ls _site/images/schemes/ | wc -l)" > _site/images/schemes/_debug.txt
-          ls _site/images/schemes/ | head -5 > _site/images/schemes/_files.txt
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
