@@ -456,6 +456,20 @@
     background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(124,90,180,0.06) 100%);
     border: 1px solid rgba(0,212,255,0.2); border-radius: 14px;
   }
+
+  /* === PDF EXPORT OVERRIDES: no white margin, keep dark background === */
+  @page { margin: 0; size: auto; }
+  @media print {
+    html, body {
+      background: #0a0f1a !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -2193,17 +2207,17 @@ var products = [
     pattern:'sakura', handle:'#FDF4F0' },
   { name:'リバティプリント 折りたたみ杖', brand:'神戸ステッキ · 乐天418评论☆4.83', price:'¥19,800',
     note:'英国Liberty Floral授权印花布包覆手柄，IP授权撑起高端天花板，礼品化主力。乐天神戸ステッキ排行第2位。',
-    img:'https://aka.doubaocdn.com/s/ftO6SXkmke',
+    img:'data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="240"%3E%3Crect width="100%25" height="100%25" fill="%23F5F0E6"/%3E%3Ctext x="50%25" y="45%25" text-anchor="middle" fill="%23650" font-family="serif" font-size="14" font-weight="bold"%3Eリバティプリント%3C/text%3E%3Ctext x="50%25" y="60%25" text-anchor="middle" fill="%23999" font-family="sans-serif" font-size="12"%3E折りたたみ杖 ¥19,800%3C/text%3E%3C/svg%3E',
     link:'https://item.rakuten.co.jp/kobesticks/liberty_fo_full/',
     pattern:'liberty', handle:'#F5F0E6' },
   { name:'ささえ京友禅「桜吹雪」2段伸縮ステッキ', brand:'ひまわり(Himawari) · 乐天', price:'¥10,879',
     note:'京都友禅染传统纹样（桜吹雪）+特殊アルマイト塗装，和风花卉杖身。老铺手绘价18K円+，此款¥10,879为杖景可卡入空白点。',
-    img:'https://aka.doubaocdn.com/s/rpuLSOqx51',
+    img:'data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="240"%3E%3Crect width="100%25" height="100%25" fill="%23CA8346"/%3E%3Ctext x="50%25" y="45%25" text-anchor="middle" fill="%23FFF" font-family="serif" font-size="14" font-weight="bold"%3Eささえ京友禅%3C/text%3E%3Ctext x="50%25" y="60%25" text-anchor="middle" fill="%23FFD" font-family="sans-serif" font-size="12"%3E桜吹雪 ¥10,879%3C/text%3E%3C/svg%3E',
     link:'https://item.rakuten.co.jp/himawari-kaigo/10000583/',
     pattern:'yuzen', handle:'#CA8346' },
   { name:'ウィリアムモリス リバティ 一本杖', brand:'神戸ステッキ · 乐天50+评论☆4.82', price:'¥18,700',
     note:'William Morris x LIBERTY布包覆手柄，轻量275g。IP授权+一本杖定位，男性向/中性高端礼品标杆。',
-    img:'https://aka.doubaocdn.com/s/97t92EjGtE',
+    img:'data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="240"%3E%3Crect width="100%25" height="100%25" fill="%231B1B1B"/%3E%3Ctext x="50%25" y="45%25" text-anchor="middle" fill="%23C0A951" font-family="serif" font-size="14" font-weight="bold"%3Eウィリアムモリス%3C/text%3E%3Ctext x="50%25" y="60%25" text-anchor="middle" fill="%23999" font-family="sans-serif" font-size="12"%3Eリバティ一本杖 ¥18,700%3C/text%3E%3C/svg%3E',
     link:'https://item.rakuten.co.jp/kobesticks/liberty_la/',
     pattern:'morris', handle:'#1B1B1B' },
   { name:'はなめぶく 超軽量疲れにくい杖', brand:'はなめぶく(hanamebuku) · 乐天1位★4.61', price:'¥2,980',
